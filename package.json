@@ -1,0 +1,23 @@
+{
+  "name": "ng-wallet",
+  "version": "1.0.0",
+  "description": "Digital Wallet integrations for angular",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kakismash/ng-wallet.git"
+  },
+  "keywords": [
+    "ng-wallet",
+    "angular-wallet"
+  ],
+  "author": "Joaquin Navarro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kakismash/ng-wallet/issues"
+  },
+  "homepage": "https://github.com/kakismash/ng-wallet#readme"
+}
