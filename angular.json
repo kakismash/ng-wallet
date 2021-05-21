@@ -1,9 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "171ded7f-21fa-4823-a5ad-6b7dc8694d73"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngWallet": {
+    "ng-wallet": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngWallet",
+            "outputPath": "dist/ng-wallet",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ngWallet:build:production"
+              "browserTarget": "ng-wallet:build:production"
             },
             "development": {
-              "browserTarget": "ngWallet:build:development"
+              "browserTarget": "ng-wallet:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngWallet:build"
+            "browserTarget": "ng-wallet:build"
           }
         },
         "test": {
@@ -107,5 +110,5 @@
       }
     }
   },
-  "defaultProject": "ngWallet"
+  "defaultProject": "ng-wallet"
 }
