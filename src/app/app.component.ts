@@ -56,18 +56,10 @@ export class AppComponent {
 
   assignCardTypes(values: string[]) {
     values.forEach(v => {
-      if (this.isAcceptedCardType(v) && !this.isAlreadyCardType(v)) {
+      if (this.isAccepted(v, this.acceptedCardTypes) && !this.isAlready(v, this.cardTypes)) {
         this.cardTypes.push(v);
       }
     });
-  }
-
-  private isAcceptedCardType(value: string): boolean {
-    return this.acceptedCardTypes.includes(value);
-  }
-
-  private isAlreadyCardType(value: string): boolean {
-    return this.cardTypes.includes(value);
   }
   //------Ends Card Types----
 
@@ -80,18 +72,10 @@ export class AppComponent {
 
   assignAuthMethods(values: string[]) {
     values.forEach(v => {
-      if (this.isAcceptedAuthMethods(v) && !this.isAlreadyAuthMethod(v)) {
+      if (this.isAccepted(v, this.acceptedAuthMethods) && !this.isAlready(v, this.authMethods)) {
         this.authMethods.push(v);
       }
     });
-  }
-
-  private isAcceptedAuthMethods(value: string): boolean {
-    return this.acceptedAuthMethods.includes(value);
-  }
-
-  private isAlreadyAuthMethod(value: string): boolean {
-    return this.authMethods.includes(value);
   }
   //------Ends Auth Methods----
 
@@ -103,19 +87,19 @@ export class AppComponent {
 
   assignCallbackIntents(values: string[]) {
     values.forEach(v => {
-      if (this.isAcceptedCallbackIntents(v) && !this.isAlreadyCallbackIntent(v)) {
+      if (this.isAccepted(v, this.acceptedcallbackIntents) && !this.isAlready(v, this.callbackIntents)) {
         this.callbackIntents.push(v);
       }
     });
   }
 
-  private isAcceptedCallbackIntents(value: string): boolean {
-    return this.acceptedcallbackIntents.includes(value);
-  }
-
-  private isAlreadyCallbackIntent(value: string): boolean {
-    return this.callbackIntents.includes(value);
-  }
   //------Ends Callback Intents----
 
+  private isAccepted(value: string, array: Array<string>): boolean {
+    return array.includes(value);
+  }
+
+  private isAlready(value: string, array: Array<string>): boolean {
+    return array.includes(value);
+  }
 }
