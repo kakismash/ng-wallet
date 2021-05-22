@@ -7,7 +7,28 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class GooglePayComponent implements OnInit {
 
-  @Input() cardTypes!: string[];
+  @Input() buttonColor!:                        string;
+  @Input() buttonType!:                         string;
+  @Input() buttonWidth!:                        number;
+  @Input() buttonHeight!:                       number;
+  @Input() cardTypes!:                          string[];
+  @Input() authMethods!:                        string[];
+  @Input() typeTokenization!:                   string;
+  @Input() gateway!:                            string;
+  @Input() gatewayMerchantId!:                  string;
+  @Input() merchantId!:                         string;
+  @Input() merchantName!:                       string;
+  @Input() totalPriceStatus!:                   string;
+  @Input() totalPriceLabel!:                    string;
+  @Input() totalPrice!:                         string;
+  @Input() currencyCode!:                       string;
+  @Input() countryCode!:                        string;
+  @Input() callbackIntents!:                    string[];
+
+  btnType:                                      string = 'buy';
+  btnColor:                                     string = 'black';
+  btnWidth:                                     number = 240;
+  btnHeight:                                    number = 40;
 
   paymentRequest: google.payments.api.PaymentDataRequest = {
     apiVersion: 2,

@@ -29,7 +29,7 @@ export class AppComponent {
 
   //**********Merchant Info********//
   merchantId:                           string   = '12345678901234567890';
-  merhantName:                          string   = 'Demo Merchant';
+  merchantName:                         string   = 'Demo Merchant';
 
   //**********Transaction Info********//
   totalPriceStatus:                     string   = 'Final';
@@ -45,6 +45,7 @@ export class AppComponent {
   constructor() {
     this.defaultCardTypes();
     this.defaultAuthMethods();
+    this.defaultCallbackIntents();
   }
 
   //--------Card Types--------
