@@ -26,7 +26,6 @@ export class AppComponent {
   gateway:                              string   = 'example';
   gatewayMerchantId:                    string   = 'exampleGatewayMerchantId';
 
-
   //**********Merchant Info********//
   merchantId:                           string   = '12345678901234567890';
   merchantName:                         string   = 'Demo Merchant';
@@ -105,7 +104,7 @@ export class AppComponent {
   assignCallbackIntents(values: string[]) {
     values.forEach(v => {
       if (this.isAcceptedCallbackIntents(v) && !this.isAlreadyCallbackIntent(v)) {
-        this.cardTypes.push(v);
+        this.callbackIntents.push(v);
       }
     });
   }
