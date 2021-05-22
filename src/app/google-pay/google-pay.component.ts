@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-google-pay',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./google-pay.component.scss']
 })
 export class GooglePayComponent implements OnInit {
+
+  @Input() cardTypes!: string[];
 
   paymentRequest: google.payments.api.PaymentDataRequest = {
     apiVersion: 2,

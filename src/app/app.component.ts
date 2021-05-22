@@ -8,13 +8,42 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'ng-wallet';
 
-  private acceptedCardTypes: string[] = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
-  cardTypes: string[] = [];
+  //**********Button Configuration********//
+
+  //**********Allowed Payment Methods********//
+  typePaymentMethod:                    string   = 'CARD';
+  private acceptedCardTypes:            string[] = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
+  cardTypes:                            string[] = [];
+  private acceptedAuthMethods:          string[] = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
+  authMethods:                          string[] = [];
+
+  //**********Tokenization Specification********//
+  typeTokenization:                     string   = 'PAYMENT_GATEWAY';
+  gateway:                              string   = 'example';
+  gatewayMerchantId:                    string   = 'exampleGatewayMerchantId';
+
+
+  //**********Merchant Info********//
+  merchantId:                           string   = '12345678901234567890';
+  merhantName:                          string   = 'Demo Merchant';
+
+  //**********Transaction Info********//
+  totalPriceStatus:                     string   = 'Final';
+  totalPriceLabel:                      string   = 'Total';
+  totalPrice:                           string   = '0.10';
+  currencyCode:                         string   = 'USD';
+  countryCode:                          string   = 'US';
+
+  //**********Callback Intents********//
+  private acceptedcallbackIntents:      string[] = ['PAYMENT_AUTHORIZATION'];
+  callbackIntents:                      string[] = [];
 
   constructor() {
     this.defaultCardTypes();
+    this.defaultAuthMethods();
   }
 
+  //--------Card Types--------
   defaultCardTypes(): void {
     this.cardTypes = [];
     this.cardTypes.push('VISA');
@@ -36,5 +65,53 @@ export class AppComponent {
   private isAlreadyCardType(value: string): boolean {
     return this.cardTypes.includes(value);
   }
+  //------Ends Card Types----
+
+  //------Auth Methods-----
+  defaultAuthMethods(): void {
+    this.authMethods = [];
+    this.authMethods.push('PAN_ONLY');
+    this.authMethods.push('CRYPTOGRAM_3DS');
+  }
+
+  assignAuthMethods(values: string[]) {
+    values.forEach(v => {
+      if (this.isAcceptedAuthMethods(v) && !this.isAlreadyAuthMethod(v)) {
+        this.authMethods.push(v);
+      }
+    });
+  }
+
+  private isAcceptedAuthMethods(value: string): boolean {
+    return this.acceptedAuthMethods.includes(value);
+  }
+
+  private isAlreadyAuthMethod(value: string): boolean {
+    return this.authMethods.includes(value);
+  }
+  //------Ends Auth Methods----
+
+  //--------Callback Intents--------
+  defaultCallbackIntents(): void {
+    this.callbackIntents = [];
+    this.callbackIntents.push('PAYMENT_AUTHORIZATION');
+  }
+
+  assignCallbackIntents(values: string[]) {
+    values.forEach(v => {
+      if (this.isAcceptedCallbackIntents(v) && !this.isAlreadyCallbackIntent(v)) {
+        this.cardTypes.push(v);
+      }
+    });
+  }
+
+  private isAcceptedCallbackIntents(value: string): boolean {
+    return this.acceptedcallbackIntents.includes(value);
+  }
+
+  private isAlreadyCallbackIntent(value: string): boolean {
+    return this.callbackIntents.includes(value);
+  }
+  //------Ends Callback Intents----
 
 }
