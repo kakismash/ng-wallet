@@ -9,6 +9,10 @@ export class AppComponent {
   title = 'ng-wallet';
 
   //**********Button Configuration********//
+  buttonColor:                          string   = 'black';
+  buttonType:                           string   = 'buy';
+  buttonWidth:                          number   = 240;
+  buttonHeight:                         number   = 40;
 
   //**********Allowed Payment Methods********//
   typePaymentMethod:                    string   = 'CARD';
