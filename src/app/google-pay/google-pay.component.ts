@@ -15,7 +15,7 @@ export class GooglePayComponent implements OnInit {
         type: 'CARD',
         parameters: {
           allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-          allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
+          allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO']
         },
         tokenizationSpecification: {
           type: 'PAYMENT_GATEWAY',
