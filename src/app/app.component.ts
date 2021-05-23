@@ -16,10 +16,10 @@ export class AppComponent {
 
   //**********Allowed Payment Methods********//
   typePaymentMethod:                    string   = 'CARD';
-  private acceptedCardTypes:            string[] = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
-  cardTypes:                            string[] = [];
-  private acceptedAuthMethods:          string[] = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
-  authMethods:                          string[] = [];
+  private acceptedCardTypes:            google.payments.api.CardNetwork[] = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
+  cardTypes:                            google.payments.api.CardNetwork[] = [];
+  private acceptedAuthMethods:          google.payments.api.CardAuthMethod[] = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
+  authMethods:                          google.payments.api.CardAuthMethod[] = [];
 
   //**********Tokenization Specification********//
   typeTokenization:                     string   = 'PAYMENT_GATEWAY';
@@ -37,9 +37,42 @@ export class AppComponent {
   currencyCode:                         string   = 'USD';
   countryCode:                          string   = 'US';
 
+  paymentRequest: google.payments.api.PaymentDataRequest = {
+      apiVersion: 2,
+      apiVersionMinor: 0,
+      allowedPaymentMethods: [
+        {
+          type: 'CARD',
+          parameters: {
+            allowedAuthMethods: this.authMethods,
+            allowedCardNetworks: this.cardTypes
+          },
+          tokenizationSpecification: {
+            type: 'PAYMENT_GATEWAY',
+            parameters: {
+              gateway: 'example',
+              gatewayMerchantId: 'exampleGatewayMerchantId'
+            }
+          }
+        }
+      ],
+      merchantInfo: {
+        merchantId: '12345678901234567890',
+        merchantName: 'Demo Merchant'
+      },
+      transactionInfo: {
+        totalPriceStatus: 'FINAL',
+        totalPriceLabel: 'Total',
+        totalPrice: '0.10',
+        currencyCode: 'USD',
+        countryCode: 'US'
+      },
+      callbackIntents: ['PAYMENT_AUTHORIZATION']
+    };
+
   //**********Callback Intents********//
-  private acceptedcallbackIntents:      string[] = ['PAYMENT_AUTHORIZATION'];
-  callbackIntents:                      string[] = [];
+  private acceptedcallbackIntents:      google.payments.api.CallbackIntent[] = ['PAYMENT_AUTHORIZATION'];
+  callbackIntents:                      google.payments.api.CallbackIntent[] = [];
 
   constructor() {
     this.defaultCardTypes();
@@ -54,12 +87,8 @@ export class AppComponent {
     this.cardTypes.push('MASTERCARD');
   }
 
-  assignCardTypes(values: string[]) {
-    values.forEach(v => {
-      if (this.isAccepted(v, this.acceptedCardTypes) && !this.isAlready(v, this.cardTypes)) {
-        this.cardTypes.push(v);
-      }
-    });
+  assignCardTypes(values: google.payments.api.CardNetwork[]) {
+    this.assign(values, this.cardTypes, this.acceptedCardTypes)
   }
   //------Ends Card Types----
 
@@ -70,12 +99,8 @@ export class AppComponent {
     this.authMethods.push('CRYPTOGRAM_3DS');
   }
 
-  assignAuthMethods(values: string[]) {
-    values.forEach(v => {
-      if (this.isAccepted(v, this.acceptedAuthMethods) && !this.isAlready(v, this.authMethods)) {
-        this.authMethods.push(v);
-      }
-    });
+  assignAuthMethods(values: google.payments.api.CardAuthMethod[]) {
+    this.assign(values, this.authMethods, this.acceptedAuthMethods)
   }
   //------Ends Auth Methods----
 
@@ -85,21 +110,44 @@ export class AppComponent {
     this.callbackIntents.push('PAYMENT_AUTHORIZATION');
   }
 
-  assignCallbackIntents(values: string[]) {
-    values.forEach(v => {
-      if (this.isAccepted(v, this.acceptedcallbackIntents) && !this.isAlready(v, this.callbackIntents)) {
-        this.callbackIntents.push(v);
+  assignCallbackIntents(values: google.payments.api.CallbackIntent[]): void {
+    this.assign(values, this.callbackIntents, this.acceptedcallbackIntents)
+  }
+  //------Ends Callback Intents----
+
+  assign(values: google.payments.api.CardAuthMethod[] |
+                  google.payments.api.CardNetwork[] |
+                    google.payments.api.CallbackIntent[],
+         toPush: Array<google.payments.api.CardAuthMethod |
+                  google.payments.api.CardNetwork |
+                    google.payments.api.CallbackIntent>,
+         acceptedValues: Array<google.payments.api.CardAuthMethod |
+                                google.payments.api.CardNetwork |
+                                  google.payments.api.CallbackIntent>) {
+    values.forEach((v: google.payments.api.CardAuthMethod |
+                        google.payments.api.CardNetwork |
+                          google.payments.api.CallbackIntent) => {
+      if (this.isAccepted(v, acceptedValues) && !this.isAlready(v, toPush)) {
+        toPush.push(v);
       }
     });
   }
 
-  //------Ends Callback Intents----
-
-  private isAccepted(value: string, array: Array<string>): boolean {
+  private isAccepted(value: google.payments.api.CardAuthMethod |
+                              google.payments.api.CardNetwork |
+                                google.payments.api.CallbackIntent,
+                     array: Array<google.payments.api.CardAuthMethod |
+                                    google.payments.api.CardNetwork |
+                                      google.payments.api.CallbackIntent>): boolean {
     return array.includes(value);
   }
 
-  private isAlready(value: string, array: Array<string>): boolean {
+  private isAlready(value: google.payments.api.CardAuthMethod |
+                            google.payments.api.CardNetwork |
+                              google.payments.api.CallbackIntent,
+                    array: Array<google.payments.api.CardAuthMethod |
+                                  google.payments.api.CardNetwork |
+                                    google.payments.api.CallbackIntent>): boolean {
     return array.includes(value);
   }
 }
