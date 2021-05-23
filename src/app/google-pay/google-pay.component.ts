@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class GooglePayComponent implements OnInit {
 
-  btnType:                                      string = 'buy';
-  btnColor:                                     string = 'black';
-  btnWidth:                                     number = 240;
-  btnHeight:                                    number = 40;
+  @Input() buttonType:      any  = 'buy';
+  @Input() buttonColor:     any  = 'black';
+  @Input() environment:     any  = 'TEST';
 
   @Input() paymentRequest!: google.payments.api.PaymentDataRequest;
 

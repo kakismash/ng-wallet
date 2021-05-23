@@ -1,7 +1,7 @@
 <google-pay-button
-  environment="TEST"
-  buttonType="buy"
-  buttonColor="black"
+  [environment]="environment"
+  [buttonType]="buttonType"
+  [buttonColor]="buttonColor"
   [paymentRequest]="paymentRequest"
   (loadpaymentdata)="onLoadPaymentData($event)"
   (error)="onError($event)"

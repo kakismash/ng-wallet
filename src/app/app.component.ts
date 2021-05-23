@@ -9,10 +9,9 @@ export class AppComponent {
   title = 'ng-wallet';
 
   //**********Button Configuration********//
-  buttonColor:                          string   = 'black';
-  buttonType:                           string   = 'buy';
-  buttonWidth:                          number   = 240;
-  buttonHeight:                         number   = 40;
+  buttonColor:                          any = 'black';
+  buttonType:                           any = 'buy';
+  environment:                          any = 'TEST';
 
   //**********Allowed Payment Methods********//
   typePaymentMethod:                    google.payments.api.PaymentMethodType  = 'CARD';
