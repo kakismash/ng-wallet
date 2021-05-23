@@ -76,13 +76,13 @@ export class AppComponent {
 
 
   constructor() {
-    this.defaultCardNetwork();
+    this.defaultCardNetworks();
     this.defaultAuthMethods();
     this.defaultCallbackIntents();
   }
 
   //--------Card Types--------
-  defaultCardNetwork(): void {
+  defaultCardNetworks(): void {
     this.cardNetworks = [];
     this.cardNetworks.push('VISA');
     this.cardNetworks.push('MASTERCARD');
