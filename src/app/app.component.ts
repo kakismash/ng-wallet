@@ -16,8 +16,8 @@ export class AppComponent {
 
   //**********Allowed Payment Methods********//
   typePaymentMethod:                    string   = 'CARD';
-  private acceptedCardTypes:            google.payments.api.CardNetwork[] = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
-  cardTypes:                            google.payments.api.CardNetwork[] = [];
+  private acceptedCardNetworks:         google.payments.api.CardNetwork[] = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
+  cardNetworks:                         google.payments.api.CardNetwork[] = [];
   private acceptedAuthMethods:          google.payments.api.CardAuthMethod[] = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
   authMethods:                          google.payments.api.CardAuthMethod[] = [];
 
@@ -45,7 +45,7 @@ export class AppComponent {
           type: 'CARD',
           parameters: {
             allowedAuthMethods: this.authMethods,
-            allowedCardNetworks: this.cardTypes
+            allowedCardNetworks: this.cardNetworks
           },
           tokenizationSpecification: {
             type: 'PAYMENT_GATEWAY',
@@ -75,20 +75,20 @@ export class AppComponent {
   callbackIntents:                      google.payments.api.CallbackIntent[] = [];
 
   constructor() {
-    this.defaultCardTypes();
+    this.defaultCardNetwork();
     this.defaultAuthMethods();
     this.defaultCallbackIntents();
   }
 
   //--------Card Types--------
-  defaultCardTypes(): void {
-    this.cardTypes = [];
-    this.cardTypes.push('VISA');
-    this.cardTypes.push('MASTERCARD');
+  defaultCardNetwork(): void {
+    this.cardNetworks = [];
+    this.cardNetworks.push('VISA');
+    this.cardNetworks.push('MASTERCARD');
   }
 
-  assignCardTypes(values: google.payments.api.CardNetwork[]) {
-    this.assign(values, this.cardTypes, this.acceptedCardTypes)
+  assignCardNetworks(values: google.payments.api.CardNetwork[]) {
+    this.assign(values, this.cardNetworks, this.acceptedCardNetworks)
   }
   //------Ends Card Types----
 
