@@ -15,64 +15,66 @@ export class AppComponent {
   buttonHeight:                         number   = 40;
 
   //**********Allowed Payment Methods********//
-  typePaymentMethod:                    string   = 'CARD';
-  private acceptedCardNetworks:         google.payments.api.CardNetwork[] = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
-  cardNetworks:                         google.payments.api.CardNetwork[] = [];
-  private acceptedAuthMethods:          google.payments.api.CardAuthMethod[] = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
-  authMethods:                          google.payments.api.CardAuthMethod[] = [];
+  typePaymentMethod:                    google.payments.api.PaymentMethodType  = 'CARD';
+  private acceptedCardNetworks:         google.payments.api.CardNetwork[]      = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
+  cardNetworks:                         google.payments.api.CardNetwork[]      = [];
+  private acceptedAuthMethods:          google.payments.api.CardAuthMethod[]   = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
+  authMethods:                          google.payments.api.CardAuthMethod[]   = [];
 
   //**********Tokenization Specification********//
-  typeTokenization:                     string   = 'PAYMENT_GATEWAY';
-  gateway:                              string   = 'example';
-  gatewayMerchantId:                    string   = 'exampleGatewayMerchantId';
+  typeTokenization:                    'PAYMENT_GATEWAY' = 'PAYMENT_GATEWAY';
+  gateway:                              string           = 'example';
+  gatewayMerchantId:                    string           = 'exampleGatewayMerchantId';
 
   //**********Merchant Info********//
-  merchantId:                           string   = '12345678901234567890';
-  merchantName:                         string   = 'Demo Merchant';
+  merchantId:                           string           = '12345678901234567890';
+  merchantName:                         string           = 'Demo Merchant';
 
   //**********Transaction Info********//
-  totalPriceStatus:                     string   = 'Final';
-  totalPriceLabel:                      string   = 'Total';
-  totalPrice:                           string   = '0.10';
-  currencyCode:                         string   = 'USD';
-  countryCode:                          string   = 'US';
+  totalPriceStatus:                     google.payments.api.TotalPriceStatus = "FINAL";
+  totalPriceLabel:                      string           = 'Total';
+  totalPrice:                           string           = '0.10';
+  currencyCode:                         string           = 'USD';
+  countryCode:                          string           = 'US';
+
+  //**********Callback Intents********//
+  private acceptedcallbackIntents:      google.payments.api.CallbackIntent[] = ['PAYMENT_AUTHORIZATION'];
+  callbackIntents:                      google.payments.api.CallbackIntent[] = [];
 
   paymentRequest: google.payments.api.PaymentDataRequest = {
       apiVersion: 2,
       apiVersionMinor: 0,
       allowedPaymentMethods: [
         {
-          type: 'CARD',
+          type: this.typePaymentMethod,
           parameters: {
             allowedAuthMethods: this.authMethods,
             allowedCardNetworks: this.cardNetworks
           },
           tokenizationSpecification: {
-            type: 'PAYMENT_GATEWAY',
+            type: this.typeTokenization,
             parameters: {
-              gateway: 'example',
-              gatewayMerchantId: 'exampleGatewayMerchantId'
+              gateway: this.gateway,
+              gatewayMerchantId: this.gatewayMerchantId
             }
           }
         }
       ],
       merchantInfo: {
-        merchantId: '12345678901234567890',
-        merchantName: 'Demo Merchant'
+        merchantId: this.merchantId,
+        merchantName: this.merchantName
       },
       transactionInfo: {
-        totalPriceStatus: 'FINAL',
-        totalPriceLabel: 'Total',
-        totalPrice: '0.10',
-        currencyCode: 'USD',
-        countryCode: 'US'
+        totalPriceStatus: this.totalPriceStatus,
+        totalPriceLabel: this.totalPriceLabel,
+        totalPrice: this.totalPrice,
+        currencyCode: this.currencyCode,
+        countryCode: this.countryCode
       },
-      callbackIntents: ['PAYMENT_AUTHORIZATION']
+      callbackIntents: this.callbackIntents
     };
 
-  //**********Callback Intents********//
-  private acceptedcallbackIntents:      google.payments.api.CallbackIntent[] = ['PAYMENT_AUTHORIZATION'];
-  callbackIntents:                      google.payments.api.CallbackIntent[] = [];
+
 
   constructor() {
     this.defaultCardNetwork();
