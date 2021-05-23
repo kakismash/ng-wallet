@@ -30,7 +30,7 @@ export class GooglePayComponent implements OnInit {
   btnWidth:                                     number = 240;
   btnHeight:                                    number = 40;
 
-  @Input() paymentRequest?: google.payments.api.PaymentDataRequest;
+  @Input() paymentRequest!: google.payments.api.PaymentDataRequest;
   //  = {
   //   apiVersion: 2,
   //   apiVersionMinor: 0,
