@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'lib-ng-wallet',
@@ -11,6 +11,8 @@ export class NgWalletComponent {
   //**********Button Configuration********//
   buttonColor:                          any = 'black';
   buttonType:                           any = 'buy';
+  buttonSizeMode:                       any = 'static';
+  buttonLocale:                         any = 'en';
   environment:                          any = 'TEST';
 
   //**********Allowed Payment Methods********//
