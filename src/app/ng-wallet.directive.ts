@@ -82,6 +82,8 @@ export class NgWallet {
     this.defaultAuthMethods();
     this.defaultCallbackIntents();
     this.googleButtons.paymentRequest = this.paymentRequest;
+    this.paymentRequest.allowedPaymentMethods[0].parameters.allowedAuthMethods  = this.authMethods;
+    this.paymentRequest.allowedPaymentMethods[0].parameters.allowedCardNetworks = this.cardNetworks;
   }
 
   //--------Card Types--------
