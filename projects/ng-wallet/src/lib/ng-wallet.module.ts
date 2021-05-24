@@ -11,10 +11,10 @@ import { NgWalletComponent } from './ng-wallet.component';
     GooglePayComponent
   ],
   imports: [
+    GooglePayButtonModule
   ],
   exports: [
-    NgWalletComponent,
-    GooglePayButtonModule
+    NgWalletComponent
   ]
 })
 export class NgWalletModule { }
