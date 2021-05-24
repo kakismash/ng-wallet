@@ -79,6 +79,8 @@ export class AppComponent {
     this.defaultCardNetworks();
     this.defaultAuthMethods();
     this.defaultCallbackIntents();
+    this.paymentRequest.allowedPaymentMethods[0].parameters.allowedAuthMethods  = this.authMethods;
+    this.paymentRequest.allowedPaymentMethods[0].parameters.allowedCardNetworks = this.cardNetworks;
   }
 
   //--------Card Types--------
