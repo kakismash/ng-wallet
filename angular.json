@@ -1,114 +1,73 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "171ded7f-21fa-4823-a5ad-6b7dc8694d73"
+    "analytics": "e3387b03-a51a-47e2-a8ca-98ae4f2f1a83"
   },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ng-wallet": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        },
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
+    "google-pay": {
+      "projectType": "library",
+      "root": "projects/google-pay",
+      "sourceRoot": "projects/google-pay/src",
+      "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "outputPath": "dist/ng-wallet",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "project": "projects/google-pay/ng-package.json"
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
+              "tsConfig": "projects/google-pay/tsconfig.lib.prod.json"
             },
             "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "tsConfig": "projects/google-pay/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/google-pay/src/test.ts",
+            "tsConfig": "projects/google-pay/tsconfig.spec.json",
+            "karmaConfig": "projects/google-pay/karma.conf.js"
+          }
+        }
+      }
+    },
+    "ng-wallet": {
+      "projectType": "library",
+      "root": "projects/ng-wallet",
+      "sourceRoot": "projects/ng-wallet/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ng-wallet/ng-package.json"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "ng-wallet:build:production"
+              "tsConfig": "projects/ng-wallet/tsconfig.lib.prod.json"
             },
             "development": {
-              "browserTarget": "ng-wallet:build:development"
+              "tsConfig": "projects/ng-wallet/tsconfig.lib.json"
             }
           },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "ng-wallet:build"
-          }
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "main": "projects/ng-wallet/src/test.ts",
+            "tsConfig": "projects/ng-wallet/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-wallet/karma.conf.js"
           }
         }
       }
     }
   },
-  "defaultProject": "ng-wallet"
+  "defaultProject": "google-pay"
 }

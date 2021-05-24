@@ -1,12 +1,10 @@
-import { Directive } from '@angular/core';
-import { GooglePayComponent } from './google-pay/google-pay.component';
+import { Component, OnInit } from '@angular/core';
 
-@Directive({
-  selector: 'app-root'
+@Component({
+  selector: 'lib-ng-wallet',
+  templateUrl: './ng-wallet.component.html'
 })
-export class NgWallet {
-
-  googleButtons: GooglePayComponent = new GooglePayComponent();
+export class NgWalletComponent {
 
   title = 'ng-wallet';
 
@@ -81,7 +79,6 @@ export class NgWallet {
     this.defaultCardNetworks();
     this.defaultAuthMethods();
     this.defaultCallbackIntents();
-    this.googleButtons.paymentRequest = this.paymentRequest;
     this.paymentRequest.allowedPaymentMethods[0].parameters.allowedAuthMethods  = this.authMethods;
     this.paymentRequest.allowedPaymentMethods[0].parameters.allowedCardNetworks = this.cardNetworks;
   }

@@ -7,7 +7,7 @@ const someTest = 'This is some Test';
  function display() {
     return someTest;
   }
-  
+
   module.exports = {
     display
   };
