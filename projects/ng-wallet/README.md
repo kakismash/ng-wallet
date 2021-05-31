@@ -55,7 +55,7 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 
 ## Button preview
 
-![](/button-preview.jpg)
+![alt text](https://github.com/kakismash/ng-wallet/blob/joaquin/button-preview.jpg?raw=true)
 
 ## Documentation
 
