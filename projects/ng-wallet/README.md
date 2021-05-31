@@ -10,30 +10,38 @@ Run `npm install @google-pay/button-angular`
 ## Installation
 
 To install and run this proyect just type and execute.
-`npm install ng-wallet`
+```bash
+npm install ng-wallet
+```
 
 ## Implementation and use
 
 Once the component has been installed we must add it to our project.
 To do this in the required module we add the following line
-`import { NgWalletModule } from 'ng-wallet';`
+```bash
+import { NgWalletModule } from 'ng-wallet';
+```
 
 Don't forget to add it to the module imports
-`imports: [NgWalletModule]`
+```bash
+imports: [NgWalletModule]
+```
 
 Once it is included, you have to use it and configure it to your liking.
 For them in the HTML we use the selector `<lib-ng-wallet></lib-ng-wallet>`
 
 ## Example usage
 
-`<lib-ng-wallet
+```bash
+<lib-ng-wallet
   [buttonColor]="buttonColor"
   [buttonType]="buttonType"
   [buttonLocale]="buttonLocale"
   [buttonSizeMode]="buttonSizeMode"
   [environment]="environment"
   [paymentRequest]="paymentRequest"
-</lib-ng-wallet>`
+</lib-ng-wallet>
+```
 
 * buttonColor: Specifies the color of the button. It is optional and the values can be "default" | "black" | "white"
 * buttonType: Button type to use. It is optional and the values can be "buy" | "plain" | "donate" | "long" | "short"
