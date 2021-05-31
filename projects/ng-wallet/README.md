@@ -1,24 +1,52 @@
-# NgWallet
+# Wallet for Angular 
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.1.
+Digital Wallet integrations for Angular.
 
-## Code scaffolding
+## Necessary Dependencies
 
-Run `ng generate component component-name --project ng-wallet` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ng-wallet`.
-> Note: Don't forget to add `--project ng-wallet` or else it will be added to the default project in your `angular.json` file. 
+It is necessary to have Google Pay Button installed.
+Run `npm install @google-pay/button-angular`
 
-## Build
+## Installation
 
-Run `ng build ng-wallet` to build the project. The build artifacts will be stored in the `dist/` directory.
+To install and run this proyect just type and execute.
+`npm install ng-wallet`
 
-## Publishing
+## Implementation and use
 
-After building your library with `ng build ng-wallet`, go to the dist folder `cd dist/ng-wallet` and run `npm publish`.
+Once the component has been installed we must add it to our project.
+To do this in the required module we add the following line
+`import { NgWalletModule } from 'ng-wallet';`
 
-## Running unit tests
+Don't forget to add it to the module imports
+`imports: [NgWalletModule]`
 
-Run `ng test ng-wallet` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Once it is included, you have to use it and configure it to your liking.
+For them in the HTML we use the selector `<lib-ng-wallet></lib-ng-wallet>`
 
-## Further help
+## Example usage
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+`<lib-ng-wallet
+  [buttonColor]="buttonColor"
+  [buttonType]="buttonType"
+  [buttonLocale]="buttonLocale"
+  [buttonSizeMode]="buttonSizeMode"
+  [environment]="environment"
+  [paymentRequest]="paymentRequest"
+</lib-ng-wallet>`
+
+* buttonColor: Specifies the color of the button. It is optional and the values can be "default" | "black" | "white"
+* buttonType: Button type to use. It is optional and the values can be "buy" | "plain" | "donate" | "long" | "short"
+* buttonLocale: This ISO 639-1 code represents the desired button language. It is optional and the value is a string.
+* buttonSizeMode: Buttons will be sized according to the translated buttonType. It is optional and the values can be "static" | "fill".
+* environment: The Google Pay environment to target. It is required and the values can be "TEST" | "PRODUCTION".
+* paymentRequest: Request parameters that define the type of payment information requested from Google Pay. It is required and the type is PaymentDataRequest.
+
+## Button preview
+
+![](/button-preview.jpg)
+
+## Documentation
+
+Visit the [Google Pay developer site](https://developers.google.com/pay/api/web/overview) for more information about integrating Google Pay into your website.
+
