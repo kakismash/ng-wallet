@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-ng-wallet',
+  selector: 'ng-wallet',
   templateUrl: './ng-wallet.component.html'
 })
 export class NgWalletComponent {

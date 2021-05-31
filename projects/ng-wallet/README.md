@@ -2,7 +2,7 @@
 
 Digital Wallet integrations for Angular.
 
-## Necessary Dependencies
+## Requirements
 
 It is necessary to have Google Pay Button installed.
 Run `npm install @google-pay/button-angular`
@@ -24,23 +24,26 @@ import { NgWalletModule } from 'ng-wallet';
 
 Don't forget to add it to the module imports
 ```bash
-imports: [NgWalletModule]
+imports: [
+  ...
+  NgWalletModule
+  ]
 ```
 
 Once it is included, you have to use it and configure it to your liking.
-For them in the HTML we use the selector `<lib-ng-wallet></lib-ng-wallet>`
+For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 
 ## Example usage
 
 ```bash
-<lib-ng-wallet
+<ng-wallet
   [buttonColor]="buttonColor"
   [buttonType]="buttonType"
   [buttonLocale]="buttonLocale"
   [buttonSizeMode]="buttonSizeMode"
   [environment]="environment"
   [paymentRequest]="paymentRequest"
-</lib-ng-wallet>
+</ng-wallet>
 ```
 
 * buttonColor: Specifies the color of the button. It is optional and the values can be "default" | "black" | "white"
