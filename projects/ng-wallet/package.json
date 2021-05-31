@@ -1,6 +1,16 @@
 {
   "name": "ng-wallet",
   "version": "1.1.1",
+  "keywords": [
+    "ng-wallet",
+    "angular-wallet"
+  ],
+  "author": "Joaquin Navarro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kakismash/ng-wallet/issues"
+  },
+  "homepage": "https://github.com/kakismash/ng-wallet#readme",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -18,4 +28,5 @@
   "dependencies": {
     "tslib": "^2.1.0"
   }
+
 }
