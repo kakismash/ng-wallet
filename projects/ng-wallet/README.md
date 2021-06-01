@@ -46,16 +46,16 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 </ng-wallet>
 ```
 
-* buttonColor: Specifies the color of the button. It is optional and the values can be "default" | "black" | "white"
-* buttonType: Button type to use. It is optional and the values can be "buy" | "plain" | "donate" | "long" | "short"
-* buttonLocale: This ISO 639-1 code represents the desired button language. It is optional and the value is a string.
-* buttonSizeMode: Buttons will be sized according to the translated buttonType. It is optional and the values can be "static" | "fill".
-* environment: The Google Pay environment to target. It is required and the values can be "TEST" | "PRODUCTION".
-* paymentRequest: Request parameters that define the type of payment information requested from Google Pay. It is required and the type is PaymentDataRequest.
+* **buttonColor**: *Specifies the color of the button. It is optional and the values can be "default" | "black" | "white".*
+* **buttonType**: *Button type to use. It is optional and the values can be "buy" | "plain" | "donate" | "long" | "short".*
+* **buttonLocale**: *This ISO 639-1 code represents the desired button language. It is optional and the value is a string.*
+* **buttonSizeMode**: *Buttons will be sized according to the translated buttonType. It is optional and the values can be "static" | "fill".*
+* **environment**: *The Google Pay environment to target. It is required and the values can be "TEST" | "PRODUCTION".*
+* **paymentRequest**: *Request parameters that define the type of payment information requested from Google Pay. It is required and the type is PaymentDataRequest.*
 
 ## Button preview
 
-![alt text](https://github.com/kakismash/ng-wallet/blob/joaquin/button-preview.jpg?raw=true)
+![](button-preview.jpg)
 
 ## Documentation
 
