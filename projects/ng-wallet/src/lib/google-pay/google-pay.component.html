@@ -1,13 +1,17 @@
 <google-pay-button
-  [environment]="environment"
-  [buttonType]="buttonType"
-  [buttonColor]="buttonColor"
-  [buttonLocale]="buttonLocale"
-  [buttonSizeMode]="buttonSizeMode"
   [paymentRequest]="paymentRequest"
-  (loadpaymentdata)="onLoadPaymentData($event)"
-  (error)="onError($event)"
-  [paymentAuthorizedCallback]="onPaymenDataAuthorized"
+  [environment]="environment"
+  [existingPaymentMethodRequired]="existingPaymentMethodRequired"
+  [buttonColor]="buttonColor"
+  [buttonType]="buttonType"
+  [buttonSizeMode]="buttonSizeMode"
+  [buttonLocale]="buttonLocale"
+  [paymentDataChangedCallback]="paymentDataChangedCallback"
+  [paymentAuthorizedCallback]="paymentAuthorizedCallback"
+  [readyToPayChangeCallback]="readyToPayChangeCallback"
+  [loadPaymentDataCallback]="loadPaymentDataCallback"
+  [cancelCallback]="cancelCallback"
+  [errorCallback]="errorCallback"
 >
 </google-pay-button>
 

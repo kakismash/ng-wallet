@@ -5,39 +5,21 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './google-pay.component.html',
   styleUrls: ['./google-pay.component.scss']
 })
-export class GooglePayComponent implements OnInit {
+export class GooglePayComponent {
 
-  @Input() buttonType!:                  google.payments.api.ButtonType;
-  @Input() buttonColor!:                 google.payments.api.ButtonColor;
-  @Input() environment!:                 google.payments.api.Environment;
-  @Input() buttonSizeMode!:              google.payments.api.ButtonSizeMode;
-  @Input() buttonLocale!:                string;
-
-  @Input() paymentRequest!:              google.payments.api.PaymentDataRequest;
-
-  onLoadPaymentData = (
-    event: Event
-  ): void => {
-    const eventDetail = event as CustomEvent<google.payments.api.PaymentData>;
-    console.log('load payment data', eventDetail.detail);
-  }
-
-  onPaymenDataAuthorized: google.payments.api.PaymentAuthorizedHandler = (
-    paymentData
-  ) => {
-    console.log('payment authorized', paymentData);
-    return {
-      transactionState: 'SUCCESS'
-    };
-  }
-
-  onError = (event: ErrorEvent): void => {
-    console.error('error', event.error);
-  }
+  @Input() paymentRequest!: google.payments.api.PaymentDataRequest;
+  @Input() environment!: google.payments.api.Environment;
+  @Input() existingPaymentMethodRequired!: boolean;
+  @Input() buttonColor?: google.payments.api.ButtonColor;
+  @Input() buttonType?: google.payments.api.ButtonType;
+  @Input() buttonSizeMode?: google.payments.api.ButtonSizeMode;
+  @Input() buttonLocale?: string;
+  @Input() paymentDataChangedCallback?: google.payments.api.PaymentDataChangedHandler;
+  @Input() paymentAuthorizedCallback?: google.payments.api.PaymentAuthorizedHandler;
+  @Input() readyToPayChangeCallback?: (result: any) => void;
+  @Input() loadPaymentDataCallback?: (paymentData: google.payments.api.PaymentData) => void;
+  @Input() cancelCallback?: (reason: google.payments.api.PaymentsError) => void;
+  @Input() errorCallback?: (error: Error) => void;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }
