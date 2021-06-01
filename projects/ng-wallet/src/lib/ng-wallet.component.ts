@@ -15,14 +15,6 @@ export class NgWalletComponent {
   @Input() buttonSizeMode:              google.payments.api.ButtonSizeMode     = 'static';
   @Input() buttonLocale:                string                                 = 'en';
 
-  /*@Input() existingPaymentMethodRequired!: boolean;
-  @Input() paymentDataChangedCallback?:    google.payments.api.PaymentDataChangedHandler;
-  @Input() paymentAuthorizedCallback?:     google.payments.api.PaymentAuthorizedHandler;
-  @Input() readyToPayChangeCallback?:      (result: any) => void;
-  @Input() loadPaymentDataCallback?:       (paymentData: google.payments.api.PaymentData) => void;
-  @Input() cancelCallback?:                (reason: google.payments.api.PaymentsError) => void;
-  @Input() errorCallback?:                 (error: Error) => void;*/
-
   //**********Allowed Payment Methods********//
   typePaymentMethod:                    google.payments.api.PaymentMethodType  = 'CARD';
   private acceptedCardNetworks:         google.payments.api.CardNetwork[]      = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];
