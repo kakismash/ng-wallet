@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ng-wallet',
@@ -9,11 +9,11 @@ export class NgWalletComponent {
   title = 'ng-wallet';
 
   //**********Button Configuration********//
-  buttonColor:                          any = 'black';
-  buttonType:                           any = 'buy';
-  buttonSizeMode:                       any = 'static';
-  buttonLocale:                         any = 'en';
-  environment:                          any = 'TEST';
+  @Input() buttonType:            any  = 'buy';
+  @Input() buttonColor:           any  = 'black';
+  @Input() environment:           any  = 'TEST';
+  @Input() buttonLocale:          any  = 'en';
+  @Input() buttonSizeMode:        any  = 'static';
 
   //**********Allowed Payment Methods********//
   typePaymentMethod:                    google.payments.api.PaymentMethodType  = 'CARD';
@@ -42,7 +42,7 @@ export class NgWalletComponent {
   private acceptedcallbackIntents:      google.payments.api.CallbackIntent[] = ['PAYMENT_AUTHORIZATION'];
   callbackIntents:                      google.payments.api.CallbackIntent[] = [];
 
-  paymentRequest: google.payments.api.PaymentDataRequest = {
+  @Input() paymentRequest: google.payments.api.PaymentDataRequest = {
       apiVersion: 2,
       apiVersionMinor: 0,
       allowedPaymentMethods: [
