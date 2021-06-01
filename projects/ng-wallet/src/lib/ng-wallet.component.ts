@@ -1,15 +1,13 @@
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { GooglePayComponent } from './google-pay/google-pay.component';
 
 @Component({
   selector: 'ng-wallet',
   templateUrl: './ng-wallet.component.html'
 })
-export class NgWalletComponent implements OnInit, OnChanges{
+export class NgWalletComponent {
 
   title = 'ng-wallet';
-
-  @ViewChild(GooglePayComponent) private googleButton: GooglePayComponent;
 
   //**********Button Google Configuration********//
   @Input() paymentRequest!: google.payments.api.PaymentDataRequest;
@@ -28,12 +26,6 @@ export class NgWalletComponent implements OnInit, OnChanges{
 
   constructor() {}
 
-  ngOnInit(): void {
-    const toLoad = {
-      inside this we should set what googleButton need
-    }
-    this.googleButton.load(toLoad);
-  }
   //**********Allowed Payment Methods********//
   // typePaymentMethod:                    google.payments.api.PaymentMethodType  = 'CARD';
   // private acceptedCardNetworks:         google.payments.api.CardNetwork[]      = ['AMEX', 'VISA', 'MASTERCARD', 'DISCOVER', 'ELECTRON', 'ELO', 'ELO_DEBIT', 'INTERAC', 'JCB', 'MAESTRO'];

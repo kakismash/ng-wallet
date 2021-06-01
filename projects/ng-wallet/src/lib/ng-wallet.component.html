@@ -1,9 +1,16 @@
 <app-google-pay
   [paymentRequest]="paymentRequest"
+  [environment]="environment"
+  [existingPaymentMethodRequired]="existingPaymentMethodRequired"
   [buttonColor]="buttonColor"
   [buttonType]="buttonType"
-  [buttonLocale]="buttonLocale"
-  [environment]="environment"
   [buttonSizeMode]="buttonSizeMode"
+  [buttonLocale]="buttonLocale"
+  [paymentDataChangedCallback]="paymentDataChangedCallback"
+  [paymentAuthorizedCallback]="paymentAuthorizedCallback"
+  [readyToPayChangeCallback]="readyToPayChangeCallback"
+  [loadPaymentDataCallback]="loadPaymentDataCallback"
+  [cancelCallback]="cancelCallback"
+  [errorCallback]="errorCallback"
 >
 </app-google-pay>
