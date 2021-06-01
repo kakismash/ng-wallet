@@ -9,11 +9,19 @@ export class NgWalletComponent {
   title = 'ng-wallet';
 
   //**********Button Configuration********//
-  @Input() buttonType:            any  = 'buy';
-  @Input() buttonColor:           any  = 'black';
-  @Input() environment:           any  = 'TEST';
-  @Input() buttonLocale:          any  = 'en';
-  @Input() buttonSizeMode:        any  = 'static';
+  @Input() buttonType:                  google.payments.api.ButtonType         = 'buy';
+  @Input() buttonColor:                 google.payments.api.ButtonColor        = 'black';
+  @Input() environment:                 google.payments.api.Environment        = 'TEST';
+  @Input() buttonSizeMode:              google.payments.api.ButtonSizeMode     = 'static';
+  @Input() buttonLocale:                string                                 = 'en';
+
+  /*@Input() existingPaymentMethodRequired!: boolean;
+  @Input() paymentDataChangedCallback?:    google.payments.api.PaymentDataChangedHandler;
+  @Input() paymentAuthorizedCallback?:     google.payments.api.PaymentAuthorizedHandler;
+  @Input() readyToPayChangeCallback?:      (result: any) => void;
+  @Input() loadPaymentDataCallback?:       (paymentData: google.payments.api.PaymentData) => void;
+  @Input() cancelCallback?:                (reason: google.payments.api.PaymentsError) => void;
+  @Input() errorCallback?:                 (error: Error) => void;*/
 
   //**********Allowed Payment Methods********//
   typePaymentMethod:                    google.payments.api.PaymentMethodType  = 'CARD';
@@ -23,26 +31,26 @@ export class NgWalletComponent {
   authMethods:                          google.payments.api.CardAuthMethod[]   = [];
 
   //**********Tokenization Specification********//
-  typeTokenization:                    'PAYMENT_GATEWAY' = 'PAYMENT_GATEWAY';
-  gateway:                              string           = 'example';
-  gatewayMerchantId:                    string           = 'exampleGatewayMerchantId';
+  typeTokenization:                    'PAYMENT_GATEWAY'                       = 'PAYMENT_GATEWAY';
+  gateway:                              string                                 = 'example';
+  gatewayMerchantId:                    string                                 = 'exampleGatewayMerchantId';
 
   //**********Merchant Info********//
-  merchantId:                           string           = '12345678901234567890';
-  merchantName:                         string           = 'Demo Merchant';
+  merchantId:                           string                                 = '12345678901234567890';
+  merchantName:                         string                                 = 'Demo Merchant';
 
   //**********Transaction Info********//
-  totalPriceStatus:                     google.payments.api.TotalPriceStatus = "FINAL";
-  totalPriceLabel:                      string           = 'Total';
-  totalPrice:                           string           = '0.10';
-  currencyCode:                         string           = 'USD';
-  countryCode:                          string           = 'US';
+  totalPriceStatus:                     google.payments.api.TotalPriceStatus   = "FINAL";
+  totalPriceLabel:                      string                                 = 'Total';
+  totalPrice:                           string                                 = '0.10';
+  currencyCode:                         string                                 = 'USD';
+  countryCode:                          string                                 = 'US';
 
   //**********Callback Intents********//
-  private acceptedcallbackIntents:      google.payments.api.CallbackIntent[] = ['PAYMENT_AUTHORIZATION'];
-  callbackIntents:                      google.payments.api.CallbackIntent[] = [];
+  private acceptedcallbackIntents:      google.payments.api.CallbackIntent[]   = ['PAYMENT_AUTHORIZATION'];
+  callbackIntents:                      google.payments.api.CallbackIntent[]   = [];
 
-  @Input() paymentRequest: google.payments.api.PaymentDataRequest = {
+  @Input() paymentRequest:              google.payments.api.PaymentDataRequest = {
       apiVersion: 2,
       apiVersionMinor: 0,
       allowedPaymentMethods: [
@@ -155,4 +163,6 @@ export class NgWalletComponent {
                                     google.payments.api.CallbackIntent>): boolean {
     return array.includes(value);
   }
+
+
 }

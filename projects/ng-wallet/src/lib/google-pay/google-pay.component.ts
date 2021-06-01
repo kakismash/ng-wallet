@@ -7,13 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class GooglePayComponent implements OnInit {
 
-  @Input() buttonType:            any  = 'buy';
-  @Input() buttonColor:           any  = 'black';
-  @Input() environment:           any  = 'TEST';
-  @Input() buttonLocale:          any  = 'en';
-  @Input() buttonSizeMode:        any  = 'static';
+  @Input() buttonType:                  google.payments.api.ButtonType         = 'buy';
+  @Input() buttonColor:                 google.payments.api.ButtonColor        = 'black';
+  @Input() environment:                 google.payments.api.Environment        = 'TEST';
+  @Input() buttonSizeMode:              google.payments.api.ButtonSizeMode     = 'static';
+  @Input() buttonLocale:                string                                 = 'en';
 
-  @Input() paymentRequest!: google.payments.api.PaymentDataRequest;
+  @Input() paymentRequest!:             google.payments.api.PaymentDataRequest;
 
   onLoadPaymentData = (
     event: Event
