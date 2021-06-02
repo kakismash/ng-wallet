@@ -1,6 +1,6 @@
 # Wallet for Angular 
 
-Digital Wallet integrations for Angular.
+Digital Wallet Integrations for Angular.
 
 ## Requirements
 
@@ -27,7 +27,7 @@ Don't forget to add it to the module imports
 imports: [
   ...
   NgWalletModule
-  ]
+]
 ```
 
 Once it is included, you have to use it and configure it to your liking.
@@ -53,11 +53,10 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 * **environment**: *The Google Pay environment to target. It is required and the values can be "TEST" | "PRODUCTION".*
 * **paymentRequest**: *Request parameters that define the type of payment information requested from Google Pay. It is required and the type is PaymentDataRequest.*
 
-## Button preview
-
-![](button-preview.jpg)
-
 ## Documentation
 
 Visit the [Google Pay developer site](https://developers.google.com/pay/api/web/overview) for more information about integrating Google Pay into your website.
 
+## Button preview
+
+![](button-preview.jpg)
