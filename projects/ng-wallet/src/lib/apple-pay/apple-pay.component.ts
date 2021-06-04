@@ -7,7 +7,13 @@ import { Component, Input } from '@angular/core';
 })
 export class ApplePayComponent {
 
+  @Input() buttonStyle?:       string;
   @Input() buttonType?:        string;
+  @Input() buttonLocale?:      string;
+  @Input() width?:             string;
+  @Input() height?:            string;
+  @Input() borderRadius?:      string;
+
 
   constructor() { }
 }
