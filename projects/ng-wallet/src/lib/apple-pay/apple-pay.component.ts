@@ -1,4 +1,4 @@
-import { ApplePayPaymentRequest } from './model/applePayPaymentRequest.model';
+import { ApplePayPaymentRequest } from './model/apple-pay-js';
 import { Component, Input } from '@angular/core';
 
 @Component({
