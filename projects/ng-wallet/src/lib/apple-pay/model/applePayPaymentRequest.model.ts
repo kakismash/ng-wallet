@@ -1,4 +1,4 @@
-class ApplePayPaymentRequest {
+export class ApplePayPaymentRequest {
 
   required sequence <ApplePayMerchantCapability> merchantCapabilities;
   required sequence <DOMString> supportedNetworks;
