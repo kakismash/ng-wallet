@@ -1,6 +1,7 @@
-export class ApplePayPaymentRequest {
+export type ApplePayMerchantCapability = 'supports3DS' | 'supportsEMV' | 'supportsCredit' | 'supportsDebit';
 
-  required sequence <ApplePayMerchantCapability> merchantCapabilities;
+export class ApplePayPaymentRequest {
+  merchantCapabilities?: Array<ApplePayMerchantCapability>;
   required sequence <DOMString> supportedNetworks;
   required DOMString countryCode;
   sequence <ApplePayContactField> requiredBillingContactFields;
