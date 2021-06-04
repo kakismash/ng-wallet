@@ -1,3 +1,4 @@
+import { ApplePayPaymentRequest } from './model/applePayPaymentRequest.model';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -17,21 +18,21 @@ export class ApplePayComponent {
 
   // Define ApplePayPaymentRequest
   @Input() request: ApplePayPaymentRequest = {
-            "countryCode": "US",
-            "currencyCode": "USD",
-            "merchantCapabilities": [
-                "supports3DS"
+            'countryCode': 'US',
+            'currencyCode': 'USD',
+            'merchantCapabilities': [
+                'supports3DS'
             ],
-            "supportedNetworks": [
-                "visa",
-                "masterCard",
-                "amex",
-                "discover"
+            'supportedNetworks': [
+                'visa',
+                'masterCard',
+                'amex',
+                'discover'
             ],
-            "total": {
-                "label": "Demo (Card is not charged)",
-                "type": "final",
-                "amount": "1.99"
+            'total': {
+                'label': 'Demo (Card is not charged)',
+                'type': 'final',
+                'amount': '1.99'
             }
         };
 
@@ -45,7 +46,7 @@ export class ApplePayComponent {
 
 
     // Create ApplePaySession
-    const session = new ApplePaySession(3, request);
+    const session = new ApplePaySession(3, this.request);
 
     session.onvalidatemerchant = async event => {
         // Call your own server to request a new merchant session.
