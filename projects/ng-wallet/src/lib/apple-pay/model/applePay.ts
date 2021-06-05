@@ -346,7 +346,7 @@ declare namespace ApplePayJS {
   /**
    * Encapsulates a request for payment, including information about payment processing capabilities, the payment amount, and shipping information.
    */
-  interface ApplePayPaymentRequest {
+  export interface ApplePayPaymentRequest {
 
       /**
        * The merchant's two-letter ISO 3166 country code.

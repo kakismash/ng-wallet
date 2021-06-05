@@ -1,4 +1,3 @@
-import { ApplePayPaymentRequest } from './model/apple-pay-js';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -17,7 +16,7 @@ export class ApplePayComponent {
   @Input() borderRadius?:      string;
 
   // Define ApplePayPaymentRequest
-  @Input() request!:           ApplePayPaymentRequest;
+  @Input() request!: ApplePayJS.ApplePayPaymentRequest;
 
   constructor() { }
 
