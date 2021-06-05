@@ -131,7 +131,6 @@ export class ApplePayComponent {
     };
 
     session.onpaymentauthorized = event => {
-        // Define ApplePayPaymentAuthorizationResult
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
     };
 
