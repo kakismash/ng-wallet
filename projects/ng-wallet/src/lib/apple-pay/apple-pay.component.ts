@@ -30,10 +30,16 @@ export class ApplePayComponent {
     // Create ApplePaySession
     const session = new ApplePaySession(3, this.request);
 
-    session.onvalidatemerchant = async event => {
+    session.onvalidatemerchant = event => {
         // Call your own server to request a new merchant session.
-        const merchantSession = await validateMerchant();
-        session.completeMerchantValidation(merchantSession);
+        fetch("/authorizeMerchant")
+          .then(res => res.json()) // Parse response as JSON.
+          .then(merchantSession => {
+            session.completeMerchantValidation(merchantSession);
+          })
+          .catch(err => {
+            console.error("Error fetching merchant session", err);
+          });
     };
 
     session.onpaymentmethodselected = event => {
