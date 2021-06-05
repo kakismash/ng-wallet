@@ -132,10 +132,7 @@ export class ApplePayComponent {
 
     session.onpaymentauthorized = event => {
         // Define ApplePayPaymentAuthorizationResult
-        const result = {
-            "status": ApplePaySession.STATUS_SUCCESS
-        };
-        session.completePayment(result);
+        session.completePayment(ApplePaySession.STATUS_SUCCESS);
     };
 
     session.oncancel = event => {
