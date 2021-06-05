@@ -23,6 +23,19 @@ export class NgWalletComponent {
   @Input() cancelCallback?:                   (reason: google.payments.api.PaymentsError) => void;
   @Input() errorCallback?:                    (error: Error) => void;
 
+  //**********Button Apple Configuration********//
+  @Input() buttonStyleApple?:                 string;
+  @Input() buttonTypeApple?:                  string;
+  @Input() buttonLocaleApple?:                string;
+  @Input() widthApple?:                       string;
+  @Input() heightApple?:                      string;
+  @Input() borderRadiusApple?:                string;
+  @Input() paymentRequestApple!:              ApplePayJS.ApplePayPaymentRequest;
+  @Input() total!:                            ApplePayJS.ApplePayLineItem;
+  @Input() lineItems!:                        Array<ApplePayJS.ApplePayLineItem>;
+  @Input() shippingMethods!:                  Array<ApplePayJS.ApplePayShippingMethod>;
+  @Input() shippingContact!:                  ApplePayJS.ApplePayPaymentContact;
+
   constructor() {}
 
 }

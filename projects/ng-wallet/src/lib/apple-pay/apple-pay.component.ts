@@ -88,7 +88,6 @@ export class ApplePayComponent {
   };
 
 
-
   constructor() { }
 
   onApplePayButtonClicked(): void {
