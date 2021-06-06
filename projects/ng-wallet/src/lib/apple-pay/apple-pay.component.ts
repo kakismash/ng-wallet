@@ -32,6 +32,9 @@ export class ApplePayComponent {
       }
   };
 
+  // Define endPoint
+  @Input() endPoint:                string = '/authorizeMerchant';
+
   // Define payment method.
   @Input() total:                   ApplePayJS.ApplePayLineItem = {
       label: "Subtotal",
@@ -102,7 +105,7 @@ export class ApplePayComponent {
 
     session.onvalidatemerchant = event => {
         // Call your own server to request a new merchant session.
-        fetch("/authorizeMerchant")
+        fetch(this.endPoint)
           .then(res => res.json()) // Parse response as JSON.
           .then(merchantSession => {
             session.completeMerchantValidation(merchantSession);
