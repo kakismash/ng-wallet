@@ -2,6 +2,9 @@
   display: inline-block;
   -webkit-appearance: -apple-pay-button;
   -apple-pay-button-type: donate; /* Use any supported button type. */
+  width: 150px;
+  height: 30px;
+  border-radius: 3px;
 }
 .apple-pay-button-black {
   -apple-pay-button-style: black;

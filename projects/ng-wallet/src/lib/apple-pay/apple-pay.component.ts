@@ -9,14 +9,14 @@ export class ApplePayComponent {
 
   // Button configuration
   @Input() buttonStyle?:              string;
-  @Input() buttonType?:               string;
-  @Input() buttonLocale?:             string;
+  @Input() buttonTypeApple?:          string;
+  @Input() lang?:                     string;
   @Input() width?:                    string;
   @Input() height?:                   string;
   @Input() borderRadius?:             string;
 
   // Define ApplePayPaymentRequest
-  @Input() paymentRequest:            ApplePayJS.ApplePayPaymentRequest = {
+  @Input() paymentRequestApple:       ApplePayJS.ApplePayPaymentRequest = {
       countryCode: "US",
       currencyCode: "USD",
       supportedNetworks: [
@@ -101,7 +101,7 @@ export class ApplePayComponent {
 
 
     // Create ApplePaySession
-    const session = new ApplePaySession(3, this.paymentRequest);
+    const session = new ApplePaySession(3, this.paymentRequestApple);
 
     session.onvalidatemerchant = event => {
         // Call your own server to request a new merchant session.
