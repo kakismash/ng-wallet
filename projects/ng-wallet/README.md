@@ -92,4 +92,4 @@ Visit the [Google Pay developer site](https://developers.google.com/pay/api/web/
 
 * Apple Pay Button
 * PayPal Button
-* Microsoft Pay
+* Microsoft Pay Button
