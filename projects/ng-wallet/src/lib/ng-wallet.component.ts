@@ -24,18 +24,18 @@ export class NgWalletComponent {
   @Input() errorCallback?:                    (error: Error) => void;
 
   //**********Button Apple Configuration********//
-  @Input() buttonStyleApple?:                 string;
+  @Input() buttonStyle?:                      string;
   @Input() buttonTypeApple?:                  string;
   @Input() lang?:                             string;
-  @Input() widthApple?:                       string;
-  @Input() heightApple?:                      string;
-  @Input() borderRadiusApple?:                string;
+  @Input() width?:                            string;
+  @Input() height?:                           string;
+  @Input() borderRadius?:                     string;
   @Input() paymentRequestApple!:              ApplePayJS.ApplePayPaymentRequest;
   @Input() endPoint!:                         string;
   @Input() total!:                            ApplePayJS.ApplePayLineItem;
   @Input() lineItems!:                        Array<ApplePayJS.ApplePayLineItem>;
-  @Input() shippingMethods?:                  Array<ApplePayJS.ApplePayShippingMethod>;
-  @Input() shippingContact?:                  ApplePayJS.ApplePayPaymentContact;
+  @Input() shippingMethods!:                  Array<ApplePayJS.ApplePayShippingMethod>;
+  @Input() shippingContact!:                  ApplePayJS.ApplePayPaymentContact;
 
   constructor() {}
 

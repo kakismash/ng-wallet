@@ -37,12 +37,12 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 
 ```bash
 <ng-wallet
-  [buttonColor]="buttonColor"
-  [buttonType]="buttonType"
-  [buttonLocale]="buttonLocale"
-  [buttonSizeMode]="buttonSizeMode"
-  [environment]="environment"
-  [paymentRequest]="{
+  buttonColor="black"
+  buttonType="buy"
+  buttonLocale="en"
+  buttonSizeMode="static"
+  environment="TEST"
+  paymentRequest="{
                       apiVersion: 2,
                       apiVersionMinor: 0,
                       allowedPaymentMethods: [
@@ -88,3 +88,8 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 
 Visit the [Google Pay developer site](https://developers.google.com/pay/api/web/overview) for more information about integrating Google Pay into your website.
 
+## Coming Soon
+
+* Apple Pay Button
+* PayPal Button
+* Microsoft Pay
