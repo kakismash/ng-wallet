@@ -1,12 +1,10 @@
-<button [ngStyle]="{'display': 'inline-block';
-'border-radius': {borderRadius};
-'-webkit-appearance': '-apple-pay-button';
-'-apple-pay-button-type': {buttonTypeApple};
-'-apple-pay-button-style': {buttonStyle};}" (click)="onApplePayButtonClicked()"></button>
+<button style="display: inline-block;
+              border-radius: [borderRadius];
+              -webkit-appearance: -apple-pay-button;
+              -apple-pay-button-type: [buttonTypeApple];
+              -apple-pay-button-style: [buttonStyle];"
+              (click)="onApplePayButtonClicked()"
+              lang={{lang}}
+              width={{width}}></button>
 
-<div
-lang=en></div>
 
-<button class="apple-pay-button apple-pay-button-black"
-(click)="onApplePayButtonClicked()"
-[lang]="lang"></button>
