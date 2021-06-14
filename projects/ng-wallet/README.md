@@ -86,8 +86,8 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
   buttonStyle="black"
   buttonTypeApple="buy"
   lang="en"
-  width="80px"
-  height="60px"
+  width="100px"
+  height="30px"
   borderRadius="0pt"
   endPointApple="/authorizeMerchant"
   paymentRequestApple="{
