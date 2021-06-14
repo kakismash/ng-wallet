@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-apple-pay',
+  selector: 'apple-pay',
   templateUrl: './apple-pay.component.html',
   styleUrls: ['./apple-pay.component.scss']
 })
@@ -16,79 +16,22 @@ export class ApplePayComponent {
   @Input() borderRadius?:             string;
 
   // Define ApplePayPaymentRequest
-  @Input() paymentRequestApple:       ApplePayJS.ApplePayPaymentRequest = {
-      countryCode: "US",
-      currencyCode: "USD",
-      supportedNetworks: [
-          "masterCard",
-          "visa"
-      ],
-      merchantCapabilities: [
-          "supports3DS"
-      ],
-      total: {
-          label: "My Store",
-          amount: "9.99"
-      }
-  };
+  @Input() paymentRequestApple!:      ApplePayJS.ApplePayPaymentRequest;
 
   // Define endPoint
-  @Input() endPoint:                string = '/authorizeMerchant';
+  @Input() endPointApple!:            string;
 
   // Define payment method.
-  @Input() total:                   ApplePayJS.ApplePayLineItem = {
-      label: "Subtotal",
-      type: "final",
-      amount: "35.00"
-  };
+  @Input() total!:                    ApplePayJS.ApplePayLineItem;
 
-  @Input() lineItems:               Array<ApplePayJS.ApplePayLineItem> = [
-      {
-          label: "Subtotal",
-          type: "final",
-          amount: "35.00"
-      },
-      {
-          label: "Free Shipping",
-          amount: "0.00",
-          type: "pending"
-      },
-      {
-          label: "Estimated Tax",
-          amount: "3.06"
-      }
-  ];
+  @Input() lineItems!:                Array<ApplePayJS.ApplePayLineItem>;
 
   // Define shipping method.
-  @Input() shippingMethods:        Array<ApplePayJS.ApplePayShippingMethod> = [
-      {
-          label: "Free Shipping",
-          detail: "Arrives in 5 to 7 days",
-          amount: "0.00",
-          identifier: "FreeShipping"
-      },
-      {
-          label: "2-hour Shipping",
-          amount: "5.00"
-      }
-  ];
+  @Input() shippingMethods!:          Array<ApplePayJS.ApplePayShippingMethod>;
 
 
   // Define shipping contact.
-  @Input() shippingContact:        ApplePayJS.ApplePayPaymentContact = {
-      emailAddress: "ravipatel@example.com",
-      familyName: "Patel",
-      givenName: "Ravi",
-      phoneNumber: "(408) 555-5555",
-      addressLines: [
-          "1 Infinite Loop"
-      ],
-      locality: "Cupertino",
-      administrativeArea: "CA",
-      postalCode: "95014",
-      country: "United States",
-      countryCode: "US"
-  };
+  @Input() shippingContact!:          ApplePayJS.ApplePayPaymentContact;
 
 
   constructor() { }
@@ -105,13 +48,13 @@ export class ApplePayComponent {
 
     session.onvalidatemerchant = event => {
         // Call your own server to request a new merchant session.
-        fetch(this.endPoint)
+        fetch(this.endPointApple)
           .then(res => res.json()) // Parse response as JSON.
           .then(merchantSession => {
             session.completeMerchantValidation(merchantSession);
           })
           .catch(err => {
-            console.error("Error fetching merchant session", err);
+            console.error('Error fetching merchant session', err);
           });
     };
 
@@ -121,8 +64,8 @@ export class ApplePayComponent {
 
     session.onshippingmethodselected = event => {
         session.completeShippingMethodSelection(ApplePaySession.STATUS_SUCCESS,
-                                                this.total,
-                                                this.lineItems);
+                                                  this.total,
+                                                  this.lineItems);
     };
 
     session.onshippingcontactselected = event => {

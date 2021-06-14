@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-google-pay',
+  selector: 'google-pay',
   templateUrl: './google-pay.component.html',
   styleUrls: ['./google-pay.component.scss']
 })
