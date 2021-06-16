@@ -6,7 +6,7 @@
 /**
  * A session object for managing the payment process on the web.
  */
- declare class ApplePaySession extends EventTarget {
+ export declare class ApplePaySession extends EventTarget {
 
   /**
    * Creates a new instance of the ApplePaySession class.
@@ -163,7 +163,7 @@
   static readonly STATUS_PIN_REQUIRED: number;
 }
 
-declare namespace ApplePayJS {
+export declare namespace ApplePayJS {
 
   /**
    * Defines a line item in a payment request - for example, total, tax, discount, or grand total.

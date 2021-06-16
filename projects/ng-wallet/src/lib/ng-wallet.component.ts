@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ApplePayJS } from './apple-pay/model/applePay';
 
 @Component({
   selector: 'ng-wallet',
