@@ -10,7 +10,7 @@ export class ApplePayComponent {
 
   // Button configuration
   @Input() buttonStyle?:              string;
-  @Input() buttonTypeApple?:          string;
+  @Input() buttonType?:               string;
   @Input() lang?:                     string;
   @Input() width?:                    string;
   @Input() height?:                   string;
@@ -20,7 +20,7 @@ export class ApplePayComponent {
   @Input() paymentRequest!:           ApplePayJS.ApplePayPaymentRequest;
 
   // Define endPoint
-  @Input() endPointApple!:            string;
+  @Input() endPoint!:                 string;
 
   // Define payment method.
   @Input() total!:                    ApplePayJS.ApplePayLineItem;
@@ -49,7 +49,7 @@ export class ApplePayComponent {
 
     session.onvalidatemerchant = event => {
         // Call your own server to request a new merchant session.
-        fetch(this.endPointApple)
+        fetch(this.endPoint)
           .then(res => res.json()) // Parse response as JSON.
           .then(merchantSession => {
             session.completeMerchantValidation(merchantSession);

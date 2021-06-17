@@ -13,10 +13,10 @@ export class NgWalletComponent {
   @Input() paymentRequestGoogle!:             google.payments.api.PaymentDataRequest;
   @Input() environment!:                      google.payments.api.Environment;
   @Input() existingPaymentMethodRequired!:    boolean;
-  @Input() buttonColor?:                      google.payments.api.ButtonColor;
+  @Input() buttonColorGoogle?:                google.payments.api.ButtonColor;
   @Input() buttonTypeGoogle?:                 google.payments.api.ButtonType;
   @Input() buttonSizeMode?:                   google.payments.api.ButtonSizeMode;
-  @Input() buttonLocale?:                     string;
+  @Input() buttonLocaleGoogle?:               string;
   @Input() paymentDataChangedCallback?:       google.payments.api.PaymentDataChangedHandler;
   @Input() paymentAuthorizedCallback?:        google.payments.api.PaymentAuthorizedHandler;
   @Input() readyToPayChangeCallback?:         (result: any) => void;
@@ -25,9 +25,9 @@ export class NgWalletComponent {
   @Input() errorCallback?:                    (error: Error) => void;
 
   //**********Button Apple Configuration********//
-  @Input() buttonStyle?:                      string;
+  @Input() buttonColorApple?:                 string;
   @Input() buttonTypeApple?:                  string;
-  @Input() lang?:                             string;
+  @Input() buttonLocaleApple?:                string;
   @Input() width?:                            string;
   @Input() height?:                           string;
   @Input() borderRadius?:                     string;
@@ -37,6 +37,15 @@ export class NgWalletComponent {
   @Input() lineItems!:                        Array<ApplePayJS.ApplePayLineItem>;
   @Input() shippingMethods!:                  Array<ApplePayJS.ApplePayShippingMethod>;
   @Input() shippingContact!:                  ApplePayJS.ApplePayPaymentContact;
+
+  //**********Global Configuration********//
+  @Input() buttonColor?:                      any;
+  @Input() buttonType?:                       any;
+  @Input() buttonLocale?:                     string;
+  @Input() endPoint?:                         any;
+  @Input() paymentRequest?:                   any;
+
+
 
   constructor() {}
 

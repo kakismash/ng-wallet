@@ -46,46 +46,46 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 
 ```bash
 <ng-wallet
-  buttonColor="black"
-  buttonType="buy"
-  buttonLocale="en"
+  buttonColorGoogle="black"
+  buttonTypeGoogle="buy"
+  buttonLocaleGoogle="en"
   buttonSizeMode="static"
   environment="TEST"
-  paymentRequest="{
-                      apiVersion: 2,
-                      apiVersionMinor: 0,
-                      allowedPaymentMethods: [
-                        {
-                          type: 'CARD',
-                          parameters: {
-                            allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                            allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
-                          },
-                          tokenizationSpecification: {
-                            type: 'PAYMENT_GATEWAY',
-                            parameters: {
-                              gateway: 'example',
-                              gatewayMerchantId: 'exampleGatewayMerchantId'
+  paymentRequestGoogle="{
+                          apiVersion: 2,
+                          apiVersionMinor: 0,
+                          allowedPaymentMethods: [
+                            {
+                              type: 'CARD',
+                              parameters: {
+                                allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                                allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
+                              },
+                              tokenizationSpecification: {
+                                type: 'PAYMENT_GATEWAY',
+                                parameters: {
+                                  gateway: 'example',
+                                  gatewayMerchantId: 'exampleGatewayMerchantId'
+                                }
+                              }
                             }
+                          ],
+                          merchantInfo: {
+                            merchantId: '12345678901234567890',
+                            merchantName: 'Demo Merchant'
+                          },
+                          transactionInfo: {
+                            totalPriceStatus: 'FINAL',
+                            totalPriceLabel: 'Total',
+                            totalPrice: '100.00',
+                            currencyCode: 'USD',
+                            countryCode: 'US'
                           }
-                        }
-                      ],
-                      merchantInfo: {
-                        merchantId: '12345678901234567890',
-                        merchantName: 'Demo Merchant'
-                      },
-                      transactionInfo: {
-                        totalPriceStatus: 'FINAL',
-                        totalPriceLabel: 'Total',
-                        totalPrice: '100.00',
-                        currencyCode: 'USD',
-                        countryCode: 'US'
-                      }
-                    }"
+                        }"
 
-  buttonStyle="black"
+  buttonColorApple="black"
   buttonTypeApple="buy"
-  lang="en"
+  buttonLocaleApple="en"
   width="100px"
   height="30px"
   borderRadius="0pt"
@@ -158,13 +158,13 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 
 ## Google Pay Button Properties 
 
-* **buttonColor**: *Specifies the color of the button. It is optional and the values can be "default" | "black" | "white".*
-* **buttonType**: *Button type to use. It is optional and the values can be "buy" | "plain" | "donate" | "long" | "short".*
-* **buttonLocale**: *This ISO 639-1 code represents the desired button language. It is optional and the value is a string.*
+* **buttonColorGoogle**: *Specifies the color of the button. It is optional and the values can be "default" | "black" | "white".*
+* **buttonTypeGoogle**: *Button type to use. It is optional and the values can be "buy" | "plain" | "donate" | "long" | "short".*
+* **buttonLocaleGoogle**: *This ISO 639-1 code represents the desired button language. It is optional and the value is a string.*
 * **buttonSizeMode**: *Buttons will be sized according to the translated buttonType. It is optional and the values can be "static" | "fill".*
 * **environment**: *The Google Pay environment to target. It is required and the values can be "TEST" | "PRODUCTION".*
 * **existingPaymentMethodRequired**: *When set to true (and environment is Production), the Google Pay button will only be displayed if the user already has an existing payment that they can use to make a purchase. It is optional and the type is boolean.*
-* **paymentRequest**: *Request parameters that define the type of payment information requested from Google Pay. It is required and the type is PaymentDataRequest.*
+* **paymentRequestGoogle**: *Request parameters that define the type of payment information requested from Google Pay. It is required and the type is PaymentDataRequest.*
 
 ## Google Pay Button Callbacks/events
 
@@ -176,9 +176,9 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 
 ## Apple Pay Button Properties 
 
-* **buttonStyle**: *A type that indicates the available appearances for an Apple Pay Button. For more information, see [ApplePayButtonStyle](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaybuttonstyle).*
+* **buttonColorApple**: *A type that indicates the available appearances for an Apple Pay Button. For more information, see [ApplePayButtonStyle](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaybuttonstyle).*
 * **buttonTypeApple**: *A type that indicates the button types that you can display to initiate Apple Pay transactions. For more information, see [ApplePayButton Type](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaybuttontype).*
-* **lang**: *A type that indicates the languages and regions that you can specify for the Apple Pay button. For more information, see [ApplePayButtonLocale](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaybuttonlocale).*
+* **buttonLocaleApple**: *A type that indicates the languages and regions that you can specify for the Apple Pay button. For more information, see [ApplePayButtonLocale](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaybuttonlocale).*
 * **width and height**: *The size of the buttons will be adjusted to the dimensions defined in the width and height.*
 * **borderRadius**: *A type to apply rounded corners to the buttons.*
 * **endPointApple**: *Define your own server to request a new merchant session. For more information, see [validationURL](https://developer.apple.com/documentation/apple_pay_on_the_web/applepayvalidatemerchantevent/1778026-validationurl).*

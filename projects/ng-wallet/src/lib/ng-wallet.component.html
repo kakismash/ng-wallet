@@ -1,8 +1,24 @@
-<google-pay [paymentRequest]="paymentRequestGoogle" [environment]="environment" [existingPaymentMethodRequired]="existingPaymentMethodRequired" [buttonColor]="buttonColor" [buttonType]="buttonTypeGoogle" [buttonSizeMode]="buttonSizeMode" [buttonLocale]="buttonLocale"
-    [paymentDataChangedCallback]="paymentDataChangedCallback" [paymentAuthorizedCallback]="paymentAuthorizedCallback" [readyToPayChangeCallback]="readyToPayChangeCallback" [loadPaymentDataCallback]="loadPaymentDataCallback" [cancelCallback]="cancelCallback"
-    [errorCallback]="errorCallback">
-</google-pay>
+<div *ngIf="paymentRequest === null || paymentRequest === '' then localConfiguration; else globalConfiguration">
+</div>
 
-<apple-pay [buttonTypeApple]="buttonTypeApple" [buttonStyle]="buttonStyle" [borderRadius]="borderRadius" [width]="width" [height]="height" [paymentRequest]="paymentRequestApple" [endPointApple]="endPointApple" [total]="total" [lineItems]="lineItems" [shippingMethods]="shippingMethods"
-    [shippingContact]="shippingContact">
-</apple-pay>
+<div #localConfiguration>
+    <google-pay [paymentRequest]="paymentRequestGoogle" [environment]="environment" [existingPaymentMethodRequired]="existingPaymentMethodRequired" [buttonColor]="buttonColorGoogle" [buttonType]="buttonTypeGoogle" [buttonSizeMode]="buttonSizeMode" [buttonLocale]="buttonLocaleGoogle"
+        [paymentDataChangedCallback]="paymentDataChangedCallback" [paymentAuthorizedCallback]="paymentAuthorizedCallback" [readyToPayChangeCallback]="readyToPayChangeCallback" [loadPaymentDataCallback]="loadPaymentDataCallback" [cancelCallback]="cancelCallback"
+        [errorCallback]="errorCallback">
+    </google-pay>
+
+    <apple-pay [buttonType]="buttonTypeApple" [buttonStyle]="buttonColorApple" [borderRadius]="borderRadius" [width]="width" [height]="height" [lang]="buttonLocaleApple" [paymentRequest]="paymentRequestApple" [endPoint]="endPointApple" [total]="total" [lineItems]="lineItems" [shippingMethods]="shippingMethods"
+        [shippingContact]="shippingContact">
+    </apple-pay>
+</div>
+
+<div #globalConfiguration>
+    <google-pay [paymentRequest]="paymentRequest" [environment]="environment" [existingPaymentMethodRequired]="existingPaymentMethodRequired" [buttonColor]="buttonColor" [buttonType]="buttonType" [buttonSizeMode]="buttonSizeMode" [buttonLocale]="buttonLocale"
+      [paymentDataChangedCallback]="paymentDataChangedCallback" [paymentAuthorizedCallback]="paymentAuthorizedCallback" [readyToPayChangeCallback]="readyToPayChangeCallback" [loadPaymentDataCallback]="loadPaymentDataCallback" [cancelCallback]="cancelCallback"
+      [errorCallback]="errorCallback">
+    </google-pay>
+
+    <apple-pay [buttonType]="buttonType" [buttonStyle]="buttonColor" [borderRadius]="borderRadius" [width]="width" [height]="height" [lang]="buttonLocale" [paymentRequest]="paymentRequest" [endPoint]="endPoint" [total]="total" [lineItems]="lineItems" [shippingMethods]="shippingMethods"
+      [shippingContact]="shippingContact">
+    </apple-pay>
+</div>
