@@ -32,7 +32,7 @@ export class NgWalletComponent {
   @Input() height?:                           string;
   @Input() borderRadius?:                     string;
   @Input() paymentRequestApple!:              ApplePayJS.ApplePayPaymentRequest;
-  @Input() endPoint!:                         string;
+  @Input() endPointApple!:                    string;
   @Input() total!:                            ApplePayJS.ApplePayLineItem;
   @Input() lineItems!:                        Array<ApplePayJS.ApplePayLineItem>;
   @Input() shippingMethods!:                  Array<ApplePayJS.ApplePayShippingMethod>;
