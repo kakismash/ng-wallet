@@ -14,7 +14,7 @@ export class NgWalletComponent {
   @Input() environment!:                      google.payments.api.Environment;
   @Input() existingPaymentMethodRequired!:    boolean;
   @Input() buttonColor?:                      google.payments.api.ButtonColor;
-  @Input() buttonType?:                       google.payments.api.ButtonType;
+  @Input() buttonTypeGoogle?:                 google.payments.api.ButtonType;
   @Input() buttonSizeMode?:                   google.payments.api.ButtonSizeMode;
   @Input() buttonLocale?:                     string;
   @Input() paymentDataChangedCallback?:       google.payments.api.PaymentDataChangedHandler;
