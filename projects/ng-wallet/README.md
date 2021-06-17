@@ -82,7 +82,6 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
                             countryCode: 'US'
                           }
                         }"
-
   buttonColorApple="black"
   buttonTypeApple="buy"
   buttonLocaleApple="en"
