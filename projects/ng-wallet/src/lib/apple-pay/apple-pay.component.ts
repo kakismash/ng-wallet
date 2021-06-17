@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ApplePaySession } from 'projects/ng-wallet/src/lib/ApplePaySession';
-import { ApplePayJS } from '../applePay';
+import { ApplePaySession } from 'projects/ng-wallet/src/lib/apple-pay/ApplePaySession';
+import { ApplePayJS } from './applePay';
 @Component({
   selector: 'apple-pay',
   templateUrl: './apple-pay.component.html',
@@ -17,7 +17,7 @@ export class ApplePayComponent {
   @Input() borderRadius?:             string;
 
   // Define ApplePayPaymentRequest
-  @Input() paymentRequestApple!:      ApplePayJS.ApplePayPaymentRequest;
+  @Input() paymentRequest!:           ApplePayJS.ApplePayPaymentRequest;
 
   // Define endPoint
   @Input() endPointApple!:            string;
@@ -45,7 +45,7 @@ export class ApplePayComponent {
 
 
     // Create ApplePaySession
-    const session = new ApplePaySession(3, this.paymentRequestApple);
+    const session = new ApplePaySession(3, this.paymentRequest);
 
     session.onvalidatemerchant = event => {
         // Call your own server to request a new merchant session.

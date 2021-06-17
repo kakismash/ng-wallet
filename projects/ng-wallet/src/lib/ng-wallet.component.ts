@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ApplePayJS } from './applePay';
+import { ApplePayJS } from './apple-pay/applePay';
 
 @Component({
   selector: 'ng-wallet',
@@ -10,7 +10,7 @@ export class NgWalletComponent {
   title = 'ng-wallet';
 
   //**********Button Google Configuration********//
-  @Input() paymentRequest!:                   google.payments.api.PaymentDataRequest;
+  @Input() paymentRequestGoogle!:             google.payments.api.PaymentDataRequest;
   @Input() environment!:                      google.payments.api.Environment;
   @Input() existingPaymentMethodRequired!:    boolean;
   @Input() buttonColor?:                      google.payments.api.ButtonColor;

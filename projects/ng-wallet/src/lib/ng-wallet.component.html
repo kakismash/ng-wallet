@@ -1,8 +1,8 @@
-<google-pay [paymentRequest]="paymentRequest" [environment]="environment" [existingPaymentMethodRequired]="existingPaymentMethodRequired" [buttonColor]="buttonColor" [buttonType]="buttonType" [buttonSizeMode]="buttonSizeMode" [buttonLocale]="buttonLocale"
+<google-pay [paymentRequest]="paymentRequestGoogle" [environment]="environment" [existingPaymentMethodRequired]="existingPaymentMethodRequired" [buttonColor]="buttonColor" [buttonType]="buttonType" [buttonSizeMode]="buttonSizeMode" [buttonLocale]="buttonLocale"
     [paymentDataChangedCallback]="paymentDataChangedCallback" [paymentAuthorizedCallback]="paymentAuthorizedCallback" [readyToPayChangeCallback]="readyToPayChangeCallback" [loadPaymentDataCallback]="loadPaymentDataCallback" [cancelCallback]="cancelCallback"
     [errorCallback]="errorCallback">
 </google-pay>
 
-<apple-pay [buttonTypeApple]="buttonTypeApple" [buttonStyle]="buttonStyle" [borderRadius]="borderRadius" [width]="width" [height]="height" [paymentRequestApple]="paymentRequestApple" [endPointApple]="endPointApple" [total]="total" [lineItems]="lineItems" [shippingMethods]="shippingMethods"
+<apple-pay [buttonTypeApple]="buttonTypeApple" [buttonStyle]="buttonStyle" [borderRadius]="borderRadius" [width]="width" [height]="height" [paymentRequest]="paymentRequestApple" [endPointApple]="endPointApple" [total]="total" [lineItems]="lineItems" [shippingMethods]="shippingMethods"
     [shippingContact]="shippingContact">
 </apple-pay>

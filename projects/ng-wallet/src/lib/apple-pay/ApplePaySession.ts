@@ -1,4 +1,4 @@
-import { ApplePayJS } from "projects/ng-wallet/src/lib/applePay";
+import { ApplePayJS } from "projects/ng-wallet/src/lib/apple-pay/applePay";
 
 /**
  * A session object for managing the payment process on the web.
