@@ -51,6 +51,7 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
   buttonLocaleGoogle="en"
   buttonSizeMode="static"
   environment="TEST"
+  existingPaymentMethodRequired=true
   paymentRequestGoogle="{
                           apiVersion: 2,
                           apiVersionMinor: 0,
@@ -186,6 +187,130 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 * **lineItems**: *A set of line items that explain recurring payments and additional charges and discounts. For more information, see [lineItems](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916120-lineitems).*
 * **shippingMethods**: *The list of shipping methods available for a payment request. For more information, see [shippingMethods](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916121-shippingmethods).*
 * **shippingContact**: *The shipping contact selected by the user for this transaction. For more information, see [shippingContact](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypayment/1916097-shippingcontact).*
+
+## Global Configuration (Default Values)
+
+Initially the buttons will have an initial value in their configuration.
+
+Google Pay Button:
+* buttonColorGoogle="black"
+* buttonTypeGoogle="buy"
+* buttonSizeMode="static"
+* buttonLocaleGoogle="en"
+* environment="TEST"
+* existingPaymentMethodRequired=true
+
+Apple Pay Button:
+* buttonColorApple="black"
+* buttonTypeApple="buy"
+* width="100px"
+* height="30px"
+* borderRadius="0pt"
+* buttonLocaleApple="en"
+
+These initial values save time configuring the buttons, so there would be fewer lines in the code.
+
+#### Example of inicial values
+
+```bash
+<ng-wallet
+  paymentRequestGoogle="{
+                          apiVersion: 2,
+                          apiVersionMinor: 0,
+                          allowedPaymentMethods: [
+                            {
+                              type: 'CARD',
+                              parameters: {
+                                allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                                allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
+                              },
+                              tokenizationSpecification: {
+                                type: 'PAYMENT_GATEWAY',
+                                parameters: {
+                                  gateway: 'example',
+                                  gatewayMerchantId: 'exampleGatewayMerchantId'
+                                }
+                              }
+                            }
+                          ],
+                          merchantInfo: {
+                            merchantId: '12345678901234567890',
+                            merchantName: 'Demo Merchant'
+                          },
+                          transactionInfo: {
+                            totalPriceStatus: 'FINAL',
+                            totalPriceLabel: 'Total',
+                            totalPrice: '100.00',
+                            currencyCode: 'USD',
+                            countryCode: 'US'
+                          }
+                        }"
+  endPointApple="/authorizeMerchant"
+  paymentRequestApple="{
+                          countryCode: 'US',
+                          currencyCode: 'USD',
+                          supportedNetworks: [
+                              'masterCard',
+                              'visa'
+                          ],
+                          merchantCapabilities: [
+                              'supports3DS'
+                          ],
+                          total: {
+                              label: 'My Store',
+                              amount: '9.99'
+                          }
+                        }"
+  total="{
+            label: 'Subtotal',
+            type: 'final',
+            amount: '35.00'
+          }"
+  lineItems="[
+                {
+                    label: 'Subtotal',
+                    type: 'final',
+                    amount: '35.00'
+                },
+                {
+                    label: 'Free Shipping',
+                    mount: '0.00',
+                    type: 'pending'
+                },
+                {
+                    label: 'Estimated Tax',
+                    amount: '3.06'
+                }
+              ]"
+  shippingMethods="[
+                      {
+                          label: 'Free Shipping',
+                          detail: 'Arrives in 5 to 7 days',
+                          amount: '0.00',
+                          identifier: 'FreeShipping'
+                      },
+                      {
+                          label: '2-hour Shipping',
+                          amount: '5.00'
+                      }
+                  ]"
+  shippingContact="{
+                        emailAddress: 'ravipatel@example.com',
+                        familyName: 'Patel',
+                        givenName: 'Ravi',
+                        phoneNumber: '(408) 555-5555',
+                        addressLines: [
+                            '1 Infinite Loop'
+                        ],
+                        locality: 'Cupertino',
+                        administrativeArea: 'CA',
+                        postalCode: '95014',
+                        country: 'United States',
+                        countryCode: 'US'
+                    }"
+>
+</ng-wallet>
+```
 
 ## Documentation
 

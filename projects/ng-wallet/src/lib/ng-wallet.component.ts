@@ -10,13 +10,13 @@ export class NgWalletComponent {
   title = 'ng-wallet';
 
   //**********Button Google Configuration********//
+  @Input() buttonColorGoogle:                 google.payments.api.ButtonColor                      = 'black';
+  @Input() buttonTypeGoogle:                  google.payments.api.ButtonType                       = 'buy';
+  @Input() buttonSizeMode:                    google.payments.api.ButtonSizeMode                   = 'static';
+  @Input() buttonLocaleGoogle:                string                                               = 'en';
+  @Input() environment:                       google.payments.api.Environment                      = 'TEST';
+  @Input() existingPaymentMethodRequired:     boolean                                              = true;
   @Input() paymentRequestGoogle!:             google.payments.api.PaymentDataRequest;
-  @Input() environment!:                      google.payments.api.Environment;
-  @Input() existingPaymentMethodRequired!:    boolean;
-  @Input() buttonColorGoogle?:                google.payments.api.ButtonColor;
-  @Input() buttonTypeGoogle?:                 google.payments.api.ButtonType;
-  @Input() buttonSizeMode?:                   google.payments.api.ButtonSizeMode;
-  @Input() buttonLocaleGoogle?:               string;
   @Input() paymentDataChangedCallback?:       google.payments.api.PaymentDataChangedHandler;
   @Input() paymentAuthorizedCallback?:        google.payments.api.PaymentAuthorizedHandler;
   @Input() readyToPayChangeCallback?:         (result: any) => void;
@@ -25,27 +25,18 @@ export class NgWalletComponent {
   @Input() errorCallback?:                    (error: Error) => void;
 
   //**********Button Apple Configuration********//
-  @Input() buttonColorApple?:                 string;
-  @Input() buttonTypeApple?:                  string;
-  @Input() buttonLocaleApple?:                string;
-  @Input() width?:                            string;
-  @Input() height?:                           string;
-  @Input() borderRadius?:                     string;
+  @Input() buttonColorApple:                  string                                               = 'black';
+  @Input() buttonTypeApple:                   string                                               = 'buy';
+  @Input() buttonLocaleApple:                 string                                               = 'en';
+  @Input() width:                             string                                               = '100px';
+  @Input() height:                            string                                               = '30px';
+  @Input() borderRadius:                      string                                               = '0pt';
   @Input() paymentRequestApple!:              ApplePayJS.ApplePayPaymentRequest;
   @Input() endPointApple!:                    string;
   @Input() total!:                            ApplePayJS.ApplePayLineItem;
   @Input() lineItems!:                        Array<ApplePayJS.ApplePayLineItem>;
   @Input() shippingMethods!:                  Array<ApplePayJS.ApplePayShippingMethod>;
   @Input() shippingContact!:                  ApplePayJS.ApplePayPaymentContact;
-
-  //**********Global Configuration********//
-  @Input() buttonColor?:                      any;
-  @Input() buttonType?:                       any;
-  @Input() buttonLocale?:                     string;
-  @Input() endPoint?:                         any;
-  @Input() paymentRequest?:                   any;
-
-
 
   constructor() {}
 
