@@ -1,4 +1,4 @@
-import { PaymentRequestNGWallet } from './payment-request';
+import { doPaymentRequestGoogle, PaymentRequestNGWallet } from './payment-request';
 import { Component, Input } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
 
@@ -43,97 +43,41 @@ export class NgWalletComponent {
 
   constructor() {}
 
-  private doAllowedPaymentAuthMethod(allowed: string[]): google.payments.api.CardAuthMethod[] {
-
-    const pan: google.payments.api.CardAuthMethod = 'PAN_ONLY';
-    const crypto: google.payments.api.CardAuthMethod = 'CRYPTOGRAM_3DS';
-    const toReturn: google.payments.api.CardAuthMethod[] = new Array<google.payments.api.CardAuthMethod>();
-    allowed.forEach(a => {
-      if (a === 'PAN') {
-        toReturn.push(pan);
-      }
-      if (a === 'CRYPTOGRAM') {
-        toReturn.push(crypto);
-      }
-    })
-    return toReturn;
-  }
-
-  private doAllowedCardNetworks(/** pass parameter to filter */): google.payments.api.CardNetwork[] {
-    return ['AMEX', 'VISA', 'MASTERCARD']/**filter data */
-  }
-
-  private doType(/**pass parameter to filter */): google.payments.api.PaymentMethodType {
-    return 'CARD'/**filter data */
-  }
-
   doPaymentRequestOnChange(): void {
 
-    const payRequestGoole: google.payments.api.PaymentDataRequest = {
-      apiVersion: 2,
-      apiVersionMinor: 0,
-      allowedPaymentMethods: [
-        {
-          type: this.doType(),
-          parameters: {
-            allowedAuthMethods: this.doAllowedPaymentAuthMethod(this.paymentRequest.allowedAuthMethods),
-            allowedCardNetworks: this.doAllowedCardNetworks()
-          },
-          tokenizationSpecification: {
-            type: 'PAYMENT_GATEWAY',
-            parameters: {
-              gateway: 'example',
-              gatewayMerchantId: 'exampleGatewayMerchantId'
-            }
-          }
-        }
-      ],
-      merchantInfo: {
-        merchantId: '12345678901234567890',
-        merchantName: 'Demo Merchant'
-      },
-      transactionInfo: {
-        totalPriceStatus: 'FINAL',
-        totalPriceLabel: 'Total',
-        totalPrice: '100.00',
-        currencyCode: 'USD',
-        countryCode: 'US'
-      }
-    }
+    this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
 
-    this.paymentRequestGoogle = payRequestGoole;
-
-    this.paymentRequestGoogle = {
-                                  apiVersion: 2,
-                                  apiVersionMinor: 0,
-                                  allowedPaymentMethods: [
-                                    {
-                                      type: 'CARD',
-                                      parameters: {
-                                        allowedAuthMethods: this.paymentRequest.allowedAuthMethods,
-                                        allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
-                                      },
-                                      tokenizationSpecification: {
-                                        type: 'PAYMENT_GATEWAY',
-                                        parameters: {
-                                          gateway: 'example',
-                                          gatewayMerchantId: 'exampleGatewayMerchantId'
-                                        }
-                                      }
-                                    }
-                                  ],
-                                  merchantInfo: {
-                                    merchantId: '12345678901234567890',
-                                    merchantName: 'Demo Merchant'
-                                  },
-                                  transactionInfo: {
-                                    totalPriceStatus: 'FINAL',
-                                    totalPriceLabel: 'Total',
-                                    totalPrice: '100.00',
-                                    currencyCode: 'USD',
-                                    countryCode: 'US'
-                                  }
-                                }
+  //   this.paymentRequestGoogle = {
+  //                                 apiVersion: 2,
+  //                                 apiVersionMinor: 0,
+  //                                 allowedPaymentMethods: [
+  //                                   {
+  //                                     type: 'CARD',
+  //                                     parameters: {
+  //                                       allowedAuthMethods: this.paymentRequest.allowedAuthMethods,
+  //                                       allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
+  //                                     },
+  //                                     tokenizationSpecification: {
+  //                                       type: 'PAYMENT_GATEWAY',
+  //                                       parameters: {
+  //                                         gateway: 'example',
+  //                                         gatewayMerchantId: 'exampleGatewayMerchantId'
+  //                                       }
+  //                                     }
+  //                                   }
+  //                                 ],
+  //                                 merchantInfo: {
+  //                                   merchantId: '12345678901234567890',
+  //                                   merchantName: 'Demo Merchant'
+  //                                 },
+  //                                 transactionInfo: {
+  //                                   totalPriceStatus: 'FINAL',
+  //                                   totalPriceLabel: 'Total',
+  //                                   totalPrice: '100.00',
+  //                                   currencyCode: 'USD',
+  //                                   countryCode: 'US'
+  //                                 }
+  //                               }
 
   }
 
