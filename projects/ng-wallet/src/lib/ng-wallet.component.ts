@@ -43,7 +43,53 @@ export class NgWalletComponent {
 
   constructor() {}
 
+  private doAllowedPaymentAuthMethod(/** pass parameter to filter */): google.payments.api.CardAuthMethod[] {
+    return ['PAN_ONLY', 'CRYPTOGRAM_3DS']/**filter data */
+  }
+
+  private doAllowedCardNetworks(/** pass parameter to filter */): google.payments.api.CardNetwork[] {
+    return ['AMEX', 'VISA', 'MASTERCARD']/**filter data */
+  }
+
+  private doType(/**pass parameter to filter */): google.payments.api.PaymentMethodType {
+    return 'CARD'/**filter data */
+  }
+
   doPaymentRequestOnChange(): void {
+
+    const payRequestGoole: google.payments.api.PaymentDataRequest = {
+      apiVersion: 2,
+      apiVersionMinor: 0,
+      allowedPaymentMethods: [
+        {
+          type: this.doType(),
+          parameters: {
+            allowedAuthMethods: this.doAllowedPaymentAuthMethod(),
+            allowedCardNetworks: this.doAllowedCardNetworks()
+          },
+          tokenizationSpecification: {
+            type: 'PAYMENT_GATEWAY',
+            parameters: {
+              gateway: 'example',
+              gatewayMerchantId: 'exampleGatewayMerchantId'
+            }
+          }
+        }
+      ],
+      merchantInfo: {
+        merchantId: '12345678901234567890',
+        merchantName: 'Demo Merchant'
+      },
+      transactionInfo: {
+        totalPriceStatus: 'FINAL',
+        totalPriceLabel: 'Total',
+        totalPrice: '100.00',
+        currencyCode: 'USD',
+        countryCode: 'US'
+      }
+    }
+
+    this.paymentRequestGoogle = payRequestGoole;
 
     this.paymentRequestGoogle = {
                                   apiVersion: 2,
