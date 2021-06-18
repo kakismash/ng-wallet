@@ -1,3 +1,4 @@
+import { PaymentRequestNGWallet } from './payment-request';
 import { Component, Input } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
 
@@ -38,6 +39,8 @@ export class NgWalletComponent {
 
   paymentRequestApple!:                       ApplePayJS.ApplePayPaymentRequest;
 
+  @Input() paymentRequest!:                   PaymentRequestNGWallet;
+
   constructor() {}
 
   doPaymentRequestOnChange(): void {
@@ -49,7 +52,7 @@ export class NgWalletComponent {
                                     {
                                       type: 'CARD',
                                       parameters: {
-                                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                                        allowedAuthMethods: this.paymentRequest.allowedAuthMethods,
                                         allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
                                       },
                                       tokenizationSpecification: {
