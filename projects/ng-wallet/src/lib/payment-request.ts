@@ -11,7 +11,4 @@ export class PaymentRequestNGWallet {
   totalPrice!:                          string;
   currencyCode!:                        string;
   countryCode!:                         string;
-
-
-
 }

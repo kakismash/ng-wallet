@@ -43,8 +43,20 @@ export class NgWalletComponent {
 
   constructor() {}
 
-  private doAllowedPaymentAuthMethod(/** pass parameter to filter */): google.payments.api.CardAuthMethod[] {
-    return ['PAN_ONLY', 'CRYPTOGRAM_3DS']/**filter data */
+  private doAllowedPaymentAuthMethod(allowed: string[]): google.payments.api.CardAuthMethod[] {
+
+    const pan: google.payments.api.CardAuthMethod = 'PAN_ONLY';
+    const crypto: google.payments.api.CardAuthMethod = 'CRYPTOGRAM_3DS';
+    const toReturn: google.payments.api.CardAuthMethod[] = new Array<google.payments.api.CardAuthMethod>();
+    allowed.forEach(a => {
+      if (a === 'PAN') {
+        toReturn.push(pan);
+      }
+      if (a === 'CRYPTOGRAM') {
+        toReturn.push(crypto);
+      }
+    })
+    return toReturn;
   }
 
   private doAllowedCardNetworks(/** pass parameter to filter */): google.payments.api.CardNetwork[] {
@@ -64,7 +76,7 @@ export class NgWalletComponent {
         {
           type: this.doType(),
           parameters: {
-            allowedAuthMethods: this.doAllowedPaymentAuthMethod(),
+            allowedAuthMethods: this.doAllowedPaymentAuthMethod(this.paymentRequest.allowedAuthMethods),
             allowedCardNetworks: this.doAllowedCardNetworks()
           },
           tokenizationSpecification: {
