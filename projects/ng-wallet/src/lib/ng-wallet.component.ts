@@ -16,13 +16,14 @@ export class NgWalletComponent {
   @Input() buttonLocaleGoogle:                string                                               = 'en';
   @Input() environment:                       google.payments.api.Environment                      = 'TEST';
   @Input() existingPaymentMethodRequired:     boolean                                              = true;
-  @Input() paymentRequestGoogle!:             google.payments.api.PaymentDataRequest;
   @Input() paymentDataChangedCallback?:       google.payments.api.PaymentDataChangedHandler;
   @Input() paymentAuthorizedCallback?:        google.payments.api.PaymentAuthorizedHandler;
   @Input() readyToPayChangeCallback?:         (result: any) => void;
   @Input() loadPaymentDataCallback?:          (paymentData: google.payments.api.PaymentData) => void;
   @Input() cancelCallback?:                   (reason: google.payments.api.PaymentsError) => void;
   @Input() errorCallback?:                    (error: Error) => void;
+
+  paymentRequestGoogle!:                      google.payments.api.PaymentDataRequest;
 
   //**********Button Apple Configuration********//
   @Input() buttonColorApple:                  string                                               = 'black';
@@ -31,13 +32,48 @@ export class NgWalletComponent {
   @Input() width:                             string                                               = '100px';
   @Input() height:                            string                                               = '30px';
   @Input() borderRadius:                      string                                               = '0pt';
-  @Input() paymentRequestApple!:              ApplePayJS.ApplePayPaymentRequest;
   @Input() endPointApple!:                    string;
   @Input() total!:                            ApplePayJS.ApplePayLineItem;
   @Input() lineItems!:                        Array<ApplePayJS.ApplePayLineItem>;
-  @Input() shippingMethods!:                  Array<ApplePayJS.ApplePayShippingMethod>;
-  @Input() shippingContact!:                  ApplePayJS.ApplePayPaymentContact;
+
+  paymentRequestApple!:                       ApplePayJS.ApplePayPaymentRequest;
 
   constructor() {}
+
+  doPaymentRequestOnChange(): void {
+
+    this.paymentRequestGoogle = {
+                                  apiVersion: 2,
+                                  apiVersionMinor: 0,
+                                  allowedPaymentMethods: [
+                                    {
+                                      type: 'CARD',
+                                      parameters: {
+                                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                                        allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
+                                      },
+                                      tokenizationSpecification: {
+                                        type: 'PAYMENT_GATEWAY',
+                                        parameters: {
+                                          gateway: 'example',
+                                          gatewayMerchantId: 'exampleGatewayMerchantId'
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  merchantInfo: {
+                                    merchantId: '12345678901234567890',
+                                    merchantName: 'Demo Merchant'
+                                  },
+                                  transactionInfo: {
+                                    totalPriceStatus: 'FINAL',
+                                    totalPriceLabel: 'Total',
+                                    totalPrice: '100.00',
+                                    currencyCode: 'USD',
+                                    countryCode: 'US'
+                                  }
+                                }
+
+  }
 
 }

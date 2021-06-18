@@ -117,42 +117,10 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
                     amount: '35.00'
                 },
                 {
-                    label: 'Free Shipping',
-                    mount: '0.00',
-                    type: 'pending'
-                },
-                {
                     label: 'Estimated Tax',
                     amount: '3.06'
                 }
               ]"
-  shippingMethods="[
-                      {
-                          label: 'Free Shipping',
-                          detail: 'Arrives in 5 to 7 days',
-                          amount: '0.00',
-                          identifier: 'FreeShipping'
-                      },
-                      {
-                          label: '2-hour Shipping',
-                          amount: '5.00'
-                      }
-                  ]"
-  shippingContact="{
-                        emailAddress: 'ravipatel@example.com',
-                        familyName: 'Patel',
-                        givenName: 'Ravi',
-                        phoneNumber: '(408) 555-5555',
-                        addressLines: [
-                            '1 Infinite Loop'
-                        ],
-                        locality: 'Cupertino',
-                        administrativeArea: 'CA',
-                        postalCode: '95014',
-                        country: 'United States',
-                        countryCode: 'US'
-                    }"
->
 </ng-wallet>
 ```
 

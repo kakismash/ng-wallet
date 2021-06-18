@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ApplePaySession } from 'projects/ng-wallet/src/lib/apple-pay/ApplePaySession';
+import { ApplePaySession } from 'projects/ng-wallet/src/lib/apple-pay/apple-pay-session';
 import { ApplePayJS } from './applePay';
 @Component({
   selector: 'apple-pay',
@@ -63,7 +63,7 @@ export class ApplePayComponent {
         session.completePaymentMethodSelection(this.total, this.lineItems);
     };
 
-    session.onshippingmethodselected = event => {
+    /*session.onshippingmethodselected = event => {
         session.completeShippingMethodSelection(ApplePaySession.STATUS_SUCCESS,
                                                   this.total,
                                                   this.lineItems);
@@ -74,7 +74,7 @@ export class ApplePayComponent {
                                                   this.shippingMethods,
                                                   this.total,
                                                   this.lineItems);
-    };
+    };*/
 
     session.onpaymentauthorized = event => {
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
