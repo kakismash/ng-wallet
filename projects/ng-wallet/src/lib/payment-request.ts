@@ -47,6 +47,7 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
       {
         type: 'PAYPAL',
         parameters: {
+          // Use the merchant account ID from https://www.paypal.com
           purchase_context: {
             purchase_units: [{
                         payee: {
