@@ -18,6 +18,39 @@ export class PaymentRequestNGWallet {
 
 export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): google.payments.api.PaymentDataRequest {
 
+  let parameters:                   google.payments.api.CardParameters;
+  let tokenizationSpecification:    google.payments.api.PaymentMethodTokenizationSpecification;
+
+  if(doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'CARD') {
+    parameters = {
+                    allowedAuthMethods: doAllowedPaymentAuthMethod(paymentRequest.allowedAuthMethods),
+                    allowedCardNetworks: doAllowedCardNetworks(paymentRequest.allowedCardNetworks)
+                  };
+    tokenizationSpecification = {
+                                  type: 'PAYMENT_GATEWAY',
+                                  parameters: {
+                                    gateway: paymentRequest.gateway,
+                                    gatewayMerchantId: paymentRequest.gatewayMerchantId
+                                  }
+                                };
+  }
+
+  if(doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'PAYPAL') {
+    parameters = {
+                    purchase_context: {
+                        purchase_units: [{
+                                    payee: {
+                                          merchant_id: 'PAYPAL_ACCOUNT_ID'
+                                      }
+                          } ]
+                      }
+                }
+    tokenizationSpecification = {
+                                  type: 'DIRECT'
+
+                                };
+  }
+
   return {
     apiVersion: 2,
     apiVersionMinor: 0,
@@ -59,7 +92,9 @@ function doAllowedPaymentAuthMethod(allowed: string[]): google.payments.api.Card
 
   const pan:        google.payments.api.CardAuthMethod   = 'PAN_ONLY';
   const crypto:     google.payments.api.CardAuthMethod   = 'CRYPTOGRAM_3DS';
+
   const toReturn:   google.payments.api.CardAuthMethod[] = new Array<google.payments.api.CardAuthMethod>();
+
   allowed.forEach(a => {
     if (a === 'PAN_ONLY') {
       toReturn.push(pan);
