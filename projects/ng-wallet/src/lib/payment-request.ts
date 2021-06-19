@@ -18,58 +18,56 @@ export class PaymentRequestNGWallet {
 
 export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): google.payments.api.PaymentDataRequest {
 
-  let parameters:                   google.payments.api.CardParameters;
-  let tokenizationSpecification:    google.payments.api.PaymentMethodTokenizationSpecification;
+  let allowedPaymentMethods:        google.payments.api.PaymentMethodSpecification[] = new Array<google.payments.api.PaymentMethodSpecification>();
 
   if(doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'CARD') {
-    parameters = {
-                    allowedAuthMethods: doAllowedPaymentAuthMethod(paymentRequest.allowedAuthMethods),
-                    allowedCardNetworks: doAllowedCardNetworks(paymentRequest.allowedCardNetworks)
-                  };
-    tokenizationSpecification = {
-                                  type: 'PAYMENT_GATEWAY',
-                                  parameters: {
-                                    gateway: paymentRequest.gateway,
-                                    gatewayMerchantId: paymentRequest.gatewayMerchantId
-                                  }
-                                };
-  }
 
-  if(doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'PAYPAL') {
-    parameters = {
-                    purchase_context: {
-                        purchase_units: [{
-                                    payee: {
-                                          merchant_id: 'PAYPAL_ACCOUNT_ID'
-                                      }
-                          } ]
-                      }
-                }
-    tokenizationSpecification = {
-                                  type: 'DIRECT'
-
-                                };
-  }
-
-  return {
-    apiVersion: 2,
-    apiVersionMinor: 0,
-    allowedPaymentMethods: [
+    allowedPaymentMethods = [
       {
-        type: doTypePaymentMethod(paymentRequest.typePaymentMethod),
+        type: 'CARD',
         parameters: {
           allowedAuthMethods: doAllowedPaymentAuthMethod(paymentRequest.allowedAuthMethods),
           allowedCardNetworks: doAllowedCardNetworks(paymentRequest.allowedCardNetworks)
         },
         tokenizationSpecification: {
-          type: doTypeTokenization(paymentRequest.typeTokenization),
+          type: 'PAYMENT_GATEWAY',
           parameters: {
             gateway: paymentRequest.gateway,
             gatewayMerchantId: paymentRequest.gatewayMerchantId
           }
         }
       }
-    ],
+    ]
+
+  }
+
+  if(doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'PAYPAL') {
+
+    allowedPaymentMethods = [
+      {
+        type: 'PAYPAL',
+        parameters: {
+          purchase_context: {
+            purchase_units: [{
+                        payee: {
+                              merchant_id: 'PAYPAL_ACCOUNT_ID'
+                          }
+              } ]
+          }
+        },
+        tokenizationSpecification = {
+          type: 'DIRECT'
+
+        }
+      }
+    ]
+
+  }
+
+  return {
+    apiVersion: 2,
+    apiVersionMinor: 0,
+    allowedPaymentMethods: allowedPaymentMethods,
     merchantInfo: {
       merchantId: paymentRequest.merchantId,
       merchantName: paymentRequest.merchantName
@@ -103,6 +101,7 @@ function doAllowedPaymentAuthMethod(allowed: string[]): google.payments.api.Card
       toReturn.push(crypto);
     }
   })
+
   return toReturn;
 }
 
@@ -168,7 +167,7 @@ function doTypePaymentMethod(allowed: string): google.payments.api.PaymentMethod
   return paypal;
 }
 
-function doTypeTokenization(allowed: string): any {
+/*function doTypeTokenization(allowed: string): any {
 
   const payment_gateway:  string = 'PAYMENT_GATEWAY';
   const direct:           string = 'DIRECT';
@@ -177,7 +176,7 @@ function doTypeTokenization(allowed: string): any {
     return payment_gateway;
 
   return direct;
-}
+}*/
 
 function doTotalPriceStatus(allowed: string): google.payments.api.TotalPriceStatus {
 
