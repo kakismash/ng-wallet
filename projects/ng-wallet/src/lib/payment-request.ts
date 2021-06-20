@@ -9,11 +9,13 @@ export class PaymentRequestNGWallet {
   gatewayMerchantId!:                   string;
   merchantId!:                          string;
   merchantName!:                        string;
+  merchantCapabilities!:                string[];
   totalPriceStatus!:                    string;
   totalPriceLabel!:                     string;
   totalPrice!:                          string;
   currencyCode!:                        string;
   countryCode!:                         string;
+
 }
 
 export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): google.payments.api.PaymentDataRequest {
@@ -43,25 +45,7 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
 
   if(doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'PAYPAL') {
 
-    allowedPaymentMethods = [
-      {
-        type: 'PAYPAL',
-        parameters: {
-          // Use the merchant account ID from https://www.paypal.com
-          purchase_context: {
-            purchase_units: [{
-                        payee: {
-                              merchant_id: 'PAYPAL_ACCOUNT_ID'
-                          }
-              } ]
-          }
-        },
-        tokenizationSpecification = {
-          type: 'DIRECT'
-
-        }
-      }
-    ]
+    //do new payment method
 
   }
 
@@ -83,7 +67,18 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
   }
 }
 
-export function doPaymentRequestApple(): ApplePayJS.ApplePayPaymentRequest {
+export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): ApplePayJS.ApplePayPaymentRequest {
+
+  return {
+            countryCode: paymentRequest.countryCode.toUpperCase(),
+            currencyCode: paymentRequest.currencyCode.toUpperCase(),
+            supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks),
+            merchantCapabilities: doMerchantCapabilities(paymentRequest.merchantCapabilities),
+            total: {
+                label: 'My Store',
+                amount: '9.99'
+            }
+          }
 
 }
 
@@ -108,18 +103,18 @@ function doAllowedPaymentAuthMethod(allowed: string[]): google.payments.api.Card
 
 function doAllowedCardNetworks(allowed: string[]): google.payments.api.CardNetwork[] {
 
-  const amex:           google.payments.api.CardNetwork  = 'AMEX';
-  const discover:       google.payments.api.CardNetwork  = 'DISCOVER';
-  const electron:       google.payments.api.CardNetwork  = 'ELECTRON';
-  const elo:            google.payments.api.CardNetwork  = 'ELO';
-  const elo_debit:      google.payments.api.CardNetwork  = 'ELO_DEBIT';
-  const interac:        google.payments.api.CardNetwork  = 'INTERAC';
-  const jcb:            google.payments.api.CardNetwork  = 'JCB';
-  const maestro:        google.payments.api.CardNetwork  = 'MAESTRO';
-  const mastercard:     google.payments.api.CardNetwork  = 'MASTERCARD';
-  const visa:           google.payments.api.CardNetwork  = 'VISA';
+  const amex:                 google.payments.api.CardNetwork   = 'AMEX';
+  const discover:             google.payments.api.CardNetwork   = 'DISCOVER';
+  const electron:             google.payments.api.CardNetwork   = 'ELECTRON';
+  const elo:                  google.payments.api.CardNetwork   = 'ELO';
+  const elo_debit:            google.payments.api.CardNetwork   = 'ELO_DEBIT';
+  const interac:              google.payments.api.CardNetwork   = 'INTERAC';
+  const jcb:                  google.payments.api.CardNetwork   = 'JCB';
+  const maestro:              google.payments.api.CardNetwork   = 'MAESTRO';
+  const mastercard:           google.payments.api.CardNetwork   = 'MASTERCARD';
+  const visa:                 google.payments.api.CardNetwork   = 'VISA';
 
-  const toReturn:       google.payments.api.CardNetwork[] = new Array<google.payments.api.CardNetwork>();
+  const toReturn:             google.payments.api.CardNetwork[] = new Array<google.payments.api.CardNetwork>();
 
   allowed.forEach(a => {
     if (a === 'AMEX') {
@@ -157,6 +152,61 @@ function doAllowedCardNetworks(allowed: string[]): google.payments.api.CardNetwo
   return toReturn;
 }
 
+function doAllowedCardNetworksApple(allowed: string[]): string[] {
+
+  const toReturn:     string[] = new Array<string>();
+
+  allowed.forEach(a => {
+    if (a === 'AMEX') {
+      toReturn.push('amex');
+    }
+    if (a === 'DISCOVER') {
+      toReturn.push('discover');
+    }
+    if (a === 'ELECTRON') {
+      toReturn.push('electron');
+    }
+    if (a === 'ELO') {
+      toReturn.push('elo');
+    }
+    if (a === 'INTERAC') {
+      toReturn.push('interac');
+    }
+    if (a === 'JCB') {
+      toReturn.push('jcb');
+    }
+    if (a === 'MAESTRO') {
+      toReturn.push('maestro');
+    }
+    if (a === 'MASTERCARD') {
+      toReturn.push('masterCard');
+    }
+    if (a === 'VISA') {
+      toReturn.push('visa');
+    }
+    if (a === 'cartesBancaires') {
+      toReturn.push('cartesBancaires');
+    }
+    if (a === 'chinaUnionPay') {
+      toReturn.push('chinaUnionPay');
+    }
+    if (a === 'eftpos') {
+      toReturn.push('eftpos');
+    }
+    if (a === 'mada') {
+      toReturn.push('mada');
+    }
+    if (a === 'privateLabel') {
+      toReturn.push('privateLabel');
+    }
+    if (a === 'vPay') {
+      toReturn.push('vPay');
+    }
+  })
+
+  return toReturn;
+}
+
 function doTypePaymentMethod(allowed: string): google.payments.api.PaymentMethodType {
 
   const card:           google.payments.api.PaymentMethodType  = 'CARD';
@@ -167,17 +217,6 @@ function doTypePaymentMethod(allowed: string): google.payments.api.PaymentMethod
 
   return paypal;
 }
-
-/*function doTypeTokenization(allowed: string): any {
-
-  const payment_gateway:  string = 'PAYMENT_GATEWAY';
-  const direct:           string = 'DIRECT';
-
-  if(allowed === 'PAYMENT_GATEWAY')
-    return payment_gateway;
-
-  return direct;
-}*/
 
 function doTotalPriceStatus(allowed: string): google.payments.api.TotalPriceStatus {
 
@@ -191,4 +230,26 @@ function doTotalPriceStatus(allowed: string): google.payments.api.TotalPriceStat
     return estimated;
 
   return final;
+}
+
+function doMerchantCapabilities(allowed: string[]): string[] {
+
+  const toReturn:             string[] = new Array<string>();
+
+  allowed.forEach(a => {
+    if (a === 'supports3DS') {
+      toReturn.push('supports3DS');
+    }
+    if (a === 'supportsEMV') {
+      toReturn.push('supportsEMV');
+    }
+    if (a === 'supportsCredit') {
+      toReturn.push('supportsCredit');
+    }
+    if (a === 'supportsDebit') {
+      toReturn.push('supportsDebit');
+    }
+  })
+
+  return toReturn;
 }
