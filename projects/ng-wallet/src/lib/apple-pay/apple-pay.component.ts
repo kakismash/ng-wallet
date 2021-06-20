@@ -16,6 +16,9 @@ export class ApplePayComponent {
   @Input() height?:                   string;
   @Input() borderRadius?:             string;
 
+  // Define Apple Pay Version
+  @Input() version!:                  number;
+
   // Define ApplePayPaymentRequest
   @Input() paymentRequest!:           ApplePayJS.ApplePayPaymentRequest;
 
@@ -45,7 +48,7 @@ export class ApplePayComponent {
 
 
     // Create ApplePaySession
-    const session = new ApplePaySession(3, this.paymentRequest);
+    const session = new ApplePaySession(this.version, this.paymentRequest);
 
     session.onvalidatemerchant = event => {
         // Call your own server to request a new merchant session.
