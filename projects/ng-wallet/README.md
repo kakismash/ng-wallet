@@ -14,7 +14,7 @@ The requirements for using Apple Pay on your website are:
 * Safari 11 on macOS 10.13 or later.
 * Your website must comply with the Apple Pay guidelines. For more information, see [Apple Pay on the Web: Acceptable Use Guidelines](https://developer.apple.com/apple-pay/acceptable-use-guidelines-for-websites/).
 * You must have an Apple Developer Account and complete the registration. For more information, see [Configuring Your Environment](https://developer.apple.com/documentation/apple_pay_on_the_web/configuring_your_environment).
-* All pages that include Apple Pay must be served over HTTPS. For more information, see [Setting Up Your Server](https://developer.apple.com/documentation/apple_pay_on_the_web/setting_up_your_server).
+* All pages that include Apple Pay must be served over HTTPS. For more information, see [Setting Up Your Server](https://developer.apple.com/documentation/apple_pay_on_the_web/setting_up_your_server). This is a requirement both in development and in production. One way to get up and running is to use a service like [ngrok](https://ngrok.com/).
 
 ## Installation
 
