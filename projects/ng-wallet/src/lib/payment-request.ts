@@ -1,6 +1,7 @@
 import { ApplePayJS } from 'projects/ng-wallet/src/lib/apple-pay/applePay';
 export class PaymentRequestNGWallet {
 
+  versionAPIApple!:                     number;
   typePaymentMethod!:                   string;
   allowedAuthMethods!:                  string[];
   allowedCardNetworks!:                 string[];
@@ -72,11 +73,12 @@ export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): A
   return {
             countryCode: paymentRequest.countryCode.toUpperCase(),
             currencyCode: paymentRequest.currencyCode.toUpperCase(),
-            supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks),
+            supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks, paymentRequest.versionAPIApple),
             merchantCapabilities: doMerchantCapabilities(paymentRequest.merchantCapabilities),
             total: {
-                label: 'My Store',
-                amount: '9.99'
+                label: paymentRequest.totalPriceLabel,
+                type: doTotalPriceStatusApple(paymentRequest.totalPriceStatus),
+                amount: doTotalPriceApple(paymentRequest.totalPrice, paymentRequest.totalPriceStatus)
             }
           }
 
@@ -152,54 +154,54 @@ function doAllowedCardNetworks(allowed: string[]): google.payments.api.CardNetwo
   return toReturn;
 }
 
-function doAllowedCardNetworksApple(allowed: string[]): string[] {
+function doAllowedCardNetworksApple(allowed: string[], version: number): string[] {
 
   const toReturn:     string[] = new Array<string>();
 
   allowed.forEach(a => {
-    if (a === 'AMEX') {
+    if (a === 'AMEX' && version >= 1) {
       toReturn.push('amex');
     }
-    if (a === 'DISCOVER') {
+    if (a === 'DISCOVER' && version >= 1) {
       toReturn.push('discover');
     }
-    if (a === 'ELECTRON') {
+    if (a === 'ELECTRON' && version >= 4) {
       toReturn.push('electron');
     }
-    if (a === 'ELO') {
+    if (a === 'ELO' && version >= 5) {
       toReturn.push('elo');
     }
-    if (a === 'INTERAC') {
+    if (a === 'INTERAC' && version >= 1) {
       toReturn.push('interac');
     }
-    if (a === 'JCB') {
+    if (a === 'JCB' && version >= 2) {
       toReturn.push('jcb');
     }
-    if (a === 'MAESTRO') {
+    if (a === 'MAESTRO' && version >= 4) {
       toReturn.push('maestro');
     }
-    if (a === 'MASTERCARD') {
+    if (a === 'MASTERCARD' && version >= 1) {
       toReturn.push('masterCard');
     }
-    if (a === 'VISA') {
+    if (a === 'VISA' && version >= 1) {
       toReturn.push('visa');
     }
-    if (a === 'cartesBancaires') {
+    if (a === 'CARTES_BANCAIRES' && version >= 4) {
       toReturn.push('cartesBancaires');
     }
-    if (a === 'chinaUnionPay') {
+    if (a === 'CHINA_UNION_PAY' && version >= 1) {
       toReturn.push('chinaUnionPay');
     }
-    if (a === 'eftpos') {
+    if (a === 'EFTPOS' && version >= 4) {
       toReturn.push('eftpos');
     }
-    if (a === 'mada') {
+    if (a === 'MADA' && version >= 5) {
       toReturn.push('mada');
     }
-    if (a === 'privateLabel') {
+    if (a === 'PRIVATE_LABEL' && version >= 1) {
       toReturn.push('privateLabel');
     }
-    if (a === 'vPay') {
+    if (a === 'VPAY' && version >= 4) {
       toReturn.push('vPay');
     }
   })
@@ -232,24 +234,40 @@ function doTotalPriceStatus(allowed: string): google.payments.api.TotalPriceStat
   return final;
 }
 
+function doTotalPriceStatusApple(allowed: string): string {
+
+  if(allowed === 'PENDING')
+    return 'pending';
+
+  return 'final';
+}
+
 function doMerchantCapabilities(allowed: string[]): string[] {
 
   const toReturn:             string[] = new Array<string>();
 
   allowed.forEach(a => {
-    if (a === 'supports3DS') {
+    if (a === 'SUPPORTS_3DS') {
       toReturn.push('supports3DS');
     }
-    if (a === 'supportsEMV') {
+    if (a === 'SUPPORTS_EMV') {
       toReturn.push('supportsEMV');
     }
-    if (a === 'supportsCredit') {
+    if (a === 'SUPPORTS_Credit') {
       toReturn.push('supportsCredit');
     }
-    if (a === 'supportsDebit') {
+    if (a === 'SUPPORTS_Debit') {
       toReturn.push('supportsDebit');
     }
   })
 
   return toReturn;
+}
+
+function doTotalPriceApple(allowed: string, totalPriceStatus: string): string {
+
+  if(totalPriceStatus === 'PENDING')
+    return 'pending';
+
+  return allowed;
 }
