@@ -289,4 +289,4 @@ function doTotalPriceApple(allowed: string, totalPriceStatus: string): string {
   return toReturn;
 }
 
-
+function doTypeDisplayItem(allowed: string)

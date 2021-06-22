@@ -4,7 +4,4 @@ export class DisplayItem {
   type!:           string;
   price!:          string;
 
-  doType()
-
-
 }
