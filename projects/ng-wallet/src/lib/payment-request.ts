@@ -73,16 +73,16 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
 export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): ApplePayJS.ApplePayPaymentRequest {
 
   return {
-            countryCode: paymentRequest.countryCode.toUpperCase(),
-            currencyCode: paymentRequest.currencyCode.toUpperCase(),
-            supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks, paymentRequest.versionAPIApple),
-            merchantCapabilities: doMerchantCapabilities(paymentRequest.merchantCapabilities),
-            total: {
-                label: paymentRequest.totalPriceLabel,
-                type: doTotalPriceStatusApple(paymentRequest.totalPriceStatus),
-                amount: doTotalPriceApple(paymentRequest.totalPrice, paymentRequest.totalPriceStatus)
-            }
-          }
+    countryCode: paymentRequest.countryCode.toUpperCase(),
+    currencyCode: paymentRequest.currencyCode.toUpperCase(),
+    supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks, paymentRequest.versionAPIApple),
+    merchantCapabilities: doMerchantCapabilities(paymentRequest.merchantCapabilities),
+    total: {
+      label: paymentRequest.totalPriceLabel,
+      type: doTotalPriceStatusApple(paymentRequest.totalPriceStatus),
+      amount: doTotalPriceApple(paymentRequest.totalPrice, paymentRequest.totalPriceStatus)
+    }
+  }
 
 }
 
