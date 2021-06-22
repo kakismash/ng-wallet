@@ -204,13 +204,13 @@ function doAllowedCardNetworksApple(allowed: string[], version: number): string[
 
 function doTypePaymentMethod(allowed: string): google.payments.api.PaymentMethodType {
 
-  const card:           google.payments.api.PaymentMethodType  = 'CARD';
-  const paypal:         google.payments.api.PaymentMethodType  = 'PAYPAL';
+  let toReturn:         google.payments.api.PaymentMethodType  = 'CARD';
 
-  if (allowed === 'CARD')
-    return card;
+  if (allowed === 'PAYPAL') {
+    toReturn = 'PAYPAL';
+  }
 
-  return paypal;
+  return toReturn;
 }
 
 function doTotalPriceStatus(allowed: string): google.payments.api.TotalPriceStatus {
@@ -262,8 +262,11 @@ function doMerchantCapabilities(allowed: string[]): string[] {
 
 function doTotalPriceApple(allowed: string, totalPriceStatus: string): string {
 
-  if (totalPriceStatus === 'PENDING')
-    return 'pending';
+  let toReturn:       string = allowed;
 
-  return allowed;
+  if (totalPriceStatus === 'PENDING') {
+    toReturn = 'pending';
+  }
+
+  return toReturn;
 }
