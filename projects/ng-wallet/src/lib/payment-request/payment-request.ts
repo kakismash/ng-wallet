@@ -68,13 +68,7 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
       merchantName: paymentRequest.merchantName
     },
     transactionInfo: {
-      displayItems:[
-        {
-          label: '',
-          type: 'SUBTOTAL',
-          price: ''
-        }
-      ],
+      displayItems: paymentRequest.listItems,
       totalPriceStatus: doTotalPriceStatus(paymentRequest.info.totalPriceStatus),
       totalPriceLabel: paymentRequest.info.totalPriceLabel,
       totalPrice: paymentRequest.info.totalPrice,
