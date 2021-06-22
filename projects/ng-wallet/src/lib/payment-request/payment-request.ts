@@ -268,4 +268,10 @@ function doMerchantCapabilities(allowed: string[]): string[] {
   return toReturn;
 }
 
-function doTypeDisplayItem(allowed: string)
+function doDisplayItem(info: Info): google.payments.api.DisplayItem[] {
+
+  let toReturn:   google.payments.api.DisplayItem[] = new Array<google.payments.api.DisplayItem>();
+
+  if (info.subTotalPrice === undefined)
+
+}
