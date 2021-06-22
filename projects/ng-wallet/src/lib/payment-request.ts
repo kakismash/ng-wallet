@@ -3,9 +3,13 @@ import { ApplePayJS } from 'projects/ng-wallet/src/lib/apple-pay/applePay';
 export class PaymentRequestNGWallet {
 
   versionAPIApple!:                     number;
+
+  // Payment Method
   typePaymentMethod!:                   string;
   allowedAuthMethods!:                  string[];
   allowedCardNetworks!:                 string[];
+
+  // Merchant and Gateway
   typeTokenization!:                    string;
   gateway!:                             string
   gatewayMerchantId!:                   string;
@@ -13,6 +17,13 @@ export class PaymentRequestNGWallet {
   merchantName!:                        string;
   appleMerchant!:                       string;
   merchantCapabilities!:                string[];
+
+  // List Itmes
+  label!:                               string;
+  type!:                                string;
+  price!:                               string;
+
+  // Final Price
   totalPriceStatus!:                    string;
   totalPriceLabel!:                     string;
   totalPrice!:                          string;
@@ -61,6 +72,13 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
       merchantName: paymentRequest.merchantName
     },
     transactionInfo: {
+      displayItems:[
+        {
+          label: '',
+          type: 'SUBTOTAL',
+          price: ''
+        }
+      ],
       totalPriceStatus: doTotalPriceStatus(paymentRequest.totalPriceStatus),
       totalPriceLabel: paymentRequest.totalPriceLabel,
       totalPrice: paymentRequest.totalPrice,
@@ -269,4 +287,8 @@ function doTotalPriceApple(allowed: string, totalPriceStatus: string): string {
   }
 
   return toReturn;
+}
+
+function doDisplayItem(): google.payments.api.DisplayItem[] {
+
 }
