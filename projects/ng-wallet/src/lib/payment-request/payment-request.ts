@@ -275,14 +275,25 @@ function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
   if (info.subTotalPrice === undefined) {
     displayItems.push(doSubTotal(info.subTotalPrice));
   }
+  else if (info.taxes === undefined) {
+    displayItems.push(doTax(info.subTotalPrice))
+  }
 
   return displayItems;
 }
 
-function doSubTotal(subTotalaAmount: string): google.payments.api.DisplayItem {
+function doSubTotal(subTotalAmount: string): google.payments.api.DisplayItem {
   return {
     label: 'SUBTOTAL',
-    price: subTotalaAmount,
-    type: 'SUBTOTAL',
+    price: subTotalAmount,
+    type: 'SUBTOTAL'
+  };
+}
+
+function doTax(taxAmount: string): google.payments.api.DisplayItem {
+  return {
+    label: 'SUBTOTAL',
+    price: taxAmount,
+    type: 'SUBTOTAL'
   };
 }
