@@ -1,6 +1,6 @@
 import { DisplayItem } from './display-item';
 import { ApplePayJS } from '../apple-pay/applePay';
-import { Info } from './payment';
+import { Info } from './info';
 
 export class PaymentRequestNGWallet {
 
@@ -25,7 +25,7 @@ export class PaymentRequestNGWallet {
   listItems?:                           DisplayItem[];
 
   // Final Price
-  info!: Info;
+  info!:                                Info;
 }
 
 export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): google.payments.api.PaymentDataRequest {
