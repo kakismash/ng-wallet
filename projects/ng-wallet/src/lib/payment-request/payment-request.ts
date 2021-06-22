@@ -1,6 +1,7 @@
 import { DisplayItem } from './display-item';
 import { ApplePayJS } from '../apple-pay/applePay';
 import { Info } from './info';
+import { Tax } from './tax';
 
 export class PaymentRequestNGWallet {
 
@@ -272,11 +273,14 @@ function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
 
   const displayItems: google.payments.api.DisplayItem[] = [];
 
-  if (info.subTotalPrice === undefined) {
+  if (info.subTotalPrice !== undefined) {
     displayItems.push(doSubTotal(info.subTotalPrice));
   }
-  else if (info.taxes === undefined) {
-    displayItems.push(doTax(info.subTotalPrice))
+
+  if (info.taxes !== undefined) {
+    info.taxes.forEach(t => {
+      displayItems.push(doTax(t))
+    })
   }
 
   return displayItems;
@@ -290,10 +294,10 @@ function doSubTotal(subTotalAmount: string): google.payments.api.DisplayItem {
   };
 }
 
-function doTax(taxAmount: string): google.payments.api.DisplayItem {
+function doTax(tax: Tax): google.payments.api.DisplayItem {
   return {
-    label: 'TAX',
-    price: taxAmount,
+    label: tax.label + ' - ' + tax.type,
+    price: tax.amount,
     type: 'TAX'
   };
 }
