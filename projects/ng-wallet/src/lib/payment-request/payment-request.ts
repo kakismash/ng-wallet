@@ -292,8 +292,8 @@ function doSubTotal(subTotalAmount: string): google.payments.api.DisplayItem {
 
 function doTax(taxAmount: string): google.payments.api.DisplayItem {
   return {
-    label: 'SUBTOTAL',
+    label: 'TAX',
     price: taxAmount,
-    type: 'SUBTOTAL'
+    type: 'TAX'
   };
 }
