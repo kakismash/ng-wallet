@@ -107,49 +107,40 @@ function doAllowedPaymentAuthMethod(allowed: string[]): google.payments.api.Card
 
 function doAllowedCardNetworks(allowed: string[]): google.payments.api.CardNetwork[] {
 
-  const amex:                 google.payments.api.CardNetwork   = 'AMEX';
-  const discover:             google.payments.api.CardNetwork   = 'DISCOVER';
-  const electron:             google.payments.api.CardNetwork   = 'ELECTRON';
-  const elo:                  google.payments.api.CardNetwork   = 'ELO';
-  const elo_debit:            google.payments.api.CardNetwork   = 'ELO_DEBIT';
-  const interac:              google.payments.api.CardNetwork   = 'INTERAC';
-  const jcb:                  google.payments.api.CardNetwork   = 'JCB';
-  const maestro:              google.payments.api.CardNetwork   = 'MAESTRO';
-  const mastercard:           google.payments.api.CardNetwork   = 'MASTERCARD';
-  const visa:                 google.payments.api.CardNetwork   = 'VISA';
-
   const toReturn:             google.payments.api.CardNetwork[] = new Array<google.payments.api.CardNetwork>();
 
   allowed.forEach(a => {
-    if (a === 'AMEX') {
-      toReturn.push(amex);
-    }
-    else if (a === 'DISCOVER') {
-      toReturn.push(discover);
-    }
-    else if (a === 'ELECTRON') {
-      toReturn.push(electron);
-    }
-    else if (a === 'ELO') {
-      toReturn.push(elo);
-    }
-    else if (a === 'ELO_DEBIT') {
-      toReturn.push(elo_debit);
-    }
-    else if (a === 'INTERAC') {
-      toReturn.push(interac);
-    }
-    else if (a === 'JCB') {
-      toReturn.push(jcb);
-    }
-    else if (a === 'MAESTRO') {
-      toReturn.push(maestro);
-    }
-    else if (a === 'MASTERCARD') {
-      toReturn.push(mastercard);
-    }
-    else if (a === 'VISA') {
-      toReturn.push(visa);
+    switch (a) {
+      case 'AMEX':
+        toReturn.push('AMEX');
+        break;
+      case 'DISCOVER':
+        toReturn.push('DISCOVER');
+        break;
+      case 'ELECTRON':
+        toReturn.push('ELECTRON');
+        break;
+      case 'ELO':
+        toReturn.push('ELO');
+        break;
+      case 'ELO_DEBIT':
+        toReturn.push('ELO_DEBIT');
+        break;
+      case 'INTERAC':
+        toReturn.push('INTERAC');
+        break;
+      case 'JCB':
+        toReturn.push('JCB');
+        break;
+      case 'MAESTRO':
+        toReturn.push('MAESTRO');
+        break;
+      case 'MASTERCARD':
+        toReturn.push('MASTERCARD');
+        break;
+      case 'VISA':
+        toReturn.push('VISA')
+        break;
     }
   })
 
