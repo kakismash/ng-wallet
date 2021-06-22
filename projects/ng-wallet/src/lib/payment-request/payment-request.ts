@@ -21,7 +21,7 @@ export class PaymentRequestNGWallet {
   merchantCapabilities!:                string[];
 
   // List Itmes (label, type and price)
-  listItems!:                           DisplayItem[];
+  listItems?:                           DisplayItem[];
 
   // Final Price
   totalPriceStatus!:                    string;
@@ -98,7 +98,7 @@ export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): A
     total: {
       label: paymentRequest.totalPriceLabel,
       type: doTotalPriceStatusApple(paymentRequest.totalPriceStatus),
-      amount: doTotalPriceApple(paymentRequest.totalPrice, paymentRequest.totalPriceStatus)
+      amount: paymentRequest.totalPrice
     }
   }
 
@@ -274,17 +274,6 @@ function doMerchantCapabilities(allowed: string[]): string[] {
       toReturn.push('supportsDebit');
     }
   })
-
-  return toReturn;
-}
-
-function doTotalPriceApple(allowed: string, totalPriceStatus: string): string {
-
-  let toReturn:       string = allowed;
-
-  if (totalPriceStatus === 'PENDING') {
-    toReturn = 'pending';
-  }
 
   return toReturn;
 }
