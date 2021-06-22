@@ -1,4 +1,4 @@
-import { doPaymentRequestApple, doPaymentRequestGoogle, PaymentRequestNGWallet } from './payment-request';
+import { doPaymentRequestApple, doPaymentRequestGoogle, PaymentRequestNGWallet } from './payment-request/payment-request';
 import { Component, Input } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
 
