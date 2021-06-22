@@ -1,3 +1,4 @@
+import { Item } from './item';
 import { DisplayItem } from './display-item';
 import { ApplePayJS } from '../apple-pay/applePay';
 import { Info } from './info';
@@ -283,6 +284,12 @@ function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
     })
   }
 
+  if (info.items !== undefined) {
+    info.items.forEach(i => {
+      displayItems.push(doItem(i))
+    })
+  }
+
   return displayItems;
 }
 
@@ -299,5 +306,13 @@ function doTax(tax: Tax): google.payments.api.DisplayItem {
     label: tax.label + ' - ' + tax.type,
     price: tax.amount,
     type: 'TAX'
+  };
+}
+
+function doItem(item: Item): google.payments.api.DisplayItem {
+  return {
+    label: item.label + ' - ' + item.type,
+    price: item.price,
+    type: 'LINE_ITEM'
   };
 }
