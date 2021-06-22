@@ -1,4 +1,4 @@
-import { DisplayItems } from './display-items';
+import { DisplayItem } from './display-item';
 import { ApplePayJS } from '../apple-pay/applePay';
 
 export class PaymentRequestNGWallet {
@@ -21,7 +21,7 @@ export class PaymentRequestNGWallet {
   merchantCapabilities!:                string[];
 
   // List Itmes (label, type and price)
-  listItems!:                           DisplayItems[];
+  listItems!:                           DisplayItem[];
 
   // Final Price
   totalPriceStatus!:                    string;
