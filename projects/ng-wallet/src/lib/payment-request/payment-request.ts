@@ -1,5 +1,6 @@
 import { DisplayItem } from './display-item';
 import { ApplePayJS } from '../apple-pay/applePay';
+import { Info } from './payment';
 
 export class PaymentRequestNGWallet {
 
@@ -24,12 +25,7 @@ export class PaymentRequestNGWallet {
   listItems?:                           DisplayItem[];
 
   // Final Price
-  totalPriceStatus!:                    string;
-  totalPriceLabel!:                     string;
-  totalPrice!:                          string;
-  currencyCode!:                        string;
-  countryCode!:                         string;
-
+  info!: Info;
 }
 
 export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): google.payments.api.PaymentDataRequest {
@@ -79,11 +75,11 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
           price: ''
         }
       ],
-      totalPriceStatus: doTotalPriceStatus(paymentRequest.totalPriceStatus),
-      totalPriceLabel: paymentRequest.totalPriceLabel,
-      totalPrice: paymentRequest.totalPrice,
-      currencyCode: paymentRequest.currencyCode.toUpperCase(),
-      countryCode: paymentRequest.countryCode.toUpperCase()
+      totalPriceStatus: doTotalPriceStatus(paymentRequest.info.totalPriceStatus),
+      totalPriceLabel: paymentRequest.info.totalPriceLabel,
+      totalPrice: paymentRequest.info.totalPrice,
+      currencyCode: paymentRequest.info.currencyCode.toUpperCase(),
+      countryCode: paymentRequest.info.countryCode.toUpperCase()
     }
   }
 }
@@ -91,14 +87,14 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
 export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): ApplePayJS.ApplePayPaymentRequest {
 
   return {
-    countryCode: paymentRequest.countryCode.toUpperCase(),
-    currencyCode: paymentRequest.currencyCode.toUpperCase(),
+    countryCode: paymentRequest.info.countryCode.toUpperCase(),
+    currencyCode: paymentRequest.info.currencyCode.toUpperCase(),
     supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks, paymentRequest.versionAPIApple),
     merchantCapabilities: doMerchantCapabilities(paymentRequest.merchantCapabilities),
     total: {
-      label: paymentRequest.totalPriceLabel,
-      type: doTotalPriceStatusApple(paymentRequest.totalPriceStatus),
-      amount: paymentRequest.totalPrice
+      label: paymentRequest.info.totalPriceLabel,
+      type: doTotalPriceStatusApple(paymentRequest.info.totalPriceStatus),
+      amount: paymentRequest.info.totalPrice
     }
   }
 
