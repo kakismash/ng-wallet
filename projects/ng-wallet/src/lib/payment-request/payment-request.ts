@@ -268,10 +268,21 @@ function doMerchantCapabilities(allowed: string[]): string[] {
   return toReturn;
 }
 
-function doDisplayItem(info: Info): google.payments.api.DisplayItem[] {
+function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
 
-  let toReturn:   google.payments.api.DisplayItem[] = new Array<google.payments.api.DisplayItem>();
+  const displayItems: google.payments.api.DisplayItem[] = [];
 
-  if (info.subTotalPrice === undefined)
+  if (info.subTotalPrice === undefined) {
+    displayItems.push(doSubTotal(info.subTotalPrice));
+  }
 
+  return displayItems;
+}
+
+function doSubTotal(subTotalaAmount: string): google.payments.api.DisplayItem {
+  return {
+    label: 'SUBTOTAL',
+    price: subTotalaAmount,
+    type: 'SUBTOTAL',
+  };
 }
