@@ -23,7 +23,7 @@ export class ApplePayComponent {
   @Input() paymentRequest!:           ApplePayJS.ApplePayPaymentRequest;
 
   // Define endPoint
-  @Input() endPoint!:                 string;
+  @Input() appleMerchant!:            string;
 
   // Define payment method.
   @Input() total!:                    ApplePayJS.ApplePayLineItem;
@@ -52,7 +52,7 @@ export class ApplePayComponent {
 
     session.onvalidatemerchant = event => {
         // Call your own server to request a new merchant session.
-        fetch(this.endPoint)
+        fetch(this.appleMerchant)
           .then(res => res.json()) // Parse response as JSON.
           .then(merchantSession => {
             session.completeMerchantValidation(merchantSession);
@@ -66,18 +66,7 @@ export class ApplePayComponent {
         session.completePaymentMethodSelection(this.total, this.lineItems);
     };
 
-    /*session.onshippingmethodselected = event => {
-        session.completeShippingMethodSelection(ApplePaySession.STATUS_SUCCESS,
-                                                  this.total,
-                                                  this.lineItems);
-    };
 
-    session.onshippingcontactselected = event => {
-        session.completeShippingContactSelection(ApplePaySession.STATUS_INVALID_SHIPPING_POSTAL_ADDRESS,
-                                                  this.shippingMethods,
-                                                  this.total,
-                                                  this.lineItems);
-    };*/
 
     session.onpaymentauthorized = event => {
         session.completePayment(ApplePaySession.STATUS_SUCCESS);

@@ -1,4 +1,5 @@
 import { ApplePayJS } from 'projects/ng-wallet/src/lib/apple-pay/applePay';
+
 export class PaymentRequestNGWallet {
 
   versionAPIApple!:                     number;
@@ -10,6 +11,7 @@ export class PaymentRequestNGWallet {
   gatewayMerchantId!:                   string;
   merchantId!:                          string;
   merchantName!:                        string;
+  appleMerchant!:                       string;
   merchantCapabilities!:                string[];
   totalPriceStatus!:                    string;
   totalPriceLabel!:                     string;
@@ -23,7 +25,7 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
 
   let allowedPaymentMethods:        google.payments.api.PaymentMethodSpecification[] = new Array<google.payments.api.PaymentMethodSpecification>();
 
-  if(doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'CARD') {
+  if (doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'CARD') {
 
     allowedPaymentMethods = [
       {
@@ -44,7 +46,7 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
 
   }
 
-  if(doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'PAYPAL') {
+  if (doTypePaymentMethod(paymentRequest.typePaymentMethod) === 'PAYPAL') {
 
     //do new payment method
 
@@ -95,7 +97,7 @@ function doAllowedPaymentAuthMethod(allowed: string[]): google.payments.api.Card
     if (a === 'PAN_ONLY') {
       toReturn.push(pan);
     }
-    if (a === 'CRYPTOGRAM_3DS') {
+    else if (a === 'CRYPTOGRAM_3DS') {
       toReturn.push(crypto);
     }
   })
@@ -122,31 +124,31 @@ function doAllowedCardNetworks(allowed: string[]): google.payments.api.CardNetwo
     if (a === 'AMEX') {
       toReturn.push(amex);
     }
-    if (a === 'DISCOVER') {
+    else if (a === 'DISCOVER') {
       toReturn.push(discover);
     }
-    if (a === 'ELECTRON') {
+    else if (a === 'ELECTRON') {
       toReturn.push(electron);
     }
-    if (a === 'ELO') {
+    else if (a === 'ELO') {
       toReturn.push(elo);
     }
-    if (a === 'ELO_DEBIT') {
+    else if (a === 'ELO_DEBIT') {
       toReturn.push(elo_debit);
     }
-    if (a === 'INTERAC') {
+    else if (a === 'INTERAC') {
       toReturn.push(interac);
     }
-    if (a === 'JCB') {
+    else if (a === 'JCB') {
       toReturn.push(jcb);
     }
-    if (a === 'MAESTRO') {
+    else if (a === 'MAESTRO') {
       toReturn.push(maestro);
     }
-    if (a === 'MASTERCARD') {
+    else if (a === 'MASTERCARD') {
       toReturn.push(mastercard);
     }
-    if (a === 'VISA') {
+    else if (a === 'VISA') {
       toReturn.push(visa);
     }
   })
@@ -162,46 +164,46 @@ function doAllowedCardNetworksApple(allowed: string[], version: number): string[
     if (a === 'AMEX' && version >= 1) {
       toReturn.push('amex');
     }
-    if (a === 'DISCOVER' && version >= 1) {
+    else if (a === 'DISCOVER' && version >= 1) {
       toReturn.push('discover');
     }
-    if (a === 'ELECTRON' && version >= 4) {
+    else if (a === 'ELECTRON' && version >= 4) {
       toReturn.push('electron');
     }
-    if (a === 'ELO' && version >= 5) {
+    else if (a === 'ELO' && version >= 5) {
       toReturn.push('elo');
     }
-    if (a === 'INTERAC' && version >= 1) {
+    else if (a === 'INTERAC' && version >= 1) {
       toReturn.push('interac');
     }
-    if (a === 'JCB' && version >= 2) {
+    else if (a === 'JCB' && version >= 2) {
       toReturn.push('jcb');
     }
-    if (a === 'MAESTRO' && version >= 4) {
+    else if (a === 'MAESTRO' && version >= 4) {
       toReturn.push('maestro');
     }
-    if (a === 'MASTERCARD' && version >= 1) {
+    else if (a === 'MASTERCARD' && version >= 1) {
       toReturn.push('masterCard');
     }
-    if (a === 'VISA' && version >= 1) {
+    else if (a === 'VISA' && version >= 1) {
       toReturn.push('visa');
     }
-    if (a === 'CARTES_BANCAIRES' && version >= 4) {
+    else if (a === 'CARTES_BANCAIRES' && version >= 4) {
       toReturn.push('cartesBancaires');
     }
-    if (a === 'CHINA_UNION_PAY' && version >= 1) {
+    else if (a === 'CHINA_UNION_PAY' && version >= 1) {
       toReturn.push('chinaUnionPay');
     }
-    if (a === 'EFTPOS' && version >= 4) {
+    else if (a === 'EFTPOS' && version >= 4) {
       toReturn.push('eftpos');
     }
-    if (a === 'MADA' && version >= 5) {
+    else if (a === 'MADA' && version >= 5) {
       toReturn.push('mada');
     }
-    if (a === 'PRIVATE_LABEL' && version >= 1) {
+    else if (a === 'PRIVATE_LABEL' && version >= 1) {
       toReturn.push('privateLabel');
     }
-    if (a === 'VPAY' && version >= 4) {
+    else if (a === 'VPAY' && version >= 4) {
       toReturn.push('vPay');
     }
   })
@@ -214,7 +216,7 @@ function doTypePaymentMethod(allowed: string): google.payments.api.PaymentMethod
   const card:           google.payments.api.PaymentMethodType  = 'CARD';
   const paypal:         google.payments.api.PaymentMethodType  = 'PAYPAL';
 
-  if(allowed === 'CARD')
+  if (allowed === 'CARD')
     return card;
 
   return paypal;
@@ -222,24 +224,27 @@ function doTypePaymentMethod(allowed: string): google.payments.api.PaymentMethod
 
 function doTotalPriceStatus(allowed: string): google.payments.api.TotalPriceStatus {
 
-  const notc:          google.payments.api.TotalPriceStatus = 'NOT_CURRENTLY_KNOWN';
-  const estimated:     google.payments.api.TotalPriceStatus = 'ESTIMATED';
-  const final:         google.payments.api.TotalPriceStatus = 'FINAL';
+  let toReturn:        google.payments.api.TotalPriceStatus = 'FINAL';
 
-  if(allowed === 'NOT_CURRENTLY_KNOWN')
-    return notc;
-  if(allowed === 'ESTIMATED')
-    return estimated;
+  if (allowed === 'NOT_CURRENTLY_KNOWN') {
+    toReturn = 'NOT_CURRENTLY_KNOWN';
+  }
+  else if (allowed === 'ESTIMATED') {
+    toReturn =  'ESTIMATED';
+  }
 
-  return final;
+  return toReturn;
 }
 
 function doTotalPriceStatusApple(allowed: string): string {
 
-  if(allowed === 'PENDING')
-    return 'pending';
+  let toReturn:           string = 'final';
 
-  return 'final';
+  if (allowed === 'PENDING'){
+    toReturn = 'pending';
+  }
+
+  return toReturn;
 }
 
 function doMerchantCapabilities(allowed: string[]): string[] {
@@ -250,13 +255,13 @@ function doMerchantCapabilities(allowed: string[]): string[] {
     if (a === 'SUPPORTS_3DS') {
       toReturn.push('supports3DS');
     }
-    if (a === 'SUPPORTS_EMV') {
+    else if (a === 'SUPPORTS_EMV') {
       toReturn.push('supportsEMV');
     }
-    if (a === 'SUPPORTS_Credit') {
+    else if (a === 'SUPPORTS_CREDIT') {
       toReturn.push('supportsCredit');
     }
-    if (a === 'SUPPORTS_Debit') {
+    else if (a === 'SUPPORTS_DEBIT') {
       toReturn.push('supportsDebit');
     }
   })
@@ -266,7 +271,7 @@ function doMerchantCapabilities(allowed: string[]): string[] {
 
 function doTotalPriceApple(allowed: string, totalPriceStatus: string): string {
 
-  if(totalPriceStatus === 'PENDING')
+  if (totalPriceStatus === 'PENDING')
     return 'pending';
 
   return allowed;

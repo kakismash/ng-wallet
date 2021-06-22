@@ -33,7 +33,7 @@ export class NgWalletComponent {
   @Input() width:                             string                                               = '100px';
   @Input() height:                            string                                               = '30px';
   @Input() borderRadius:                      string                                               = '0pt';
-  @Input() endPointApple!:                    string;
+  @Input() appleMerchant!:                    string;
   @Input() total!:                            ApplePayJS.ApplePayLineItem;
   @Input() lineItems!:                        Array<ApplePayJS.ApplePayLineItem>;
 
@@ -46,39 +46,6 @@ export class NgWalletComponent {
   doPaymentRequestOnChange(): void {
 
     this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
-
-  //   this.paymentRequestGoogle = {
-  //                                 apiVersion: 2,
-  //                                 apiVersionMinor: 0,
-  //                                 allowedPaymentMethods: [
-  //                                   {
-  //                                     type: 'CARD',
-  //                                     parameters: {
-  //                                       allowedAuthMethods: this.paymentRequest.allowedAuthMethods,
-  //                                       allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
-  //                                     },
-  //                                     tokenizationSpecification: {
-  //                                       type: 'PAYMENT_GATEWAY',
-  //                                       parameters: {
-  //                                         gateway: 'example',
-  //                                         gatewayMerchantId: 'exampleGatewayMerchantId'
-  //                                       }
-  //                                     }
-  //                                   }
-  //                                 ],
-  //                                 merchantInfo: {
-  //                                   merchantId: '12345678901234567890',
-  //                                   merchantName: 'Demo Merchant'
-  //                                 },
-  //                                 transactionInfo: {
-  //                                   totalPriceStatus: 'FINAL',
-  //                                   totalPriceLabel: 'Total',
-  //                                   totalPrice: '100.00',
-  //                                   currencyCode: 'USD',
-  //                                   countryCode: 'US'
-  //                                 }
-  //                               }
-
   }
 
 }
