@@ -22,21 +22,8 @@ export class ApplePayComponent {
   // Define ApplePayPaymentRequest
   @Input() paymentRequest!:           ApplePayJS.ApplePayPaymentRequest;
 
-  // Define endPoint
+  // Define Apple Merchant
   @Input() appleMerchant!:            string;
-
-  // Define payment method.
-  @Input() total!:                    ApplePayJS.ApplePayLineItem;
-
-  @Input() lineItems!:                Array<ApplePayJS.ApplePayLineItem>;
-
-  // Define shipping method.
-  @Input() shippingMethods!:          Array<ApplePayJS.ApplePayShippingMethod>;
-
-
-  // Define shipping contact.
-  @Input() shippingContact!:          ApplePayJS.ApplePayPaymentContact;
-
 
   constructor() { }
 
@@ -61,12 +48,6 @@ export class ApplePayComponent {
             console.error('Error fetching merchant session', err);
           });
     };
-
-    session.onpaymentmethodselected = event => {
-        session.completePaymentMethodSelection(this.total, this.lineItems);
-    };
-
-
 
     session.onpaymentauthorized = event => {
         session.completePayment(ApplePaySession.STATUS_SUCCESS);

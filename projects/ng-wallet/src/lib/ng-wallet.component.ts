@@ -34,8 +34,6 @@ export class NgWalletComponent {
   @Input() height:                            string                                               = '30px';
   @Input() borderRadius:                      string                                               = '0pt';
   @Input() appleMerchant!:                    string;
-  @Input() total!:                            ApplePayJS.ApplePayLineItem;
-  @Input() lineItems!:                        Array<ApplePayJS.ApplePayLineItem>;
 
   paymentRequestApple!:                       ApplePayJS.ApplePayPaymentRequest;
 

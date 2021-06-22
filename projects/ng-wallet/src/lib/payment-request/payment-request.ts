@@ -70,7 +70,7 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
       merchantName: paymentRequest.merchantName
     },
     transactionInfo: {
-      displayItems: paymentRequest.listItems,
+      displayItems: doDisplayItems(paymentRequest.info),
       totalPriceStatus: doTotalPriceStatus(paymentRequest.info.totalPriceStatus),
       totalPriceLabel: paymentRequest.info.totalPriceLabel,
       totalPrice: paymentRequest.info.totalPrice,
@@ -87,6 +87,7 @@ export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): A
     currencyCode: paymentRequest.info.currencyCode.toUpperCase(),
     supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks, paymentRequest.versionAPIApple),
     merchantCapabilities: doMerchantCapabilities(paymentRequest.merchantCapabilities),
+    lineItems: doLineItems(paymentRequest.info),
     total: {
       label: paymentRequest.info.totalPriceLabel,
       type: doTotalPriceStatusApple(paymentRequest.info.totalPriceStatus),
@@ -286,7 +287,6 @@ function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
 
   if (info.items !== undefined) {
     info.items.forEach(i => {
-
       displayItems.push(...doItem(i))
     })
   }
@@ -312,10 +312,64 @@ function doTax(tax: Tax): google.payments.api.DisplayItem {
 
 function doItem(item: Item): google.payments.api.DisplayItem[] {
   const items: google.payments.api.DisplayItem[] = [];
-  const i: google.payments.api.DisplayItem = {
-    label: item.label + ' - ' + item.type,
-    price: item.price,
-    type: 'LINE_ITEM'
+  const i:     google.payments.api.DisplayItem = {
+    label:     item.label + ' - ' + item.type,
+    price:     item.price,
+    type:      'LINE_ITEM'
+  };
+
+  for(let a = 0; a < item.quantity; a++) {
+    items.push(i);
+  }
+
+  return items;
+}
+
+function doLineItems(info: Info): ApplePayJS.ApplePayLineItem[] {
+
+  const lineItems: ApplePayJS.ApplePayLineItem[] = [];
+
+  if (info.subTotalPrice !== undefined) {
+    lineItems.push(doSubTotalApple(info.subTotalPrice));
+  }
+
+  if (info.taxes !== undefined) {
+    info.taxes.forEach(t => {
+      lineItems.push(doTaxApple(t))
+    })
+  }
+
+  if (info.items !== undefined) {
+    info.items.forEach(i => {
+      lineItems.push(...doItemApple(i))
+    })
+  }
+
+  return lineItems;
+}
+
+function doSubTotalApple(subTotalAmount: string): ApplePayJS.ApplePayLineItem {
+  return {
+    label: 'SUBTOTAL',
+    amount: subTotalAmount,
+    type: 'final'
+  };
+}
+
+function doTaxApple(tax: Tax): ApplePayJS.ApplePayLineItem {
+  return {
+    label: tax.label + ' - ' + tax.type,
+    amount: tax.amount,
+    type: 'final'
+  };
+}
+
+function doItemApple(item: Item): ApplePayJS.ApplePayLineItem[] {
+  const items: ApplePayJS.ApplePayLineItem[]  = [];
+  const i:     ApplePayJS.ApplePayLineItem    = {
+    label:     item.label + ' - ' + item.type,
+    amount:    item.price,
+    type:      'final'
   };
 
   for(let a = 0; a < item.quantity; a++) {
