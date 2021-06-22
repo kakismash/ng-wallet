@@ -4,5 +4,5 @@ export class Item {
   label!:       string;
   price!:       string;
   type!:        string;
-  quantity?:    number;
+  quantity!:    number;
 }

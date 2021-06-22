@@ -286,7 +286,8 @@ function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
 
   if (info.items !== undefined) {
     info.items.forEach(i => {
-      displayItems.push(doItem(i))
+
+      displayItems.push(...doItem(i))
     })
   }
 
@@ -309,10 +310,17 @@ function doTax(tax: Tax): google.payments.api.DisplayItem {
   };
 }
 
-function doItem(item: Item): google.payments.api.DisplayItem {
-  return {
+function doItem(item: Item): google.payments.api.DisplayItem[] {
+  const items: google.payments.api.DisplayItem[] = [];
+  const i: google.payments.api.DisplayItem = {
     label: item.label + ' - ' + item.type,
     price: item.price,
     type: 'LINE_ITEM'
   };
+
+  for(let a = 0; a < item.quantity; a++) {
+    items.push(i);
+  }
+
+  return items;
 }
