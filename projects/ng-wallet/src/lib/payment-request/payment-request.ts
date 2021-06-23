@@ -3,6 +3,7 @@ import { DisplayItem } from './display-item';
 import { ApplePayJS } from '../apple-pay/applePay';
 import { Info } from './info';
 import { Tax } from './tax';
+import { ApplePayComponent } from './../apple-pay/apple-pay.component';
 
 export class PaymentRequestNGWallet {
 
@@ -80,7 +81,9 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
   }
 }
 
-export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): ApplePayJS.ApplePayPaymentRequest {
+export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet, applePayC: ApplePayComponent): ApplePayJS.ApplePayPaymentRequest {
+
+  applePayC.version = paymentRequest.versionAPIApple;
 
   return {
     countryCode: paymentRequest.info.countryCode.toUpperCase(),
