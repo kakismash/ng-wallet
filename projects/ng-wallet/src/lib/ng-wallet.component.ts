@@ -1,12 +1,12 @@
 import { doPaymentRequestApple, doPaymentRequestGoogle, PaymentRequestNGWallet } from './payment-request/payment-request';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
 
 @Component({
   selector: 'ng-wallet',
   templateUrl: './ng-wallet.component.html'
 })
-export class NgWalletComponent {
+export class NgWalletComponent implements OnInit {
 
   title = 'ng-wallet';
 
@@ -41,8 +41,15 @@ export class NgWalletComponent {
 
   constructor() {}
 
-  doPaymentRequestOnChange(): void {
+  ngOnInit(): void {
+    this.doPaymentRequestOnChange();
+  }
 
+  ngOnChanges(): void {
+    this.doPaymentRequestOnChange();
+  }
+
+  doPaymentRequestOnChange(): void {
     this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
     this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest);
   }
