@@ -8,12 +8,7 @@
     "strict": true,
     "noImplicitReturns": true,
     "paths": {
-      "google-pay": [
-        "dist/google-pay/google-pay",
-        "dist/google-pay"
-      ],
       "ng-wallet": [
-        "dist/ng-wallet/ng-wallet",
         "dist/ng-wallet"
       ]
     },
