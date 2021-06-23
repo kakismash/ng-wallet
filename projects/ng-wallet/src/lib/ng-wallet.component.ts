@@ -12,8 +12,6 @@ export class NgWalletComponent implements OnInit, OnChanges {
 
   title = 'ng-wallet';
 
-  @ViewChild(ApplePayComponent) applePayC!: ApplePayComponent;
-
   //**********Button Google Configuration********//
   @Input() buttonColorGoogle:                 google.payments.api.ButtonColor                      = 'black';
   @Input() buttonTypeGoogle:                  google.payments.api.ButtonType                       = 'buy';
@@ -55,7 +53,7 @@ export class NgWalletComponent implements OnInit, OnChanges {
 
   doPaymentRequestOnChange(): void {
     this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
-    this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest, this.applePayC);
+    this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest);
   }
 
 }

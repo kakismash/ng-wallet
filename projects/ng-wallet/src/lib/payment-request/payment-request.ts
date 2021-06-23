@@ -81,10 +81,7 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
   }
 }
 
-export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet, applePayC: ApplePayComponent): ApplePayJS.ApplePayPaymentRequest {
-
-  applePayC.version = paymentRequest.versionAPIApple;
-
+export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): ApplePayJS.ApplePayPaymentRequest {
   return {
     countryCode: paymentRequest.info.countryCode.toUpperCase(),
     currencyCode: paymentRequest.info.currencyCode.toUpperCase(),
