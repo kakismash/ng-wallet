@@ -1,14 +1,18 @@
 import { doPaymentRequestApple, doPaymentRequestGoogle, PaymentRequestNGWallet } from './payment-request/payment-request';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
+import { OnChanges } from '@angular/core';
+import { ApplePayComponent } from './apple-pay/apple-pay.component';
 
 @Component({
   selector: 'ng-wallet',
   templateUrl: './ng-wallet.component.html'
 })
-export class NgWalletComponent implements OnInit {
+export class NgWalletComponent implements OnInit, OnChanges {
 
   title = 'ng-wallet';
+
+  @ViewChild(ApplePayComponent) applePayC!: ApplePayComponent;
 
   //**********Button Google Configuration********//
   @Input() buttonColorGoogle:                 google.payments.api.ButtonColor                      = 'black';
@@ -51,7 +55,7 @@ export class NgWalletComponent implements OnInit {
 
   doPaymentRequestOnChange(): void {
     this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
-    this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest);
+    this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest, this.applePayC);
   }
 
 }
