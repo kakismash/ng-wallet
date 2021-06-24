@@ -44,85 +44,86 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 
 ## Example usage
 
+**.ts File**
+
+```bash
+paymentRequest: PaymentRequestNGWallet = {
+    versionAPIApple: 2,
+    typePaymentMethod: 'CARD',
+    allowedAuthMethods: [
+      'PAN_ONLY', 'CRYPTOGRAM_3DS'
+    ],
+    allowedCardNetworks: [
+      'VISA', 'ELO'
+    ],
+    typeTokenization: 'PAYMENT_GATEWAY',
+    gateway: 'example',
+    gatewayMerchantId: 'exampleGatewayMerchantId',
+    merchantId: '12345678901234567890',
+    merchantName: 'Demo Merchant',
+    appleMerchant: '/authorizeMerchant',
+    merchantCapabilities: ['SUPPORTS_3DS'],
+    info: {
+      totalPriceStatus: 'FINAL',
+      totalPriceLabel: 'Total',
+      totalPrice: '20',
+      currencyCode: 'USD',
+      countryCode: 'US',
+      subTotalPrice: '5',
+      items: [
+        {
+          label: 'Beer',
+          price: '1.99',
+          quantity: 1
+        }
+        {
+          label: 'Cheeseburger',
+          price: '3.99',
+          quantity: 1
+        }
+      ],
+      taxes: [
+        {
+          label: 'taxes',
+          amount: '6'
+        }
+      ],
+      discount: {
+        label: 'taxes',
+        amount: '3.44'
+      }
+    }
+}
+```
+
+**.html File**
 ```bash
 <ng-wallet
-  buttonColorGoogle="black"
-  buttonTypeGoogle="buy"
-  buttonLocaleGoogle="en"
-  buttonSizeMode="static"
-  environment="TEST"
-  existingPaymentMethodRequired=true
-  paymentRequestGoogle="{
-                          apiVersion: 2,
-                          apiVersionMinor: 0,
-                          allowedPaymentMethods: [
-                            {
-                              type: 'CARD',
-                              parameters: {
-                                allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                                allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
-                              },
-                              tokenizationSpecification: {
-                                type: 'PAYMENT_GATEWAY',
-                                parameters: {
-                                  gateway: 'example',
-                                  gatewayMerchantId: 'exampleGatewayMerchantId'
-                                }
-                              }
-                            }
-                          ],
-                          merchantInfo: {
-                            merchantId: '12345678901234567890',
-                            merchantName: 'Demo Merchant'
-                          },
-                          transactionInfo: {
-                            totalPriceStatus: 'FINAL',
-                            totalPriceLabel: 'Total',
-                            totalPrice: '100.00',
-                            currencyCode: 'USD',
-                            countryCode: 'US'
-                          }
-                        }"
-  buttonColorApple="black"
-  buttonTypeApple="buy"
-  buttonLocaleApple="en"
-  width="100px"
-  height="30px"
-  borderRadius="0pt"
-  endPointApple="/authorizeMerchant"
-  paymentRequestApple="{
-                          countryCode: 'US',
-                          currencyCode: 'USD',
-                          supportedNetworks: [
-                              'masterCard',
-                              'visa'
-                          ],
-                          merchantCapabilities: [
-                              'supports3DS'
-                          ],
-                          total: {
-                              label: 'My Store',
-                              amount: '9.99'
-                          }
-                        }"
-  total="{
-            label: 'Subtotal',
-            type: 'final',
-            amount: '35.00'
-          }"
-  lineItems="[
-                {
-                    label: 'Subtotal',
-                    type: 'final',
-                    amount: '35.00'
-                },
-                {
-                    label: 'Estimated Tax',
-                    amount: '3.06'
-                }
-              ]"
+  [paymentRequest]="paymentRequest"
+>
 </ng-wallet>
 ```
+## Properties
+
+* **paymentRequest**: *A request for payment, which includes information about payment processing capabilities, the payment amount, and shipping information. For more information, see [ApplePayPaymentRequest](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest) and [PaymentData](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData).*
+* **versionAPIApple**: *An integer specifying the Apple Pay version number. For the best compatibility with operating systems and browsers, use the lowest possible version number that supports the features required. For more information, see [supportsVersion](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaysession/1778014-supportsversion).*
+* **typePaymentMethod**: *A short identifier for the supported payment method. Only **CARD** and **PAYPAL** currently are supported entries.*
+* **allowedAuthMethods**: *Fields supported to authenticate a card transaction. Only **PAN_ONLY** and **CRYPTOGRAM_3DS** currently are supported entries. For more information, see [Card Parameters](https://developers.google.com/pay/api/web/reference/request-objects?hl=ru#CardParameters).*
+* **allowedCardNetworks**: *The payment networks supported by the merchant. For more information, see [supportedNetworks](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916122-supportednetworks) and [Card Parameters](https://developers.google.com/pay/api/web/reference/request-objects?hl=ru#CardParameters).*
+* **typeTokenization**: *A payment method tokenization type is supported for the given PaymentMethod. For CARD payment method, use **PAYMENT_GATEWAY** or **DIRECT**. For PAYPAL PaymentMethod, use **DIRECT** with no parameter. For more information, see [TokenizationSpecification](https://developers.google.com/pay/api/web/reference/request-objects#PaymentMethodTokenizationSpecification).*
+* **gateway and gatewayMerchantId**: *Define the parameters properties as described by your gateway. Typical properties include the gateway's identifier, which is issued by Google, and your gateway account ID, which is provided by the gateway.*
+* **appleMerchant**: *Define your own server to request a new merchant session. For more information, see [validationURL](https://developer.apple.com/documentation/apple_pay_on_the_web/applepayvalidatemerchantevent/1778026-validationurl).*
+* **merchantCapabilities**: *The payment capabilities supported by the merchant on Apple Pay. The supported values for merchantCapabilities are: **SUPPORTS_3DS**, This value must be required, **SUPPORTS_CREDIT**, **SUPPORTS_DEBIT**, **SUPPORTS_EMV**. For more information, see [merchantCapabilities](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916123-merchantcapabilities).*
+* **info**: *This object describes a transaction that determines a payer's ability to pay. It's used to present a payment authorization dialog. For more information, see [TransactionInfo](https://developers.google.com/pay/api/web/reference/request-objects#TransactionInfo).*
+* **totalPriceStatus**: *The status of the total price used. Only **NOT_CURRENTLY_KNOWN**, **ESTIMATED** and **FINAL** currently are supported entries.* 
+* **totalPriceLabel**: *Custom label for the total price within the display items.*
+* **totalPrice**: *Total monetary value of the transaction with an optional decimal precision of two decimal places. Use this field as a string value.*
+* **currencyCode**: *The ISO 4217 alphabetic currency code.*
+* **countryCode**: *The ISO 3166-1 alpha-2 country code where the transaction is processed. This property is required for merchants who process transactions in European Economic Area (EEA) countries and any other countries that are subject to Strong Customer Authentication (SCA). Merchants must specify the acquirer bank country code.*
+* **subTotalPrice**: *Monetary value of the items with an optional decimal precision of two decimal places. Use this field as a string value.*
+* **items**: *All of the available charges for the current payment request. This object is optional.*
+* **taxes**: *All applicable government-imposed taxes, including but not limited to indirect taxes such as goods and services tax (“GST”), fees, duties or such other similar taxes. This object is optional.*
+* **discount**: *Discount made in the consumption of the service. This object is optional.*
 
 ## Google Pay Button Properties 
 
@@ -132,7 +133,7 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 * **buttonSizeMode**: *Buttons will be sized according to the translated buttonType. It is optional and the values can be "static" | "fill".*
 * **environment**: *The Google Pay environment to target. It is required and the values can be "TEST" | "PRODUCTION".*
 * **existingPaymentMethodRequired**: *When set to true (and environment is Production), the Google Pay button will only be displayed if the user already has an existing payment that they can use to make a purchase. It is optional and the type is boolean.*
-* **paymentRequestGoogle**: *Request parameters that define the type of payment information requested from Google Pay. It is required and the type is PaymentDataRequest.*
+
 
 ## Google Pay Button Callbacks/events
 
@@ -149,12 +150,7 @@ For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
 * **buttonLocaleApple**: *A type that indicates the languages and regions that you can specify for the Apple Pay button. For more information, see [ApplePayButtonLocale](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaybuttonlocale).*
 * **width and height**: *The size of the buttons will be adjusted to the dimensions defined in the width and height.*
 * **borderRadius**: *A type to apply rounded corners to the buttons.*
-* **endPointApple**: *Define your own server to request a new merchant session. For more information, see [validationURL](https://developer.apple.com/documentation/apple_pay_on_the_web/applepayvalidatemerchantevent/1778026-validationurl).*
-* **paymentRequestApple**: *A request for payment, which includes information about payment processing capabilities, the payment amount, and shipping information. For more information, see [ApplePayPaymentRequest](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest).*
-* **total**: *A line item representing the total for the payment. For more information, see [total](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916119-total).*
-* **lineItems**: *A set of line items that explain recurring payments and additional charges and discounts. For more information, see [lineItems](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916120-lineitems).*
-* **shippingMethods**: *The list of shipping methods available for a payment request. For more information, see [shippingMethods](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916121-shippingmethods).*
-* **shippingContact**: *The shipping contact selected by the user for this transaction. For more information, see [shippingContact](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypayment/1916097-shippingcontact).*
+
 
 ## Global Configuration (Default Values)
 
@@ -177,108 +173,6 @@ Apple Pay Button:
 * buttonLocaleApple="en"
 
 These initial values save time configuring the buttons, so there would be fewer lines in the code.
-
-#### Example of inicial values
-
-```bash
-<ng-wallet
-  paymentRequestGoogle="{
-                          apiVersion: 2,
-                          apiVersionMinor: 0,
-                          allowedPaymentMethods: [
-                            {
-                              type: 'CARD',
-                              parameters: {
-                                allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                                allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
-                              },
-                              tokenizationSpecification: {
-                                type: 'PAYMENT_GATEWAY',
-                                parameters: {
-                                  gateway: 'example',
-                                  gatewayMerchantId: 'exampleGatewayMerchantId'
-                                }
-                              }
-                            }
-                          ],
-                          merchantInfo: {
-                            merchantId: '12345678901234567890',
-                            merchantName: 'Demo Merchant'
-                          },
-                          transactionInfo: {
-                            totalPriceStatus: 'FINAL',
-                            totalPriceLabel: 'Total',
-                            totalPrice: '100.00',
-                            currencyCode: 'USD',
-                            countryCode: 'US'
-                          }
-                        }"
-  endPointApple="/authorizeMerchant"
-  paymentRequestApple="{
-                          countryCode: 'US',
-                          currencyCode: 'USD',
-                          supportedNetworks: [
-                              'masterCard',
-                              'visa'
-                          ],
-                          merchantCapabilities: [
-                              'supports3DS'
-                          ],
-                          total: {
-                              label: 'My Store',
-                              amount: '9.99'
-                          }
-                        }"
-  total="{
-            label: 'Subtotal',
-            type: 'final',
-            amount: '35.00'
-          }"
-  lineItems="[
-                {
-                    label: 'Subtotal',
-                    type: 'final',
-                    amount: '35.00'
-                },
-                {
-                    label: 'Free Shipping',
-                    mount: '0.00',
-                    type: 'pending'
-                },
-                {
-                    label: 'Estimated Tax',
-                    amount: '3.06'
-                }
-              ]"
-  shippingMethods="[
-                      {
-                          label: 'Free Shipping',
-                          detail: 'Arrives in 5 to 7 days',
-                          amount: '0.00',
-                          identifier: 'FreeShipping'
-                      },
-                      {
-                          label: '2-hour Shipping',
-                          amount: '5.00'
-                      }
-                  ]"
-  shippingContact="{
-                        emailAddress: 'ravipatel@example.com',
-                        familyName: 'Patel',
-                        givenName: 'Ravi',
-                        phoneNumber: '(408) 555-5555',
-                        addressLines: [
-                            '1 Infinite Loop'
-                        ],
-                        locality: 'Cupertino',
-                        administrativeArea: 'CA',
-                        postalCode: '95014',
-                        country: 'United States',
-                        countryCode: 'US'
-                    }"
->
-</ng-wallet>
-```
 
 ## Documentation
 

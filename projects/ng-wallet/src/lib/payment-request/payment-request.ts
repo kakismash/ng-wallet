@@ -1,9 +1,9 @@
+import { Discount } from './discount';
 import { Item } from './item';
 import { DisplayItem } from './display-item';
 import { ApplePayJS } from '../apple-pay/applePay';
 import { Info } from './info';
 import { Tax } from './tax';
-import { ApplePayComponent } from './../apple-pay/apple-pay.component';
 
 export class PaymentRequestNGWallet {
 
@@ -291,6 +291,10 @@ function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
     })
   }
 
+  if (info.discont !== undefined) {
+    displayItems.push(doDiscount(info.discont));
+  }
+
   return displayItems;
 }
 
@@ -304,7 +308,7 @@ function doSubTotal(subTotalAmount: string): google.payments.api.DisplayItem {
 
 function doTax(tax: Tax): google.payments.api.DisplayItem {
   return {
-    label: tax.label + ' - ' + tax.type,
+    label: tax.label,
     price: tax.amount,
     type: 'TAX'
   };
@@ -313,7 +317,7 @@ function doTax(tax: Tax): google.payments.api.DisplayItem {
 function doItem(item: Item): google.payments.api.DisplayItem[] {
   const items: google.payments.api.DisplayItem[] = [];
   const i:     google.payments.api.DisplayItem = {
-    label:     item.label + ' - ' + item.type,
+    label:     item.label,
     price:     item.price,
     type:      'LINE_ITEM'
   };
@@ -345,7 +349,19 @@ function doLineItems(info: Info): ApplePayJS.ApplePayLineItem[] {
     })
   }
 
+  if (info.discont !== undefined) {
+    lineItems.push(doDiscountApple(info.discont))
+  }
+
   return lineItems;
+}
+
+function doDiscount(discount: Discount): google.payments.api.DisplayItem {
+  return {
+    label: discount.label,
+    price: discount.amount,
+    type: 'DISCOUNT'
+  };
 }
 
 function doSubTotalApple(subTotalAmount: string): ApplePayJS.ApplePayLineItem {
@@ -358,7 +374,7 @@ function doSubTotalApple(subTotalAmount: string): ApplePayJS.ApplePayLineItem {
 
 function doTaxApple(tax: Tax): ApplePayJS.ApplePayLineItem {
   return {
-    label: tax.label + ' - ' + tax.type,
+    label: tax.label,
     amount: tax.amount,
     type: 'final'
   };
@@ -367,7 +383,7 @@ function doTaxApple(tax: Tax): ApplePayJS.ApplePayLineItem {
 function doItemApple(item: Item): ApplePayJS.ApplePayLineItem[] {
   const items: ApplePayJS.ApplePayLineItem[]  = [];
   const i:     ApplePayJS.ApplePayLineItem    = {
-    label:     item.label + ' - ' + item.type,
+    label:     item.label,
     amount:    item.price,
     type:      'final'
   };
@@ -377,4 +393,12 @@ function doItemApple(item: Item): ApplePayJS.ApplePayLineItem[] {
   }
 
   return items;
+}
+
+function doDiscountApple(discount: Discount): ApplePayJS.ApplePayLineItem {
+  return {
+    label: discount.label,
+    amount: discount.amount,
+    type: 'final'
+  };
 }
