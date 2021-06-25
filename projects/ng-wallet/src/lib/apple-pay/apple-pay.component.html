@@ -1,4 +1,4 @@
-<button ngIf="isApplePaySession() === true" style="display: inline-block;
+<button *ngIf="isApplePaySession()" style="display: inline-block;
               border-radius: {{borderRadius}};
               -webkit-appearance: -apple-pay-button;
               -apple-pay-button-type: {{buttonType}};
