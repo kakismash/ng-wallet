@@ -178,3 +178,6 @@ These initial values save time configuring the buttons, so there would be fewer 
 
 * Visit the [Google Pay developer site](https://developers.google.com/pay/api/web/overview) for more information about integrating Google Pay into your website.
 * Visit [Apple Pay on the Web](https://developer.apple.com/documentation/apple_pay_on_the_web) for support Apple Pay on your website with JavaScript-based APIs.
+
+## Button Preview
+![Button Preview](https://github.com/kakismash/ng-wallet/blob/main/ng-wallet-preview.jpg)
