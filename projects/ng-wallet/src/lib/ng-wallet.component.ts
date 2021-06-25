@@ -45,6 +45,8 @@ export class NgWalletComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.doPaymentRequestOnChange();
+    console.log('Google: ', this.paymentRequestGoogle);
+    console.log('Apple: ', this.paymentRequestApple);
   }
 
   ngOnChanges(): void {
