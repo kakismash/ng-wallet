@@ -268,7 +268,7 @@ function doMerchantCapabilities(allowed: string[]): string[] {
     }
   })
 
-  if (!toReturn.some(a => a === 'supports3DS') {
+  if (!toReturn.some(a => a === 'supports3DS')) {
     toReturn.push('supports3DS');
   }
 
