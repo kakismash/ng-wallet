@@ -139,8 +139,8 @@ function doAllowedCardNetworks(allowed: string[], countryCode: string): google.p
         toReturn.push('MAESTRO');
     } else if (a.toUpperCase() === 'MASTERCARD') {
         toReturn.push('MASTERCARD');
-    } else if ('VISA') {
-        toReturn.push('VISA')
+    } else if (a.toUpperCase() === 'VISA') {
+        toReturn.push('VISA');
     }
   })
 
@@ -205,8 +205,7 @@ function doTotalPriceStatus(allowed: string): google.payments.api.TotalPriceStat
 
   if (allowed.toUpperCase() === 'NOT_CURRENTLY_KNOWN') {
     toReturn = 'NOT_CURRENTLY_KNOWN';
-  }
-  else if (allowed.toUpperCase() === 'ESTIMATED') {
+  } else if (allowed.toUpperCase() === 'ESTIMATED') {
     toReturn =  'ESTIMATED';
   }
 
@@ -231,14 +230,11 @@ function doMerchantCapabilities(allowed: string[]): string[] {
   allowed.forEach(a => {
     if (a.toUpperCase() === 'SUPPORTS_3DS') {
       toReturn.push('supports3DS');
-    }
-    else if (a.toUpperCase() === 'SUPPORTS_EMV') {
+    } else if (a.toUpperCase() === 'SUPPORTS_EMV') {
       toReturn.push('supportsEMV');
-    }
-    else if (a.toUpperCase() === 'SUPPORTS_CREDIT') {
+    } else if (a.toUpperCase() === 'SUPPORTS_CREDIT') {
       toReturn.push('supportsCredit');
-    }
-    else if (a.toUpperCase() === 'SUPPORTS_DEBIT') {
+    } else if (a.toUpperCase() === 'SUPPORTS_DEBIT') {
       toReturn.push('supportsDebit');
     }
   })
