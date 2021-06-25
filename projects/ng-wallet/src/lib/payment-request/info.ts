@@ -8,7 +8,7 @@ export class Info {
   items?:             Item[];
 
   // Sub-total
-  subTotalPrice!:     string;
+  subTotalPrice?:     string;
 
   // Tax
   taxes?:             Tax[];

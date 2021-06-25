@@ -120,7 +120,7 @@ paymentRequest: PaymentRequestNGWallet = {
 * **totalPrice**: *Total monetary value of the transaction with an optional decimal precision of two decimal places. Use this field as a string value.*
 * **currencyCode**: *The ISO 4217 alphabetic currency code.*
 * **countryCode**: *The ISO 3166-1 alpha-2 country code where the transaction is processed. This property is required for merchants who process transactions in European Economic Area (EEA) countries and any other countries that are subject to Strong Customer Authentication (SCA). Merchants must specify the acquirer bank country code.*
-* **subTotalPrice**: *Monetary value of the items with an optional decimal precision of two decimal places. Use this field as a string value.*
+* **subTotalPrice**: *Monetary value of the items with an optional decimal precision of two decimal places. Use this field as a string value. This object is optional.*
 * **items**: *All of the available charges for the current payment request. This object is optional.*
 * **taxes**: *All applicable government-imposed taxes, including but not limited to indirect taxes such as goods and services tax (“GST”), fees, duties or such other similar taxes. This object is optional.*
 * **discount**: *Discount made in the consumption of the service. This object is optional.*
