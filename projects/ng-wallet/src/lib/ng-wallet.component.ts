@@ -1,8 +1,7 @@
 import { doPaymentRequestApple, doPaymentRequestGoogle, PaymentRequestNGWallet } from './payment-request/payment-request';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
 import { OnChanges } from '@angular/core';
-import { ApplePayComponent } from './apple-pay/apple-pay.component';
 
 @Component({
   selector: 'ng-wallet',
