@@ -75,7 +75,7 @@ paymentRequest: PaymentRequestNGWallet = {
           label: 'Beer',
           price: '1.99',
           quantity: 1
-        }
+        },
         {
           label: 'Cheeseburger',
           price: '3.99',
