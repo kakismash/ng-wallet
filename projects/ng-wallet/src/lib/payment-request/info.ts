@@ -14,7 +14,7 @@ export class Info {
   taxes?:             Tax[];
 
   // Discount
-  discont?:           Discount;
+  discount?:          Discount;
 
   totalPriceStatus!:  string;
   totalPriceLabel!:   string;

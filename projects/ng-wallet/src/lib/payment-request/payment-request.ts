@@ -295,8 +295,8 @@ function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
     })
   }
 
-  if (info.discont !== undefined) {
-    displayItems.push(doDiscount(info.discont));
+  if (info.discount !== undefined) {
+    displayItems.push(doDiscount(info.discount));
   }
 
   return displayItems;
@@ -353,8 +353,8 @@ function doLineItems(info: Info): ApplePayJS.ApplePayLineItem[] {
     })
   }
 
-  if (info.discont !== undefined) {
-    lineItems.push(doDiscountApple(info.discont))
+  if (info.discount !== undefined) {
+    lineItems.push(doDiscountApple(info.discount))
   }
 
   return lineItems;
