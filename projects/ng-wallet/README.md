@@ -66,10 +66,10 @@ paymentRequest: PaymentRequestNGWallet = {
     info: {
       totalPriceStatus: 'FINAL',
       totalPriceLabel: 'Total',
-      totalPrice: '20',
+      totalPrice: '20.00',
       currencyCode: 'USD',
       countryCode: 'US',
-      subTotalPrice: '5',
+      subTotalPrice: '5.00',
       items: [
         {
           label: 'Beer',
@@ -85,7 +85,7 @@ paymentRequest: PaymentRequestNGWallet = {
       taxes: [
         {
           label: 'taxes',
-          amount: '6'
+          amount: '6.00'
         }
       ],
       discount: {
