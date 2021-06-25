@@ -268,6 +268,10 @@ function doMerchantCapabilities(allowed: string[]): string[] {
     }
   })
 
+  if (toReturn.some(a => a === 'supports3DS') !== true) {
+    toReturn.push('supports3DS');
+  }
+
   return toReturn;
 }
 
