@@ -1,0 +1,34 @@
+{
+    "name": "ng-wallet",
+    "version": "1.1.19",
+    "keywords": [
+        "ng-wallet",
+        "angular-wallet",
+        "google-pay",
+        "apple-pay"
+    ],
+    "author": "Joaquin Navarro",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/kakismash/ng-wallet/issues"
+    },
+    "homepage": "https://github.com/kakismash/ng-wallet#readme",
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve",
+        "build": "ng build",
+        "watch": "ng build --watch --configuration development",
+        "test": "ng test"
+    },
+    "peerDependencies": {
+        "@angular/common": "^12.0.1",
+        "@angular/core": "^12.0.1"
+    },
+    "bundledDependencies": [
+        "@google-pay/button-element"
+    ],
+    "dependencies": {
+        "tslib": "^2.1.0"
+    }
+
+}
