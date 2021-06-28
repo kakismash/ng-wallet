@@ -24,6 +24,11 @@ export class ApplePayComponent {
   // Define Apple Merchant
   @Input() appleMerchant!:            string;
 
+  // Define payment method.
+  @Input() total!:                    ApplePayJS.ApplePayLineItem;
+
+  @Input() lineItems!:                Array<ApplePayJS.ApplePayLineItem>;
+
   constructor() { }
 
   isApplePaySession(): boolean {
@@ -55,6 +60,16 @@ export class ApplePayComponent {
             console.error('Error fetching merchant session', err);
           });
     };
+
+    session.onpaymentmethodselected = event => {
+      session.completePaymentMethodSelection(this.total, this.lineItems);
+  };
+
+  session.onshippingmethodselected = event => {
+    session.completeShippingMethodSelection(ApplePaySession.STATUS_SUCCESS,
+                                            this.total,
+                                            this.lineItems);
+};
 
     session.onpaymentauthorized = event => {
         session.completePayment(ApplePaySession.STATUS_SUCCESS);

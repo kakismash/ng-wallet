@@ -1,4 +1,4 @@
-import { doPaymentRequestApple, doPaymentRequestGoogle, PaymentRequestNGWallet } from './payment-request/payment-request';
+import { doLineItems, doPaymentRequestApple, doPaymentRequestGoogle, doTotalApple, PaymentRequestNGWallet } from './payment-request/payment-request';
 import { Component, Input, OnInit } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
 import { OnChanges } from '@angular/core';
@@ -37,6 +37,8 @@ export class NgWalletComponent implements OnInit, OnChanges {
   @Input() appleMerchant!:                    string;
 
   paymentRequestApple!:                       ApplePayJS.ApplePayPaymentRequest;
+  total!:                                     ApplePayJS.ApplePayLineItem;
+  lineItems!:                                 Array<ApplePayJS.ApplePayLineItem>;
 
   @Input() paymentRequest!:                   PaymentRequestNGWallet;
 
@@ -55,6 +57,9 @@ export class NgWalletComponent implements OnInit, OnChanges {
   doPaymentRequestOnChange(): void {
     this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
     this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest);
+    this.total                = doTotalApple(this.paymentRequest);
+    this.lineItems            = doLineItems(this.paymentRequest.info);
+
   }
 
 }

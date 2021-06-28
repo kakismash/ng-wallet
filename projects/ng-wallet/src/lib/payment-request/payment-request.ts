@@ -97,6 +97,14 @@ export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): A
 
 }
 
+export function doTotalApple(paymentRequest: PaymentRequestNGWallet): ApplePayJS.ApplePayLineItem {
+  return {
+    label: paymentRequest.info.totalPriceLabel,
+      type: doTotalPriceStatusApple(paymentRequest.info.totalPriceStatus),
+      amount: paymentRequest.info.totalPrice
+  }
+}
+
 function doAllowedPaymentAuthMethod(allowed: string[]): google.payments.api.CardAuthMethod[] {
 
   const pan:        google.payments.api.CardAuthMethod   = 'PAN_ONLY';
@@ -304,7 +312,7 @@ function doItem(item: Item): google.payments.api.DisplayItem[] {
   return items;
 }
 
-function doLineItems(info: Info): ApplePayJS.ApplePayLineItem[] {
+export function doLineItems(info: Info): ApplePayJS.ApplePayLineItem[] {
 
   const lineItems: ApplePayJS.ApplePayLineItem[] = [];
 
