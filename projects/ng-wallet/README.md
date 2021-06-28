@@ -89,7 +89,7 @@ paymentRequest: PaymentRequestNGWallet = {
         }
       ],
       discount: {
-        label: 'Taxes',
+        label: 'Discount',
         amount: '3.44'
       }
     }
