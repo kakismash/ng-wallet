@@ -54,7 +54,7 @@ paymentRequest: PaymentRequestNGWallet = {
       'PAN_ONLY', 'CRYPTOGRAM_3DS'
     ],
     allowedCardNetworks: [
-      'VISA', 'ELO'
+      'VISA', 'MASTERCARD'
     ],
     typeTokenization: 'PAYMENT_GATEWAY',
     gateway: 'example',
