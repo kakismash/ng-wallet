@@ -1,18 +1,22 @@
 {
-    "name": "ng-wallet",
-    "version": "1.1.27",
+    "name": "ui-payments",
+    "version": "1.1.28",
     "keywords": [
-        "ng-wallet",
+        "ui-payments",
         "angular-wallet",
         "google-pay",
         "apple-pay"
     ],
     "author": "Joaquin Navarro",
     "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/kakismash/ng-wallet/issues"
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Ordyx/UI-Payments.git"
     },
-    "homepage": "https://github.com/kakismash/ng-wallet#readme",
+    "bugs": {
+        "url": "https://github.com/Ordyx/UI-Payments/issues"
+    },
+    "homepage": "https://github.com/Ordyx/UI-Payments#readme",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",

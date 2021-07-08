@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { GooglePayComponent } from './google-pay/google-pay.component';
 import { NgWalletComponent } from './ng-wallet.component';
+import { AuthNetPayComponent } from './authnet-pay/authnet-pay.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -12,7 +13,8 @@ import { BrowserModule } from '@angular/platform-browser';
   declarations: [
     NgWalletComponent,
     GooglePayComponent,
-    ApplePayComponent
+    ApplePayComponent,
+    AuthNetPayComponent
   ],
   imports: [
     CommonModule,
