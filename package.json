@@ -1,5 +1,5 @@
 {
-  "name": "ng-wallet",
+  "name": "ui-payments",
   "version": "1.0.5",
   "scripts": {
     "ng": "ng",
