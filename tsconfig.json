@@ -8,8 +8,8 @@
     "strict": true,
     "noImplicitReturns": true,
     "paths": {
-      "ng-wallet": [
-        "dist/ng-wallet"
+      "ui-payments": [
+        "dist/ui-payments"
       ]
     },
     "noFallthroughCasesInSwitch": true,

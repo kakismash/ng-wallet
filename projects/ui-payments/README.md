@@ -20,7 +20,7 @@ The requirements for using Apple Pay on your website are:
 
 To install and run this proyect just type and execute.
 ```bash
-npm install ng-wallet
+npm install ui-payments
 ```
 
 ## Implementation and Use
@@ -28,26 +28,26 @@ npm install ng-wallet
 Once the component has been installed we must add it to our project.
 To do this in the required module we add the following line
 ```bash
-import { NgWalletModule } from 'ng-wallet';
+import { UiPaymentsModule } from 'ui-payments';
 ```
 
 Don't forget to add it to the module imports
 ```bash
 imports: [
   ...
-  NgWalletModule
+  UiPaymentsModule
 ]
 ```
 
 Once it is included, you have to use it and configure it to your liking.
-For them in the HTML we use the selector `<ng-wallet></ng-wallet>`
+For them in the HTML we use the selector `<ui-payments></ui-payments>`
 
 ## Example usage
 
 **.ts File**
 
 ```bash
-paymentRequest: PaymentRequestNGWallet = {
+paymentRequest: PaymentRequestUiPayments = {
     versionAPIApple: 2,
     typePaymentMethod: 'CARD',
     allowedAuthMethods: [
@@ -98,10 +98,10 @@ paymentRequest: PaymentRequestNGWallet = {
 
 **.html File**
 ```bash
-<ng-wallet
+<ui-payments
   [paymentRequest]="paymentRequest"
 >
-</ng-wallet>
+</ui-payments>
 ```
 ## Properties
 
@@ -180,4 +180,4 @@ These initial values save time configuring the buttons, so there would be fewer 
 * Visit [Apple Pay on the Web](https://developer.apple.com/documentation/apple_pay_on_the_web) for support Apple Pay on your website with JavaScript-based APIs.
 
 ## Button Preview
-![Button Preview](https://github.com/kakismash/ng-wallet/blob/main/ng-wallet-preview.jpg)
+![Button Preview](https://github.com/kakismash/ui-payments/blob/main/ui-payments-preview.jpg)

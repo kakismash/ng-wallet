@@ -2,7 +2,7 @@ import { ApplePayComponent } from './apple-pay/apple-pay.component';
 import { NgModule } from '@angular/core';
 import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { GooglePayComponent } from './google-pay/google-pay.component';
-import { NgWalletComponent } from './ng-wallet.component';
+import { UiPaymentsComponent } from './ui-payments.component';
 import { AuthNetPayComponent } from './authnet-pay/authnet-pay.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
-    NgWalletComponent,
+    UiPaymentsComponent,
     GooglePayComponent,
     ApplePayComponent,
     AuthNetPayComponent
@@ -22,7 +22,7 @@ import { BrowserModule } from '@angular/platform-browser';
     GooglePayButtonModule
   ],
   exports: [
-    NgWalletComponent
+    UiPaymentsComponent
   ]
 })
-export class NgWalletModule { }
+export class UiPaymentsModule { }

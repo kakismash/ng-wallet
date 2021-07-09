@@ -5,7 +5,7 @@ import { ApplePayJS } from '../apple-pay/applePay';
 import { Info } from './info';
 import { Tax } from './tax';
 
-export class PaymentRequestNGWallet {
+export class PaymentRequestUiPayments {
 
   // Version API
   versionAPIApple!:                     number;
@@ -31,7 +31,7 @@ export class PaymentRequestNGWallet {
   info!:                                Info;
 }
 
-export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): google.payments.api.PaymentDataRequest {
+export function doPaymentRequestGoogle(paymentRequest: PaymentRequestUiPayments): google.payments.api.PaymentDataRequest {
 
   let allowedPaymentMethods:        google.payments.api.PaymentMethodSpecification[] = new Array<google.payments.api.PaymentMethodSpecification>();
 
@@ -81,7 +81,7 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestNGWallet): 
   }
 }
 
-export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): ApplePayJS.ApplePayPaymentRequest {
+export function doPaymentRequestApple(paymentRequest: PaymentRequestUiPayments): ApplePayJS.ApplePayPaymentRequest {
   return {
     countryCode: paymentRequest.info.countryCode.toUpperCase(),
     currencyCode: paymentRequest.info.currencyCode.toUpperCase(),
@@ -97,7 +97,7 @@ export function doPaymentRequestApple(paymentRequest: PaymentRequestNGWallet): A
 
 }
 
-export function doTotalApple(paymentRequest: PaymentRequestNGWallet): ApplePayJS.ApplePayLineItem {
+export function doTotalApple(paymentRequest: PaymentRequestUiPayments): ApplePayJS.ApplePayLineItem {
   return {
     label: paymentRequest.info.totalPriceLabel,
       type: doTotalPriceStatusApple(paymentRequest.info.totalPriceStatus),

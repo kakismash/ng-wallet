@@ -41,16 +41,16 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kakismash/ng-wallet.git"
+    "url": "git+https://github.com/kakismash/ui-payments.git"
   },
   "keywords": [
-    "ng-wallet",
+    "ui-payments",
     "angular-wallet"
   ],
   "author": "Joaquin Navarro",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kakismash/ng-wallet/issues"
+    "url": "https://github.com/kakismash/ui-payments/issues"
   },
-  "homepage": "https://github.com/kakismash/ng-wallet#readme"
+  "homepage": "https://github.com/kakismash/ui-payments#readme"
 }

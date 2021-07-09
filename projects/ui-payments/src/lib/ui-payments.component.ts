@@ -1,15 +1,15 @@
-import { doLineItems, doPaymentRequestApple, doPaymentRequestGoogle, doTotalApple, PaymentRequestNGWallet } from './payment-request/payment-request';
+import { doLineItems, doPaymentRequestApple, doPaymentRequestGoogle, doTotalApple, PaymentRequestUiPayments } from './payment-request/payment-request';
 import { Component, Input, OnInit } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
 import { OnChanges } from '@angular/core';
 
 @Component({
-  selector: 'ng-wallet',
-  templateUrl: './ng-wallet.component.html'
+  selector: 'ui-payments',
+  templateUrl: './ui-payments.component.html'
 })
-export class NgWalletComponent implements OnInit, OnChanges {
+export class UiPaymentsComponent implements OnInit, OnChanges {
 
-  title = 'ng-wallet';
+  title = 'ui-payments';
 
   //**********Button Google Configuration********//
   @Input() buttonColorGoogle:                 google.payments.api.ButtonColor                      = 'black';
@@ -40,7 +40,7 @@ export class NgWalletComponent implements OnInit, OnChanges {
   total!:                                     ApplePayJS.ApplePayLineItem;
   lineItems!:                                 Array<ApplePayJS.ApplePayLineItem>;
 
-  @Input() paymentRequest!:                   PaymentRequestNGWallet;
+  @Input() paymentRequest!:                   PaymentRequestUiPayments;
 
   constructor() {}
 
