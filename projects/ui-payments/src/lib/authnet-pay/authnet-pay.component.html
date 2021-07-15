@@ -1,52 +1,16 @@
-<script type="text/javascript"
-    src="https://jstest.authorize.net/v3/AcceptUI.js"
-    charset="utf-8">
-</script>
-<form #paymentForm
-      id="paymentForm"
-      method="POST"
-      action="#">
-      <input type="hidden" name="dataValue" id="dataValue"/>
-      <input type="hidden" name="dataDescriptor" id="dataDescriptor"/>
+
+
+<form
+      id="paymentForm">
       <button #authnetbtn
               id="authnet-btn"
               type="button"
               class="AcceptUI"
-              data-billingAddressOptions='{"show":true, "required": false}'
-              [attr.data-apiLoginId]="apiLoginId"
-              [attr.data-clientKey]="clientKey"
+              data-billingAddressOptions='{"show":true, "required":false}'
               data-acceptUIFormBtnTxt="Submit"
               data-acceptUIFormHeaderTxt="Card Information"
-              data-responseHandler="responseHandler"
-              (click)="responseHandler($event)">Pay Now</button>
+              data-apiLoginId="5dJ6eN8V"
+              data-clientKey="9Q25f799AVFeY4j2d2hJ29C253q2BJrLKet2uJPhaQVnL9KG7Jdcb8jrGhuGEvbR"
+              data-responseHandler="responseHandler">Enter Card</button>
+      <button type="submit" (click)="submitForm()">Submit</button>
 </form>
-<!-- <script type="text/javascript">
-  function responseHandler(response) {
-    if (response.messages.resultCode === "Error") {
-        var i = 0;
-        while (i < response.messages.message.length) {
-            console.log(
-                response.messages.message[i].code + ": " +
-                response.messages.message[i].text
-            );
-            i = i + 1;
-        }
-    } else {
-        paymentFormUpdate(response.opaqueData);
-    }
-  }
-
-  function paymentFormUpdate(opaqueData) {
-      document.getElementById("dataDescriptor").value = opaqueData.dataDescriptor;
-      document.getElementById("dataValue").value = opaqueData.dataValue;
-
-      // If using your own form to collect the sensitive data from the customer,
-      // blank out the fields before submitting them to your server.
-      // document.getElementById("cardNumber").value = "";
-      // document.getElementById("expMonth").value = "";
-      // document.getElementById("expYear").value = "";
-      // document.getElementById("cardCode").value = "";
-
-      document.getElementById("paymentForm").submit();
-  }
-</script> -->

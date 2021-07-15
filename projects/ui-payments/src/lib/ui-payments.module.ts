@@ -5,7 +5,9 @@ import { GooglePayComponent } from './google-pay/google-pay.component';
 import { UiPaymentsComponent } from './ui-payments.component';
 import { AuthNetPayComponent } from './authnet-pay/authnet-pay.component';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http'
+// import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -14,12 +16,14 @@ import { BrowserModule } from '@angular/platform-browser';
     UiPaymentsComponent,
     GooglePayComponent,
     ApplePayComponent,
-    AuthNetPayComponent
+    AuthNetPayComponent,
   ],
   imports: [
     CommonModule,
-    BrowserModule,
-    GooglePayButtonModule
+    // BrowserModule,
+    GooglePayButtonModule,
+    FormsModule,
+    // HttpClient
   ],
   exports: [
     UiPaymentsComponent
