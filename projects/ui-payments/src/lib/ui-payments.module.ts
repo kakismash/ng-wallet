@@ -7,6 +7,8 @@ import { AuthNetPayComponent } from './authnet-pay/authnet-pay.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http'
+import { NgxStripeModule } from 'ngx-stripe';
+import { StripePayComponent } from './stripe-pay/stripe-pay.component';
 // import { BrowserModule } from '@angular/platform-browser';
 
 
@@ -17,12 +19,14 @@ import { HttpClient } from '@angular/common/http'
     GooglePayComponent,
     ApplePayComponent,
     AuthNetPayComponent,
+    StripePayComponent,
   ],
   imports: [
     CommonModule,
     // BrowserModule,
     GooglePayButtonModule,
     FormsModule,
+    NgxStripeModule
     // HttpClient
   ],
   exports: [

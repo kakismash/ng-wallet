@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { PaymentService } from '../payment-request/payment.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AuthPaymentService } from '../service/auth-payment.service';
 import { PayRequest } from '../payment-request/payRequest';
 
 @Component({
@@ -9,28 +9,32 @@ import { PayRequest } from '../payment-request/payRequest';
 })
 export class AuthNetPayComponent {
 
-  apiLoginId="5dJ6eN8V";
-  clientKey="9Q25f799AVFeY4j2d2hJ29C253q2BJrLKet2uJPhaQVnL9KG7Jdcb8jrGhuGEvbR";
-  payRequest: PayRequest = new PayRequest();
+  @Input() publicKey!:    string;
+  @Input() apiLoginId?:   string;
+  @Input() clientKey?:    string;
+  @Input() payment:       PayRequest = new PayRequest();
 
-  constructor(private paymentService: PaymentService) {}
+  @Output() paymentSuccess:         EventEmitter<string> = new EventEmitter();
+  @Output() paymentFail:            EventEmitter<string> = new EventEmitter();
+
+  constructor(private paymentService: AuthPaymentService) {}
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.payRequest = new PayRequest();
-    this.payRequest.amount = 123.55;
-    this.payRequest.email = 'cesarmejia-aquino@ordyx.com';
-    this.payRequest.tip = 10;
-    this.payRequest.source = 'card';
-    this.payRequest.token ='';
+    // this.payment = new PayRequest();
+    // this.payment.amount = 123.55;
+    // this.payment.email = 'cesarmejia-aquino@ordyx.com';
+    // this.payment.tip = 10;
+    // this.payment.source = 'card';
+    // this.payment.token ='';
   }
 
   ngAfterViewInit(): void {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
     window.addEventListener('message', (event)=>{
-      this.paymentHandler(event, this.payRequest);
+      this.paymentHandler(event, this.payment);
     }
     , false);
   }
@@ -39,23 +43,36 @@ export class AuthNetPayComponent {
 
     if(event.data.type === 'RESPONSE'){
       console.log(event.data);
+
       if(event.data.pktData.messages.resultCode === "Error"){
-        console.log(event.data.pktData.messages);
+
+        window.alert(event.data.pktData.messages.message[0].text);
+        this.paymentFail.emit(JSON.stringify({message: 'failed', errorType: event.data.pktData.messages.message[0].text}))
+
       }else if(event.data.pktData.messages.resultCode === "Ok"){
-        console.log("Ok")
+
+        payment.token = event.data.pktData.opaqueData.dataValue;
+        payment.source = event.data.pktData.opaqueData.dataDescriptor;
+
       }
-      payment.token = event.data.pktData.opaqueData.dataValue;
-      payment.source = event.data.pktData.opaqueData.dataDescriptor;
     }
 
   }
 
   submitForm(): void {
-    console.log(this.payRequest);
-    this.paymentService
-        .sendPayment('public/0e2455c4-5b48-11eb-b74a-0a5121788669/payment', this.payRequest)
-        .subscribe({next: (resp=>{console.log(resp)}),
-                    error:(err=>console.log(err))});
-  }
+    console.log(this.payment);
 
+    this.paymentService
+        .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payment)
+        .subscribe({
+          next: (resp=>
+            {
+              console.log('AUTH.NET PAYMENT SUCCESS: '+resp);
+              this.paymentSuccess.emit('Success');
+            }),
+          error:(err=>{
+            console.log('AUTH.NET PAYMENT ERROR: '+err);
+            this.paymentFail.emit(JSON.stringify({message: 'failed', errorType: err.error}));
+          })});
+  }
 }

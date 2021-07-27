@@ -1,31 +1,54 @@
-<google-pay
-[buttonColor]="buttonColorGoogle"
-[buttonType]="buttonTypeGoogle"
-[buttonSizeMode]="buttonSizeMode"
-[buttonLocale]="buttonLocaleGoogle"
-[environment]="environment"
-[existingPaymentMethodRequired]="existingPaymentMethodRequired"
-[paymentRequest]="paymentRequestGoogle"
-[paymentDataChangedCallback]="paymentDataChangedCallback"
-[paymentAuthorizedCallback]="paymentAuthorizedCallback"
-[readyToPayChangeCallback]="readyToPayChangeCallback"
-[loadPaymentDataCallback]="loadPaymentDataCallback"
-[cancelCallback]="cancelCallback"
-[errorCallback]="errorCallback">
-</google-pay>
+<!-- <div *ngIf="!readyToPay">
+  <button mat-raised-button
+  color="primary"
+  class="button-ready"
+  (click)="ready(true)">
+  &nbsp;READY TO PAY
+</button>
+</div> -->
+<!-- *ngIf="paymentType === 'auth.net' && readyToPay" -->
+<div id="ui-payments">
 
-<!-- <apple-pay
-[buttonType]="buttonTypeApple"
-[buttonStyle]="buttonColorApple"
-[borderRadius]="borderRadius"
-[width]="width"
-[height]="height"
-[lang]="buttonLocaleApple"
-[paymentRequest]="paymentRequestApple"
-[version]="paymentRequest.versionAPIApple"
-[appleMerchant]="appleMerchant"
-[total]="total"
-[lineItems]="lineItems">
-</apple-pay> -->
+  <google-pay
+  [buttonColor]="buttonColorGoogle"
+  [buttonType]="buttonTypeGoogle"
+  [buttonSizeMode]="buttonSizeMode"
+  [buttonLocale]="buttonLocaleGoogle"
+  [environment]="environment"
+  [existingPaymentMethodRequired]="existingPaymentMethodRequired"
+  [paymentRequest]="paymentRequestGoogle"
+  [paymentDataChangedCallback]="paymentDataChangedCallback"
+  [paymentAuthorizedCallback]="paymentAuthorizedCallback"
+  [readyToPayChangeCallback]="readyToPayChangeCallback"
+  [loadPaymentDataCallback]="loadPaymentDataCallback"
+  [cancelCallback]="cancelCallback"
+  [errorCallback]="errorCallback">
+  </google-pay>
 
-<authnet-pay></authnet-pay>
+  <!-- <apple-pay
+  [buttonType]="buttonTypeApple"
+  [buttonStyle]="buttonColorApple"
+  [borderRadius]="borderRadius"
+  [width]="width"
+  [height]="height"
+  [lang]="buttonLocaleApple"
+  [paymentRequest]="paymentRequestApple"
+  [version]="paymentRequest.versionAPIApple"
+  [appleMerchant]="appleMerchant"
+  [total]="total"
+  [lineItems]="lineItems">
+  </apple-pay> -->
+
+  <authnet-pay
+    [publicKey]="publicKey"
+    [apiLoginId]="apiLoginId"
+    [clientKey]="clientKey"
+    [payment]="paymentInfo"
+    (paymentSuccess)="emitSuccessPayment($event)"
+    (paymentFail)="emitFailedPayment($event)">
+  </authnet-pay>
+
+</div>
+
+<!-- <div #stripePayments id="stripe-payments" *ngIf="paymentType === 'stripe' && readyToPay">
+</div> -->

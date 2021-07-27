@@ -1,16 +1,15 @@
-
-
 <form
-      id="paymentForm">
-      <button #authnetbtn
-              id="authnet-btn"
-              type="button"
-              class="AcceptUI"
-              data-billingAddressOptions='{"show":true, "required":false}'
-              data-acceptUIFormBtnTxt="Submit"
-              data-acceptUIFormHeaderTxt="Card Information"
-              data-apiLoginId="5dJ6eN8V"
-              data-clientKey="9Q25f799AVFeY4j2d2hJ29C253q2BJrLKet2uJPhaQVnL9KG7Jdcb8jrGhuGEvbR"
-              data-responseHandler="responseHandler">Enter Card</button>
-      <button type="submit" (click)="submitForm()">Submit</button>
+  id="paymentForm">
+  <button
+    #authnetbtn
+    id="authnet-btn"
+    type="button"
+    class="AcceptUI"
+    data-billingAddressOptions='{"show":true, "required":false}'
+    data-acceptUIFormBtnTxt="Submit"
+    data-acceptUIFormHeaderTxt="Card Information"
+    [attr.data-apiLoginId]="apiLoginId"
+    [attr.data-clientKey]="clientKey"
+    data-responseHandler="responseHandler">Enter Card</button>
+  <button type="submit" (click)="submitForm()">Submit</button>
 </form>
