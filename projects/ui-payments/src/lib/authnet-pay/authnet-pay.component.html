@@ -1,15 +1,24 @@
 <form
   id="paymentForm">
   <button
+    *ngIf="!cardEntered"
     #authnetbtn
+    mat-raised-button
+    [ngStyle]="{'background-color':buttonColor ? buttonColor : 'primary'}"
     id="authnet-btn"
     type="button"
-    class="AcceptUI"
+    class="AcceptUI pointer button-width"
     data-billingAddressOptions='{"show":true, "required":false}'
     data-acceptUIFormBtnTxt="Submit"
     data-acceptUIFormHeaderTxt="Card Information"
     [attr.data-apiLoginId]="apiLoginId"
     [attr.data-clientKey]="clientKey"
-    data-responseHandler="responseHandler">Enter Card</button>
-  <button type="submit" (click)="submitForm()">Submit</button>
+    data-responseHandler="responseHandler"><mat-icon>credit_card</mat-icon>Enter Card</button>
+  <button
+    *ngIf="cardEntered"
+    mat-raised-button
+    [ngStyle]="{'background-color':buttonColor ? buttonColor : 'primary'}"
+    type="submit"
+    class="pointer button-width"
+    (click)="submitForm()">Submit</button>
 </form>

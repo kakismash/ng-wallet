@@ -1,20 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PaymentIntent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
+import { Stripe, PaymentIntent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 
 @Component({
   selector: 'lib-stripe-pay',
   templateUrl: './stripe-pay.component.html',
-  styleUrls: ['./stripe-pay.component.css']
+  styleUrls: ['./stripe-pay.component.scss']
 })
 export class StripePayComponent implements OnInit {
 
-  // @Input() wallet!: boolean;
-  // @Input() paymentIntent!: PaymentIntent;
-  // @Input() reference!: string;
+  @Input() wallet!: boolean;
+  @Input() paymentIntent!: PaymentIntent;
+  @Input() reference!: string;
   // @Input() stripe!: stripe.Stripe;
   // @Input() stripeElements!: stripe.elements.Elements;
   // @Input() cardElement!: stripe.elements.Element;
-  // @Input() elementsOptions: StripeElementsOptions = {locale: 'en'};
+  @Input() elementsOptions: StripeElementsOptions = {locale: 'en'};
+  @Input() colorButton!: string;
+    // stripe!: stripe.Stripe;
+  // stripeElements!: stripe.elements.Elements;
+  // cardElement!: stripe.elements.Element;
+  // elementsOptions: StripeElementsOptions = {locale: 'en'};
+
   cardOptions: StripeCardElementOptions = {
     style: {
       base: {
@@ -31,8 +37,9 @@ export class StripePayComponent implements OnInit {
   };
   paymentInfo: any;
   stripePaymentService: any;
-  readyToPay!: boolean;
+  readyToPay!: boolean;//make this into a boolean
   paymentForm: any;
+  disablePayButton!: boolean;
 
   constructor() { }
 
@@ -118,5 +125,22 @@ export class StripePayComponent implements OnInit {
   // cardCheckout() {
   //   throw new Error('Method not implemented.');
   // }
+  pay(): void{
+
+    // this.disablePayButton = true;
+    // this.stripe
+    //     .confirmCardPayment(this.paymentIntent.client_secret,
+    //                         {payment_method: {card: this.cardElement}})
+    //     .then(res => {
+
+    //   if (res.error){
+    //     this.paymentFailed(res);
+    //     this.disablePayButton = false;
+    //   } else{
+    //     this.paymentSucceeded(res);
+    //   }
+    // });
+  }
+
 
 }

@@ -9,10 +9,13 @@ import { PayRequest } from '../payment-request/payRequest';
 })
 export class AuthNetPayComponent {
 
+  cardEntered:            boolean = false;
+
   @Input() publicKey!:    string;
   @Input() apiLoginId?:   string;
   @Input() clientKey?:    string;
   @Input() payment:       PayRequest = new PayRequest();
+  @Input() buttonColor!:  string;
 
   @Output() paymentSuccess:         EventEmitter<string> = new EventEmitter();
   @Output() paymentFail:            EventEmitter<string> = new EventEmitter();
@@ -53,6 +56,7 @@ export class AuthNetPayComponent {
 
         payment.token = event.data.pktData.opaqueData.dataValue;
         payment.source = event.data.pktData.opaqueData.dataDescriptor;
+        this.cardEntered = true;
 
       }
     }
@@ -73,6 +77,7 @@ export class AuthNetPayComponent {
           error:(err=>{
             console.log('AUTH.NET PAYMENT ERROR: '+err);
             this.paymentFail.emit(JSON.stringify({message: 'failed', errorType: err.error}));
+            this.cardEntered = false;
           })});
   }
 }

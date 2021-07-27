@@ -10,19 +10,19 @@
 <div id="ui-payments">
 
   <google-pay
-  [buttonColor]="buttonColorGoogle"
-  [buttonType]="buttonTypeGoogle"
-  [buttonSizeMode]="buttonSizeMode"
-  [buttonLocale]="buttonLocaleGoogle"
-  [environment]="environment"
-  [existingPaymentMethodRequired]="existingPaymentMethodRequired"
-  [paymentRequest]="paymentRequestGoogle"
-  [paymentDataChangedCallback]="paymentDataChangedCallback"
-  [paymentAuthorizedCallback]="paymentAuthorizedCallback"
-  [readyToPayChangeCallback]="readyToPayChangeCallback"
-  [loadPaymentDataCallback]="loadPaymentDataCallback"
-  [cancelCallback]="cancelCallback"
-  [errorCallback]="errorCallback">
+    [buttonColor]="buttonColorGoogle"
+    [buttonType]="buttonTypeGoogle"
+    [buttonSizeMode]="buttonSizeMode"
+    [buttonLocale]="buttonLocaleGoogle"
+    [environment]="environment"
+    [existingPaymentMethodRequired]="existingPaymentMethodRequired"
+    [paymentRequest]="paymentRequestGoogle"
+    [paymentDataChangedCallback]="paymentDataChangedCallback"
+    [paymentAuthorizedCallback]="paymentAuthorizedCallback"
+    [readyToPayChangeCallback]="readyToPayChangeCallback"
+    [loadPaymentDataCallback]="loadPaymentDataCallback"
+    [cancelCallback]="cancelCallback"
+    [errorCallback]="errorCallback">
   </google-pay>
 
   <!-- <apple-pay
@@ -43,6 +43,7 @@
     [publicKey]="publicKey"
     [apiLoginId]="apiLoginId"
     [clientKey]="clientKey"
+    [buttonColor]="buttonColorAuth"
     [payment]="paymentInfo"
     (paymentSuccess)="emitSuccessPayment($event)"
     (paymentFail)="emitFailedPayment($event)">

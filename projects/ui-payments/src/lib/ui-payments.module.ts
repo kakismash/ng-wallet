@@ -9,6 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http'
 import { NgxStripeModule } from 'ngx-stripe';
 import { StripePayComponent } from './stripe-pay/stripe-pay.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+
+
 // import { BrowserModule } from '@angular/platform-browser';
 
 
@@ -26,8 +30,11 @@ import { StripePayComponent } from './stripe-pay/stripe-pay.component';
     // BrowserModule,
     GooglePayButtonModule,
     FormsModule,
-    NgxStripeModule
-    // HttpClient
+    NgxStripeModule,
+    MatButtonModule,
+    MatIconModule
+    // HttpClient,
+
   ],
   exports: [
     UiPaymentsComponent
