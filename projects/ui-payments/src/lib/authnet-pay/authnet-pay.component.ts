@@ -16,30 +16,22 @@ export class AuthNetPayComponent {
   @Input() clientKey?:    string;
   @Input() payment:       PayRequest = new PayRequest();
   @Input() buttonColor!:  string;
+  @Input() timer!:        number;
 
   @Output() paymentSuccess:         EventEmitter<string> = new EventEmitter();
   @Output() paymentFail:            EventEmitter<string> = new EventEmitter();
 
   constructor(private paymentService: AuthPaymentService) {}
 
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    // this.payment = new PayRequest();
-    // this.payment.amount = 123.55;
-    // this.payment.email = 'cesarmejia-aquino@ordyx.com';
-    // this.payment.tip = 10;
-    // this.payment.source = 'card';
-    // this.payment.token ='';
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+
     window.addEventListener('message', (event)=>{
       this.paymentHandler(event, this.payment);
     }
     , false);
+
   }
 
   paymentHandler(event: any, payment: PayRequest): void {
@@ -64,7 +56,6 @@ export class AuthNetPayComponent {
   }
 
   submitForm(): void {
-    console.log(this.payment);
 
     this.paymentService
         .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payment)
@@ -80,4 +71,22 @@ export class AuthNetPayComponent {
             this.cardEntered = false;
           })});
   }
+
+  dismissFormTimer(): void {
+
+    let acceptEl = document.getElementById('AcceptUIContainer');
+    let acceptBackground = document.getElementById('AcceptUIBackground');
+
+    if(acceptEl && this.timer){
+
+      window.setTimeout(()=>{
+
+        acceptEl?.remove();
+        acceptBackground?.remove();
+
+      }, this.timer);
+
+    }
+  }
+
 }

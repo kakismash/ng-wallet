@@ -1,5 +1,6 @@
 <form
   id="paymentForm">
+
   <button
     *ngIf="!cardEntered"
     #authnetbtn
@@ -13,12 +14,20 @@
     data-acceptUIFormHeaderTxt="Card Information"
     [attr.data-apiLoginId]="apiLoginId"
     [attr.data-clientKey]="clientKey"
-    data-responseHandler="responseHandler"><mat-icon>credit_card</mat-icon>Enter Card</button>
+    data-responseHandler="responseHandler"
+    (click)="dismissFormTimer()">
+    <mat-icon>credit_card</mat-icon>
+    Enter Card
+  </button>
+
   <button
     *ngIf="cardEntered"
     mat-raised-button
     [ngStyle]="{'background-color':buttonColor ? buttonColor : 'primary'}"
     type="submit"
     class="pointer button-width"
-    (click)="submitForm()">Submit</button>
+    (click)="submitForm()">
+    Submit
+  </button>
+
 </form>

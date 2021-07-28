@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Stripe, PaymentIntent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
+import { StripePaymentService } from '../service/stripe-payment.service';
+
 
 @Component({
-  selector: 'lib-stripe-pay',
+  selector: 'stripe-pay',
   templateUrl: './stripe-pay.component.html',
   styleUrls: ['./stripe-pay.component.scss']
 })
@@ -36,12 +38,11 @@ export class StripePayComponent implements OnInit {
     },
   };
   paymentInfo: any;
-  stripePaymentService: any;
   readyToPay!: boolean;//make this into a boolean
   paymentForm: any;
   disablePayButton!: boolean;
 
-  constructor() { }
+  constructor(private stripePaymentService: StripePaymentService) { }
 
   ngOnInit(): void {
   }

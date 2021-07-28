@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApplePayJS } from './apple-pay/applePay';
 import { OnChanges } from '@angular/core';
 import { PayRequest } from './payment-request/payRequest';
-import { StripePaymentService } from './service/stripe-payment.service';
 
 
 @Component({
@@ -11,14 +10,6 @@ import { StripePaymentService } from './service/stripe-payment.service';
   templateUrl: './ui-payments.component.html'
 })
 export class UiPaymentsComponent implements OnInit, OnChanges {
-
-   /**TODO:
-    * Change the way the paymentRequest property is structured
-    * Create input properties for every item under info that is under the paymentRequest
-    * Create the event emiiters for successful payments and failed payments
-    * create input properties for the endpoints regarding stripe and authorize.net
-    * LOOK INTO HOW GOOGLE PAY AND APPLE PAY WORK WITH THE PAYMENTREQUEST FIELD
-    * */
 
   title = 'ui-payments';
 
@@ -45,6 +36,7 @@ export class UiPaymentsComponent implements OnInit, OnChanges {
   @Input() apiLoginId!:             string;//"5dJ6eN8V"
   @Input() clientKey!:              string;//"9Q25f799AVFeY4j2d2hJ29C253q2BJrLKet2uJPhaQVnL9KG7Jdcb8jrGhuGEvbR";
   @Input() buttonColorAuth!:        string;
+  @Input() timer!:                  number;
 
   //**********Button Google Configuration********//
   @Input() buttonColorGoogle:                 google.payments.api.ButtonColor                      = 'black';
@@ -77,7 +69,7 @@ export class UiPaymentsComponent implements OnInit, OnChanges {
 
   @Input() paymentRequest!:                   PaymentRequestUiPayments;//this is for GooglePay & ApplePay
 
-  constructor(private stripePaymentService: StripePaymentService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.doPaymentRequestOnChange();

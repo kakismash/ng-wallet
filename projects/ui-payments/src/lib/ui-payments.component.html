@@ -1,12 +1,3 @@
-<!-- <div *ngIf="!readyToPay">
-  <button mat-raised-button
-  color="primary"
-  class="button-ready"
-  (click)="ready(true)">
-  &nbsp;READY TO PAY
-</button>
-</div> -->
-<!-- *ngIf="paymentType === 'auth.net' && readyToPay" -->
 <div id="ui-payments">
 
   <google-pay
@@ -40,6 +31,7 @@
   </apple-pay> -->
 
   <authnet-pay
+    [timer]="timer"
     [publicKey]="publicKey"
     [apiLoginId]="apiLoginId"
     [clientKey]="clientKey"
@@ -51,5 +43,4 @@
 
 </div>
 
-<!-- <div #stripePayments id="stripe-payments" *ngIf="paymentType === 'stripe' && readyToPay">
-</div> -->
+<!-- <stripe-pay></stripe-pay> -->
