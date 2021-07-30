@@ -30,7 +30,8 @@
   [lineItems]="lineItems">
   </apple-pay> -->
 
-  <authnet-pay
+  <!-- MANUAL ENTRY OF CARD-->
+  <authnet-pay *ngIf="gateway === 'auth.net'"
     [timer]="timer"
     [publicKey]="publicKey"
     [apiLoginId]="apiLoginId"
@@ -41,6 +42,8 @@
     (paymentFail)="emitFailedPayment($event)">
   </authnet-pay>
 
+  <stripe-pay *ngIf="gateway === 'stripe'">
+  </stripe-pay>
+
 </div>
 
-<!-- <stripe-pay></stripe-pay> -->

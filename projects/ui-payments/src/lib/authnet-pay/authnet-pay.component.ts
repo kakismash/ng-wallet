@@ -9,7 +9,7 @@ import { PayRequest } from '../payment-request/payRequest';
 })
 export class AuthNetPayComponent {
 
-  cardEntered:            boolean = false;
+  calls:            number = 0;
 
   @Input() publicKey!:    string;
   @Input() apiLoginId?:   string;
@@ -18,8 +18,8 @@ export class AuthNetPayComponent {
   @Input() buttonColor!:  string;
   @Input() timer!:        number;
 
-  @Output() paymentSuccess:         EventEmitter<string> = new EventEmitter();
-  @Output() paymentFail:            EventEmitter<string> = new EventEmitter();
+  @Output() paymentSuccess:         EventEmitter<any> = new EventEmitter();
+  @Output() paymentFail:            EventEmitter<any> = new EventEmitter();
 
   constructor(private paymentService: AuthPaymentService) {}
 
@@ -48,7 +48,7 @@ export class AuthNetPayComponent {
 
         payment.token = event.data.pktData.opaqueData.dataValue;
         payment.source = event.data.pktData.opaqueData.dataDescriptor;
-        this.cardEntered = true;
+        this.submitForm();
 
       }
     }
@@ -56,20 +56,22 @@ export class AuthNetPayComponent {
   }
 
   submitForm(): void {
-
-    this.paymentService
-        .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payment)
-        .subscribe({
-          next: (resp=>
-            {
-              console.log('AUTH.NET PAYMENT SUCCESS: '+resp);
-              this.paymentSuccess.emit('Success');
-            }),
-          error:(err=>{
-            console.log('AUTH.NET PAYMENT ERROR: '+err);
-            this.paymentFail.emit(JSON.stringify({message: 'failed', errorType: err.error}));
-            this.cardEntered = false;
-          })});
+    if(this.calls< 1){
+      this.calls++;
+      this.paymentService
+          .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payment)
+          .subscribe({
+            next: (resp=>
+              {
+                console.log('AUTH.NET PAYMENT SUCCESS: '+resp);
+                this.paymentSuccess.emit(resp);
+              }),
+            error:(err=>{
+              this.paymentFail.emit(err);
+            })});
+    }else{
+      console.log('TWO CALLS ARE PROHIBITED');
+    }
   }
 
   dismissFormTimer(): void {

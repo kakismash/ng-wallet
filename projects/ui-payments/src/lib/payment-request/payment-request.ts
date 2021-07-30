@@ -16,7 +16,7 @@ export class PaymentRequestUiPayments {
   allowedCardNetworks!:                 string[];
 
   // Merchant and Gateway
-  typeTokenization!:                    string;
+  TokenizationSpecification!:                    string;
   gateway!:                             string
   gatewayMerchantId!:                   string;
   merchantId!:                          string;
