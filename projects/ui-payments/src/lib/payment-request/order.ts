@@ -2,8 +2,8 @@ import { Discount } from './discount';
 import { Item } from './item';
 import { Tax } from './tax';
 
-export class Info {
-
+export class Order {
+  id!: string;
   // Items
   items?:             Item[];
 

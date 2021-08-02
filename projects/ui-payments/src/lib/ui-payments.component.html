@@ -1,6 +1,7 @@
 <div id="ui-payments">
 
   <google-pay
+    *ngIf="gateway === 'auth.net'"
     [buttonColor]="buttonColorGoogle"
     [buttonType]="buttonTypeGoogle"
     [buttonSizeMode]="buttonSizeMode"
@@ -34,15 +35,22 @@
   <authnet-pay *ngIf="gateway === 'auth.net'"
     [timer]="timer"
     [publicKey]="publicKey"
-    [apiLoginId]="apiLoginId"
-    [clientKey]="clientKey"
-    [buttonColor]="buttonColorAuth"
+    [apiLoginId]="apiLoginIdAuth"
+    [clientKey]="clientKeyAuth"
+    [buttonColor]="buttonColor"
     [payment]="paymentInfo"
     (paymentSuccess)="emitSuccessPayment($event)"
     (paymentFail)="emitFailedPayment($event)">
   </authnet-pay>
 
-  <stripe-pay *ngIf="gateway === 'stripe'">
+  <stripe-pay
+    *ngIf="gateway === 'stripe'"
+    [publicId]="publicKey"
+    [secretKey]="secretKeyStripe"
+    [paymentInfo]="paymentInfo"
+    [publishableKey]="publishableKeyStripe"
+    [colorButton]="buttonColor"
+    [colorFont]="colorFont">
   </stripe-pay>
 
 </div>

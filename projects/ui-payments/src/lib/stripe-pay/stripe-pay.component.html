@@ -1,19 +1,18 @@
 
 <!-- Manual credit card -->
 <div #manualPayment
-*ngIf="readyToPay"
 class="manual-container">
-<div #cardDiv
-id='cardDiv'>
-<!-- Stripe card elements will be inserted here -->
-</div>
+  <div #cardDiv
+    id="cardDiv">
+  <!-- Stripe card elements will be inserted here -->
+  </div>
 <div>
 <button mat-raised-button
   color="primary"
-  [ngStyle]="{'background-color':colorButton ? colorButton : 'primary'}"
+  [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }"
   class="button-pay"
   type="submit"
-  [disabled]="disablePayButton || paymentForm.value.amount <= 0"
+  [disabled]="disablePayButton || paymentInfo.amount <= 0"
   *ngIf="!wallet"
   (click)="pay()">
 <mat-icon>credit_card</mat-icon>&nbsp;PAY
@@ -26,7 +25,6 @@ class="card-error">
 </div>
 
 <!-- Wallet payment (Apple Pay, Google Wallet, Microsoft Pay-->
-<div id="walletDiv"
-*ngIf="readyToPay">
+<div id="walletDiv" #walletDiv>
 <!-- A Stripe Element will be inserted here. -->
 </div>

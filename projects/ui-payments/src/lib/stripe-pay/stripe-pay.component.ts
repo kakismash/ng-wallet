@@ -1,6 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Stripe, PaymentIntent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
+import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import {
+  PaymentIntent,
+  StripeCardElementOptions,
+  StripeElementsOptions } from '@stripe/stripe-js';
+import { PayRequest } from '../payment-request/payRequest';
 import { StripePaymentService } from '../service/stripe-payment.service';
+import { Order } from '../payment-request/order';
 
 
 @Component({
@@ -8,20 +13,28 @@ import { StripePaymentService } from '../service/stripe-payment.service';
   templateUrl: './stripe-pay.component.html',
   styleUrls: ['./stripe-pay.component.scss']
 })
-export class StripePayComponent implements OnInit {
+export class StripePayComponent {
+  @ViewChild('walletDiv', {static: false}) walletDivRef?: ElementRef;
+  @ViewChild('cardDiv', {static: false}) cardDivRef?: ElementRef;
 
-  @Input() wallet!: boolean;
-  @Input() paymentIntent!: PaymentIntent;
-  @Input() reference!: string;
-  // @Input() stripe!: stripe.Stripe;
-  // @Input() stripeElements!: stripe.elements.Elements;
-  // @Input() cardElement!: stripe.elements.Element;
-  @Input() elementsOptions: StripeElementsOptions = {locale: 'en'};
+  @Input() paymentInfo: PayRequest = new PayRequest();
+  @Input() publicId!: string; // not needed?
+  @Input() secretKey!: string;
+  @Input() publishableKey!: string;
   @Input() colorButton!: string;
-    // stripe!: stripe.Stripe;
-  // stripeElements!: stripe.elements.Elements;
-  // cardElement!: stripe.elements.Element;
-  // elementsOptions: StripeElementsOptions = {locale: 'en'};
+  @Input() colorFont!: string;
+  @Input() order!: Order;
+
+  @Output() paymentSuccess: EventEmitter<any> = new EventEmitter();
+  @Output() paymentFailed: EventEmitter<any> = new EventEmitter();
+
+  wallet?: boolean = false;
+  reference?: string;
+  paymentIntent!: PaymentIntent;
+  stripe!: stripe.Stripe;
+  stripeElements!: stripe.elements.Elements;
+  cardElement!: stripe.elements.Element;
+  elementsOptions: StripeElementsOptions = {locale: 'en'};
 
   cardOptions: StripeCardElementOptions = {
     style: {
@@ -37,110 +50,205 @@ export class StripePayComponent implements OnInit {
       },
     },
   };
-  paymentInfo: any;
-  readyToPay!: boolean;//make this into a boolean
-  paymentForm: any;
+  readyToPay!: boolean; // make this into a boolean
   disablePayButton!: boolean;
 
-  constructor(private stripePaymentService: StripePaymentService) { }
-
-  ngOnInit(): void {
+  constructor(private stripePaymentService: StripePaymentService) {
   }
 
-  // getIntent(){
+  ngAfterContentInit(): void {
+    //Called after ngOnInit when the component's or directive's content has been initialized.
+    //Add 'implements AfterContentInit' to the class.
+    this.getIntent();
+    this.stripe = Stripe(this.publishableKey);
+  }
 
-  //   console.log('getIntent: ' +  Math.round(this.paymentInfo.amount * 100) + ' active tip ' + this.paymentInfo.tip);
+  getIntent(){
 
-  //   // const request: PayRequest = {intentId: this.paymentIntent?.id,
-  //   //                               orderId: this.order.id,
-  //   //                               amount: Math.round(this.paymentForm.value.total * 100),
-  //   //                               tip: Math.round(this.paymentForm.value.tip * 100),
-  //   //                               currency: 'usd',
-  //   //                               description: this.name,
-  //   //                               email: this.paymentForm.controls.email.value,
-  //   //                               notify: this.notify};
+    console.log('getIntent: ' +  Math.round(this.paymentInfo.amount * 100) + ' active tip ' + this.paymentInfo.tip);
 
-  //   // this.checkoutDestroy();
-  //   this.stripePaymentService
-  //       .payIntent(this.credentials,
-  //                  this.paymentInfo)
-  //       .subscribe({
-  //         next: (res => { // Set up Stripe Elements
-  //         this.paymentIntent = res as unknown as PaymentIntent;
-  //         this.reference = res.reference;
-  //         this.stripeElements = this.stripe.elements();
-  //         this.walletCheckout(this.paymentIntent);
-  //         }),
-  //         error: (error => {
-  //         this.readyToPay = false;
-  //         // this.snackBar
-  //         //     .open(error.error,
-  //         //                     'Dismiss',
-  //         //                     {duration: 5000});
-  //         })
-  //   });
-  // }
-  // credentials(credentials: any, paymentInfo: any) {
-  //   throw new Error('Method not implemented.');
-  // }
+    const request: PayRequest = {intentId: this.paymentIntent?.id,
+                                  orderId: this.paymentInfo.orderId,
+                                  amount: Math.round(this.paymentInfo.amount * 100),
+                                  tip: Math.round(this.paymentInfo.tip * 100),
+                                  currency: this.paymentInfo.currency,
+                                  description: this.paymentInfo.description,
+                                  email: this.paymentInfo.email,
+                                  notify: this.paymentInfo.notify,
+                                  offline: this.paymentInfo.offline,
+                                  token: this.publicId,
+                                  source: this.paymentInfo.source
+                                };
 
-  // walletCheckout(intent: PaymentIntent) {
-  //   const v = Number(this.paymentForm.value.total * 100).toString();
-  //   const paymentRequest = this.stripe.paymentRequest({
-  //     country: 'US',
-  //     currency: 'usd',
-  //     total: {
-  //       label: this.paymentInfo.description,//this should be the stores name not a description
-  //       amount: parseInt(v, 10)
-  //     },
-  //     requestPayerName: true,
-  //     requestPayerEmail: true,
-  //   });
+    // this.checkoutDestroy();
+    this.stripePaymentService
+        .payIntent(this.publicId,
+                   request)
+        .subscribe({
+          next: (res => { // Set up Stripe Elements
+            this.paymentIntent = res as unknown as PaymentIntent;
+            this.reference = res.reference;
+            this.stripeElements = this.stripe.elements();
+            this.walletCheckout(this.paymentIntent);
+          }),
+          error: (error => {
+            this.readyToPay = false;
+            // this.snackBar
+            //     .open(error.error,
+            //                     'Dismiss',
+            //                     {duration: 5000});
+          })
+    });
+  }
 
-  //   const elements     = this.stripe.elements();
-  //   const walletButton = elements.create('paymentRequestButton',
-  //                                        {paymentRequest, });
 
-  //   // Check the availability of the Payment Request API first.
-  //   paymentRequest.canMakePayment()
-  //                 .then(result => {
+  walletCheckout(intent: PaymentIntent) {
+    const v = Number(this.paymentInfo.amount * 100).toString();
+    const paymentRequest = this.stripe.paymentRequest({
+      country: 'US',
+      currency: 'usd',
+      total: {
+        label: this.paymentInfo.description,//this should be the stores name not a description -crsmejia
+        amount: parseInt(v, 10)
+      },
+      requestPayerName: true,
+      requestPayerEmail: true,
+    });
 
-  //     if (result) {
-  //       this.wallet = true;
-  //       walletButton.mount('#walletDiv');
-  //       this.walletListener(intent,
-  //                           paymentRequest);
-  //     } else {
-  //       this.wallet = false;
-  //       document.getElementById('walletDiv')
-  //               .style
-  //               .display = 'none';
+    const elements     = this.stripe.elements();
+    const walletButton = elements.create('paymentRequestButton',
+                                         {paymentRequest, });
 
-  //       this.cardCheckout();
-  //     }
-  //   });
-  // }
-  // walletListener(intent: PaymentIntent, paymentRequest: stripe.paymentRequest.StripePaymentRequest) {
-  //   throw new Error('Method not implemented.');
-  // }
-  // cardCheckout() {
-  //   throw new Error('Method not implemented.');
-  // }
+    // Check the availability of the Payment Request API first.
+    paymentRequest.canMakePayment()
+                  .then((result: any) => {
+
+      if (result) {
+        this.wallet = true;
+        walletButton.mount('#walletDiv');
+        this.walletListener(intent,
+                            paymentRequest);
+      } else {
+        this.wallet = false;
+        // document.getElementById('walletDiv')
+        //         .style
+        //         .display = 'none';
+        walletButton.unmount();
+        this.cardCheckout();
+      }
+    });
+  }
+
+  walletListener(intent: PaymentIntent,
+                 request: any): void {
+
+    const stripeObj = this.stripe;
+    const vm = this;
+
+    request.on('paymentmethod', (ev: { paymentMethod: { id: any; }; complete: (arg0: string) => void; }) => {
+
+      // Confirm the PaymentIntent without handling potential next actions (yet).
+      stripeObj.confirmCardPayment(intent.client_secret ? intent.client_secret : '',
+                                   {payment_method: ev.paymentMethod.id},
+                                   {handleActions: false})
+               .then((res: any) => {
+
+        if (res.error) {
+          console.log(res.error);
+          ev.complete('fail');
+          vm.paymentFailed.emit(res);
+        } else if(res && res.paymentIntent) {
+
+          // Report to the browser that the confirmation was successful, prompting
+          // it to close the browser payment method collection interface.
+          ev.complete('success');
+          console.log('Status: ' + res.paymentIntent.status);
+
+          // Check if the PaymentIntent requires any actions and if so let Stripe.js
+          // handle the flow. If using an API version older than "2019-02-11" instead
+          // instead check for: `paymentIntent.status === "requires_source_action"`.
+          if (res.paymentIntent.status === 'requires_action') {
+
+            // Let Stripe.js handle the rest of the payment flow.
+            if(intent.client_secret !== null){
+
+              stripeObj.confirmCardPayment(intent.client_secret)
+              .then((result: any) => {
+                if (result.error) {
+                  vm.paymentFailed.emit(res);
+                } else {
+                  vm.paymentSuccess.emit(res);
+                }
+              });
+
+            }
+
+          } else {
+            vm.paymentSuccess.emit(res);
+          }
+        }
+      });
+    });
+
+    request.on('invalid_request_error', (ev: any) => {
+      alert('Unexpected error');
+      console.log(ev);
+    });
+  }
+
+  cardCheckout(): void{
+
+    const style: any = {base: {color: '#32325d',
+                               fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                               fontSmoothing: 'antialiased',
+                               fontSize: '16px',
+                               '::placeholder': {color: '#aab7c4'}},
+                        invalid: {color: '#fa755a',
+                                  iconColor: '#fa755a'}};
+
+    if (this.cardElement === undefined){
+      this.cardElement = this.stripeElements
+                             .create('card',
+                                     {style});
+    }
+
+    if(this.cardDivRef){
+      this.cardElement
+          .mount(this.cardDivRef.nativeElement);
+    }
+
+    this.disablePayButton = false;
+
+    this.cardElement
+        .on('change',
+            function(event: any) {
+
+        if (event.error) {
+
+        }
+
+      }.bind(this)
+    );
+  }
+
   pay(): void{
 
-    // this.disablePayButton = true;
-    // this.stripe
-    //     .confirmCardPayment(this.paymentIntent.client_secret,
-    //                         {payment_method: {card: this.cardElement}})
-    //     .then(res => {
+    this.disablePayButton = true;
 
-    //   if (res.error){
-    //     this.paymentFailed(res);
-    //     this.disablePayButton = false;
-    //   } else{
-    //     this.paymentSucceeded(res);
-    //   }
-    // });
+    if(this.paymentIntent && this.paymentIntent.client_secret){
+      this.stripe
+          .confirmCardPayment(this.paymentIntent.client_secret,
+                              {payment_method: {card: this.cardElement}})
+          .then((res: any) => {
+
+        if (res.error){
+          this.paymentFailed.emit(res);
+          this.disablePayButton = false;
+        } else{
+          this.paymentSuccess.emit(res);
+        }
+      });
+    }
   }
 
 

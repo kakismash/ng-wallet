@@ -17,7 +17,7 @@ export class UiPaymentsComponent implements OnInit {
 
   //***********Ui-Payments Component Configuration*********//
 
-  calls: number = 0;//this is to prevent to transactions being performed
+  attempt: number = 0;//this is to prevent to transactions being performed
 
   @Input() gateway!:                string;// either stripe or authorize.net
   @Input() gatewayMerchantId!:      string;
@@ -25,28 +25,28 @@ export class UiPaymentsComponent implements OnInit {
   @Input() intentEndpoint?:         string;
   @Input() completionEndpoint?:     string;
   @Input() paymentInfo!:            PayRequest; //This is for authorize.net and stripe
-  @Input() publicKey!:              string; // This is Nosher's public key
+  @Input() publicKey!:              string; // This is Nosher's public key/public id
+  @Input() buttonColor!:            string;
+  @Input() colorFont!:              string;
 
   @Output() paymentSuccess:         EventEmitter<any> = new EventEmitter();
   @Output() paymentFail:            EventEmitter<any> = new EventEmitter();
 
   //***********Stripe Configuration*********//
 
-  wallet!: boolean;
-  reference!: string;
-
+  @Input() secretKeyStripe!: string;
+  @Input() publishableKeyStripe!: string;
 
   //***********Authorize.net Configuration*********//
 
-  @Input() apiLoginId!:             string;//"5dJ6eN8V"
-  @Input() clientKey!:              string;//"9Q25f799AVFeY4j2d2hJ29C253q2BJrLKet2uJPhaQVnL9KG7Jdcb8jrGhuGEvbR";
-  @Input() buttonColorAuth!:        string;
+  @Input() apiLoginIdAuth!:             string;//"5dJ6eN8V"
+  @Input() clientKeyAuth!:              string;//"9Q25f799AVFeY4j2d2hJ29C253q2BJrLKet2uJPhaQVnL9KG7Jdcb8jrGhuGEvbR";
   @Input() timer!:                  number;
 
   //**********Button Google Configuration********//
 
   @Input() buttonColorGoogle:                 google.payments.api.ButtonColor                      = 'black';
-  @Input() buttonTypeGoogle:                  google.payments.api.ButtonType                       = 'buy';
+  @Input() buttonTypeGoogle:                  google.payments.api.ButtonType                       = 'pay';
   @Input() buttonSizeMode:                    google.payments.api.ButtonSizeMode                   = 'fill';
   @Input() buttonLocaleGoogle:                string                                               = 'en';
   @Input() environment:                       google.payments.api.Environment                      = 'TEST';
@@ -80,12 +80,16 @@ export class UiPaymentsComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log('Apple: ', this.paymentRequestApple);
-    this.createPaymentRequest();
+    if(this.gateway !== 'stripe'){
+      this.createPaymentRequest();
+    }
   }
 
   ngAfterViewInit(): void {
-    this.doPaymentRequestOnChange();
-    console.log('Google: ', this.paymentRequestGoogle);
+    if(this.gateway !== 'stripe'){
+      this.doPaymentRequestOnChange();
+      console.log('Google: ', this.paymentRequestGoogle);
+    }
   }
 
   doPaymentRequestOnChange(): void {
@@ -109,25 +113,29 @@ export class UiPaymentsComponent implements OnInit {
 
     this.paymentInfo.source = 'COMMON.GOOGLE.INAPP.PAYMENT'
     this.paymentInfo.token = Buffer.from(result.paymentMethodData.tokenizationData.token, 'utf-8').toString('base64');
-    console.log(this.paymentInfo);
 
-    if(this.calls< 1){
-      this.calls++;
-      this.paymentService
-          .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.paymentInfo)
-          .subscribe({
-            next: (resp=>
-              {
-                console.log('AUTH.NET PAYMENT SUCCESS: '+resp);
-                this.paymentSuccess.emit(resp);
-              }),
-            error:(err=>{
-              this.paymentFail.emit(err);
-            })});
-    }else{
-      console.log('TWO CALLS ARE PROHIBITED');
+    this.attempt++;
+
+    if(this.attempt < 1) {
+      this.sendGooglePayment();
     }
 
+  }
+
+  sendGooglePayment(): void {
+    this.paymentService
+        .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.paymentInfo)
+        .subscribe({
+          next: (resp=>
+            {
+              console.log('AUTH.NET PAYMENT SUCCESS: '+resp);
+              this.paymentSuccess.emit(resp);
+            }),
+          error:(err=>{
+            this.paymentFail.emit(err);
+            this.attempt = 0;
+          })
+        });
   }
 
   getGateway(): string {
@@ -168,6 +176,7 @@ export class UiPaymentsComponent implements OnInit {
       appleMerchant: '/authorizeMerchant',
       merchantCapabilities: ['SUPPORTS_3DS'],
       info: {
+        id: '1',
         totalPriceStatus: 'FINAL',
         totalPriceLabel: 'Total',
         totalPrice: '20.00',
