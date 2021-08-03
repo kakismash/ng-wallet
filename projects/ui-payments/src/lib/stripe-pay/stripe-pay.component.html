@@ -12,7 +12,7 @@ class="manual-container">
   [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }"
   class="button-pay"
   type="submit"
-  [disabled]="disablePayButton || paymentInfo.amount <= 0"
+  [disabled]="disablePayButton || payRequest.amount <= 0"
   *ngIf="!wallet"
   (click)="pay()">
 <mat-icon>credit_card</mat-icon>&nbsp;PAY

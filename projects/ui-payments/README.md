@@ -1,6 +1,6 @@
 # Wallet for Angular 
 
-Digital Wallet Integrations for Angular. Availability of making payments using Google Pay and Apple Pay.
+Digital Wallet Integrations for Angular. Enabling the use of Authorize.net and Stripe. Availability of making payments using Google Pay and Apple Pay.
 
 ## Requirements for Google Pay 
 
@@ -39,6 +39,17 @@ imports: [
 ]
 ```
 
+If you're using Authorize.net also include the code below. 
+Make sure it's in the file were you're using this component and loaded before the component is rendered.
+```bash
+  loadAcceptScript(): void {
+    const node = document.createElement('script');
+    node.src = 'https://jstest.authorize.net/v3/AcceptUI.js';
+    node.defer = true;
+    document.getElementsByTagName('head')[0].appendChild(node);
+  }
+```
+
 Once it is included, you have to use it and configure it to your liking.
 For them in the HTML we use the selector `<ui-payments></ui-payments>`
 
@@ -47,65 +58,93 @@ For them in the HTML we use the selector `<ui-payments></ui-payments>`
 **.ts File**
 
 ```bash
-paymentRequest: PaymentRequestUiPayments = {
-    versionAPIApple: 2,
-    typePaymentMethod: 'CARD',
-    allowedAuthMethods: [
-      'PAN_ONLY', 'CRYPTOGRAM_3DS'
-    ],
-    allowedCardNetworks: [
-      'VISA', 'MASTERCARD'
-    ],
-    typeTokenization: 'PAYMENT_GATEWAY',
-    gateway: 'example',
-    gatewayMerchantId: 'exampleGatewayMerchantId',
-    merchantId: '12345678901234567890',
-    merchantName: 'Demo Merchant',
-    appleMerchant: '/authorizeMerchant',
-    merchantCapabilities: ['SUPPORTS_3DS'],
-    info: {
-      totalPriceStatus: 'FINAL',
-      totalPriceLabel: 'Total',
-      totalPrice: '20.00',
-      currencyCode: 'USD',
-      countryCode: 'US',
-      subTotalPrice: '5.00',
-      items: [
-        {
-          label: 'Beer',
-          price: '1.99',
-          quantity: 1
-        },
-        {
-          label: 'Cheeseburger',
-          price: '3.99',
-          quantity: 1
-        }
-      ],
-      taxes: [
-        {
-          label: 'Taxes',
-          amount: '6.00'
-        }
-      ],
-      discount: {
-        label: 'Discount',
-        amount: '3.44'
-      }
-    }
+    // 
+    request: PayRequest = {
+      intentId: this.paymentIntent?.id, // this would be for stripe
+      orderId: this.payRequest.orderId,
+      amount: Math.round(this.payRequest.amount),
+      tip: Math.round(this.payRequest.tip),
+      currency: this.payRequest.currency,
+      description: this.payRequest.description,
+      email: this.payRequest.email,
+      notify: this.payRequest.notify,
+      offline: this.payRequest.offline,
+      token: this.publicId,
+      source: this.payRequest.source
+    };
+
+    class Payment {
+    id: number;
+//    chargeId: string;
+    description?: string;
+    requested: number;
+    total: number;
+    tip: number = 0;
+    currency: string;
+    created: string;
+
+    order?: Order;
+    orderName?: string;
+    fromPos?: boolean;
+    posId?: string;
+    posNotified?: string;
+
+    voidBy?: string;
+
+    reference?: string;
+
+    refundId?: string;
+    status?: string;
+    storeId?: number;
+    accountId?: string;
+    submitted?: string;
+    token?: string;
 }
 ```
 
 **.html File**
 ```bash
-<ui-payments
-  [paymentRequest]="paymentRequest"
->
-</ui-payments>
+        // Authorize.net
+        <ui-payments
+          [payRequest]="payRequest"
+          [gateway]="gateway"
+          [gatewayMerchantId]="gatewayMerchantId"
+          [publicKey]="publicKey"
+          [apiLoginIdAuth]="apiLoginId"
+          [clientKeyAuth]="clientKey"
+          [timer]="(counter*1000)"
+          [buttonColor]="colorButton"
+          (paymentSuccess)="paymentSucceeded($event)"
+          (paymentFail)="paymentFailed($event)"
+          >
+        </ui-payments>
+
+        // Stripe
+        <ui-payments
+          [gateway]="gateway"
+          [publicKey]="publicKey"
+          [payRequest]="payRequest"
+          [secretKeyStripe]="secretKey"
+          [publishableKeyStripe]="publishKey"
+          [buttonColor]="colorButton"
+          [colorFont]="colorFont"
+          (paymentSuccess)="paymentSucceeded($event)"
+          (paymentFail)="paymentFailed($event)"
+        >
+        </ui-payments>
 ```
 ## Properties
 
-* **paymentRequest**: *A request for payment, which includes information about payment processing capabilities, the payment amount, and shipping information. For more information, see [ApplePayPaymentRequest](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest) and [PaymentData](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData).*
+* **payRequest**: *Includes information about the payment such as the payment amount, and tip. Look at the example above for the object structure.*
+* **gateway**: *The gateway being user, for example Stripe or Authorize.net.*
+* **gatewayMerchantId**: *The gateway merchant id provided by Authorize.net.*
+* **publicKey**: *Nosher's public key.*
+* **apiLoginIdAuth**: *This is provided by Authorize.net.*
+* **clientKeyAuth**: *This is provided by Authorize.net.*
+* **timer**: *Timer to close authorize.net hosted form.*
+* **secretKeyStripe**: *The secret key provided by Stripe.*
+* **publishableKeyStripe**: *The publishable key provided by Stripe.*
+
 * **versionAPIApple**: *An integer specifying the Apple Pay version number. For the best compatibility with operating systems and browsers, use the lowest possible version number that supports the features required. For more information, see [supportsVersion](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaysession/1778014-supportsversion).*
 * **typePaymentMethod**: *A short identifier for the supported payment method. Only **CARD** and **PAYPAL** currently are supported entries.*
 * **allowedAuthMethods**: *Fields supported to authenticate a card transaction. Only **PAN_ONLY** and **CRYPTOGRAM_3DS** currently are supported entries. For more information, see [Card Parameters](https://developers.google.com/pay/api/web/reference/request-objects?hl=ru#CardParameters).*

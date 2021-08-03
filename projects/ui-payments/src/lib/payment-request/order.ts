@@ -12,6 +12,9 @@ export class Order {
 
   // Tax
   taxes?:             Tax[];
+  tax?:               number;
+  taxRate?:           number;
+  taxRateScale?:      number;
 
   // Discount
   discount?:          Discount;

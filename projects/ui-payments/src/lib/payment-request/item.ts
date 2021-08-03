@@ -1,6 +1,6 @@
 export class Item {
 
-  label!:       string;
-  price!:       string;
+  label!:        string;
+  price!:       any;
   quantity!:    number;
 }

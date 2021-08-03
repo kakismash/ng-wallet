@@ -14,7 +14,7 @@ export class AuthNetPayComponent {
   @Input() publicKey!:    string;
   @Input() apiLoginId?:   string;
   @Input() clientKey?:    string;
-  @Input() payment:       PayRequest = new PayRequest();
+  @Input() payRequest:    PayRequest = new PayRequest();
   @Input() buttonColor!:  string;
   @Input() timer!:        number;
 
@@ -28,7 +28,7 @@ export class AuthNetPayComponent {
   ngAfterViewInit(): void {
 
     window.addEventListener('message', (event)=>{
-      this.paymentHandler(event, this.payment);
+      this.paymentHandler(event, this.payRequest);
     }
     , false);
 
@@ -59,7 +59,7 @@ export class AuthNetPayComponent {
     if(this.calls< 1){
       this.calls++;
       this.paymentService
-          .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payment)
+          .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payRequest)
           .subscribe({
             next: (resp=>
               {

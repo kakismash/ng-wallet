@@ -6,6 +6,8 @@ import { PayRequest } from './payment-request/payRequest';
 import { AuthPaymentService } from './service/auth-payment.service';
 // import { Buffer } from 'node:buffer';
 import { Buffer } from 'buffer';
+import { Order } from './payment-request/order';
+import { Item } from './payment-request/item';
 
 @Component({
   selector: 'ui-payments',
@@ -24,10 +26,11 @@ export class UiPaymentsComponent implements OnInit {
   @Input() credentials!:            string;
   @Input() intentEndpoint?:         string;
   @Input() completionEndpoint?:     string;
-  @Input() paymentInfo!:            PayRequest; //This is for authorize.net and stripe
+  @Input() payRequest!:             PayRequest; //This is for authorize.net and stripe
   @Input() publicKey!:              string; // This is Nosher's public key/public id
   @Input() buttonColor!:            string;
   @Input() colorFont!:              string;
+  @Input() order!:                  Order;
 
   @Output() paymentSuccess:         EventEmitter<any> = new EventEmitter();
   @Output() paymentFail:            EventEmitter<any> = new EventEmitter();
@@ -41,7 +44,7 @@ export class UiPaymentsComponent implements OnInit {
 
   @Input() apiLoginIdAuth!:             string;//"5dJ6eN8V"
   @Input() clientKeyAuth!:              string;//"9Q25f799AVFeY4j2d2hJ29C253q2BJrLKet2uJPhaQVnL9KG7Jdcb8jrGhuGEvbR";
-  @Input() timer!:                  number;
+  @Input() timer!:                      number;
 
   //**********Button Google Configuration********//
 
@@ -56,7 +59,7 @@ export class UiPaymentsComponent implements OnInit {
   @Input() readyToPayChangeCallback?:         (result: any) => void;
   @Input() loadPaymentDataCallback?:          (paymentData: google.payments.api.PaymentData) => void = (result)=>{ this.loadPaymentDataGooglePay(result)};
   @Input() cancelCallback?:                   (reason: google.payments.api.PaymentsError) => void;
-  @Input() errorCallback?:                    (error: Error) => void;
+  @Input() errorCallback?:                    (error: Error) => void = (error)=>{this.googleButtonError(error)};
 
   paymentRequestGoogle!:                      google.payments.api.PaymentDataRequest;
 
@@ -73,7 +76,7 @@ export class UiPaymentsComponent implements OnInit {
   total!:                                     ApplePayJS.ApplePayLineItem;
   lineItems!:                                 Array<ApplePayJS.ApplePayLineItem>;
 
-  @Input() paymentRequest!:                   PaymentRequestUiPayments;//this is for GooglePay & ApplePay
+  paymentRequest!:                   PaymentRequestUiPayments;//this is for GooglePay & ApplePay
 
 
   constructor(private paymentService: AuthPaymentService) {}
@@ -81,15 +84,11 @@ export class UiPaymentsComponent implements OnInit {
   ngOnInit(): void {
     // console.log('Apple: ', this.paymentRequestApple);
     if(this.gateway !== 'stripe'){
-      this.createPaymentRequest();
-    }
-  }
-
-  ngAfterViewInit(): void {
-    if(this.gateway !== 'stripe'){
-      this.doPaymentRequestOnChange();
-      console.log('Google: ', this.paymentRequestGoogle);
-    }
+      this.createPaymentRequest().then(()=>{
+        this.doPaymentRequestOnChange();
+        console.log('Google: ', this.paymentRequestGoogle);
+      });
+    };
   }
 
   doPaymentRequestOnChange(): void {
@@ -111,20 +110,15 @@ export class UiPaymentsComponent implements OnInit {
   loadPaymentDataGooglePay(result: any): void {
     //this gets a json form google containing the card info and a processing token
 
-    this.paymentInfo.source = 'COMMON.GOOGLE.INAPP.PAYMENT'
-    this.paymentInfo.token = Buffer.from(result.paymentMethodData.tokenizationData.token, 'utf-8').toString('base64');
+    this.payRequest.source = 'COMMON.GOOGLE.INAPP.PAYMENT'
+    this.payRequest.token = Buffer.from(result.paymentMethodData.tokenizationData.token, 'utf-8').toString('base64');
 
-    this.attempt++;
-
-    if(this.attempt < 1) {
-      this.sendGooglePayment();
-    }
-
+    this.sendGooglePayment();
   }
 
   sendGooglePayment(): void {
     this.paymentService
-        .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.paymentInfo)
+        .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payRequest)
         .subscribe({
           next: (resp=>
             {
@@ -157,7 +151,8 @@ export class UiPaymentsComponent implements OnInit {
     return gateway;
   }
 
-  createPaymentRequest(): void {
+  async createPaymentRequest(): Promise<void> {
+    // This is for google pay
 
     this.paymentRequest = {
       versionAPIApple: 2,
@@ -176,36 +171,24 @@ export class UiPaymentsComponent implements OnInit {
       appleMerchant: '/authorizeMerchant',
       merchantCapabilities: ['SUPPORTS_3DS'],
       info: {
-        id: '1',
+        id: this.order.id,
         totalPriceStatus: 'FINAL',
         totalPriceLabel: 'Total',
-        totalPrice: '20.00',
-        currencyCode: 'USD',
+        totalPrice: String(this.payRequest.amount),
+        currencyCode: this.order.currencyCode,
         countryCode: 'US',
-        subTotalPrice: '5.00',
-        items: [
-          {
-            label: 'Beer',
-            price: '1.99',
-            quantity: 1
-          },
-          {
-            label: 'Cheeseburger',
-            price: '3.99',
-            quantity: 1
-          }
-        ],
+        subTotalPrice: this.order.subTotalPrice,
         taxes: [
           {
             label: 'Taxes',
-            amount: '6.00'
+            amount: String(this.order.tax)
           }
-        ],
-        discount: {
-          label: 'Discount',
-          amount: '3.44'
-        }
+        ]
       }
     };
+  }
+
+  googleButtonError(error: any): void {
+    console.log(error);
   }
 }

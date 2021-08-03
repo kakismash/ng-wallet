@@ -17,7 +17,7 @@ export class StripePayComponent {
   @ViewChild('walletDiv', {static: false}) walletDivRef?: ElementRef;
   @ViewChild('cardDiv', {static: false}) cardDivRef?: ElementRef;
 
-  @Input() paymentInfo: PayRequest = new PayRequest();
+  @Input() payRequest: PayRequest = new PayRequest();
   @Input() publicId!: string; // not needed?
   @Input() secretKey!: string;
   @Input() publishableKey!: string;
@@ -56,28 +56,28 @@ export class StripePayComponent {
   constructor(private stripePaymentService: StripePaymentService) {
   }
 
-  ngAfterContentInit(): void {
-    //Called after ngOnInit when the component's or directive's content has been initialized.
-    //Add 'implements AfterContentInit' to the class.
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
     this.getIntent();
     this.stripe = Stripe(this.publishableKey);
   }
 
   getIntent(){
 
-    console.log('getIntent: ' +  Math.round(this.paymentInfo.amount * 100) + ' active tip ' + this.paymentInfo.tip);
+    console.log('getIntent: ' +  Math.round(this.payRequest.amount) + ' active tip ' + this.payRequest.tip);
 
     const request: PayRequest = {intentId: this.paymentIntent?.id,
-                                  orderId: this.paymentInfo.orderId,
-                                  amount: Math.round(this.paymentInfo.amount * 100),
-                                  tip: Math.round(this.paymentInfo.tip * 100),
-                                  currency: this.paymentInfo.currency,
-                                  description: this.paymentInfo.description,
-                                  email: this.paymentInfo.email,
-                                  notify: this.paymentInfo.notify,
-                                  offline: this.paymentInfo.offline,
+                                  orderId: this.payRequest.orderId,
+                                  amount: Math.round(this.payRequest.amount),
+                                  tip: Math.round(this.payRequest.tip),
+                                  currency: this.payRequest.currency,
+                                  description: this.payRequest.description,
+                                  email: this.payRequest.email,
+                                  notify: this.payRequest.notify,
+                                  offline: this.payRequest.offline,
                                   token: this.publicId,
-                                  source: this.paymentInfo.source
+                                  source: this.payRequest.source
                                 };
 
     // this.checkoutDestroy();
@@ -103,12 +103,12 @@ export class StripePayComponent {
 
 
   walletCheckout(intent: PaymentIntent) {
-    const v = Number(this.paymentInfo.amount * 100).toString();
+    const v = Number(this.payRequest.amount * 100).toString();
     const paymentRequest = this.stripe.paymentRequest({
       country: 'US',
       currency: 'usd',
       total: {
-        label: this.paymentInfo.description,//this should be the stores name not a description -crsmejia
+        label: this.payRequest.description,//this should be the stores name not a description -crsmejia
         amount: parseInt(v, 10)
       },
       requestPayerName: true,

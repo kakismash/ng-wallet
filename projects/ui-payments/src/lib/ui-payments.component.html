@@ -38,7 +38,7 @@
     [apiLoginId]="apiLoginIdAuth"
     [clientKey]="clientKeyAuth"
     [buttonColor]="buttonColor"
-    [payment]="paymentInfo"
+    [payRequest]="payRequest"
     (paymentSuccess)="emitSuccessPayment($event)"
     (paymentFail)="emitFailedPayment($event)">
   </authnet-pay>
@@ -47,7 +47,7 @@
     *ngIf="gateway === 'stripe'"
     [publicId]="publicKey"
     [secretKey]="secretKeyStripe"
-    [paymentInfo]="paymentInfo"
+    [payRequest]="payRequest"
     [publishableKey]="publishableKeyStripe"
     [colorButton]="buttonColor"
     [colorFont]="colorFont"
