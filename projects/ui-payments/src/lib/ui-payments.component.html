@@ -50,7 +50,9 @@
     [paymentInfo]="paymentInfo"
     [publishableKey]="publishableKeyStripe"
     [colorButton]="buttonColor"
-    [colorFont]="colorFont">
+    [colorFont]="colorFont"
+    (paymentSuccess)="emitSuccessPayment($event)"
+    (paymentFail)="emitFailedPayment($event)">
   </stripe-pay>
 
 </div>
