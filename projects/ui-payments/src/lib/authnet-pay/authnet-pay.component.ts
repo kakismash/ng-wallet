@@ -14,7 +14,7 @@ export class AuthNetPayComponent {
   @Input() publicKey!:    string;
   @Input() apiLoginId?:   string;
   @Input() clientKey?:    string;
-  @Input() payRequest:    PayRequest = new PayRequest();
+  @Input() payRequest:       PayRequest = new PayRequest();
   @Input() buttonColor!:  string;
   @Input() timer!:        number;
 

@@ -109,7 +109,7 @@ export class UiPaymentsComponent implements OnInit {
 
   loadPaymentDataGooglePay(result: any): void {
     //this gets a json form google containing the card info and a processing token
-
+    console.log(result)
     this.payRequest.source = 'COMMON.GOOGLE.INAPP.PAYMENT'
     this.payRequest.token = Buffer.from(result.paymentMethodData.tokenizationData.token, 'utf-8').toString('base64');
 
@@ -152,7 +152,10 @@ export class UiPaymentsComponent implements OnInit {
   }
 
   async createPaymentRequest(): Promise<void> {
-    // This is for google pay
+    /**
+     * This is used to create the payment request that will be sent to google or apple
+     * Google: https://developers.google.com/pay/api/web/reference/request-objects
+     */
 
     this.paymentRequest = {
       versionAPIApple: 2,
@@ -170,6 +173,8 @@ export class UiPaymentsComponent implements OnInit {
       merchantName: 'TEST',
       appleMerchant: '/authorizeMerchant',
       merchantCapabilities: ['SUPPORTS_3DS'],
+      // billingAddressRequired: true,
+      // billingFormat: 'FULL',
       info: {
         id: this.order.id,
         totalPriceStatus: 'FINAL',

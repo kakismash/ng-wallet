@@ -29,6 +29,8 @@ export class PaymentRequestUiPayments {
 
   // Final Price
   info!:                                Order;
+  billingAddressRequired?:              boolean;
+  billingFormat?:                       any;
 }
 
 export function doPaymentRequestGoogle(paymentRequest: PaymentRequestUiPayments): google.payments.api.PaymentDataRequest {
@@ -42,7 +44,11 @@ export function doPaymentRequestGoogle(paymentRequest: PaymentRequestUiPayments)
         type: 'CARD',
         parameters: {
           allowedAuthMethods: doAllowedPaymentAuthMethod(paymentRequest.allowedAuthMethods),
-          allowedCardNetworks: doAllowedCardNetworks(paymentRequest.allowedCardNetworks, paymentRequest.info.countryCode)
+          allowedCardNetworks: doAllowedCardNetworks(paymentRequest.allowedCardNetworks, paymentRequest.info.countryCode),
+          // billingAddressRequired: paymentRequest.billingAddressRequired,
+          // billingAddressParameters: {
+          //   format: paymentRequest.billingFormat
+          // }
         },
         tokenizationSpecification: {
           type: 'PAYMENT_GATEWAY',

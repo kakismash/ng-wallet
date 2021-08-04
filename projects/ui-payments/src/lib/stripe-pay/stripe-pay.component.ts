@@ -18,7 +18,7 @@ export class StripePayComponent {
   @ViewChild('cardDiv', {static: false}) cardDivRef?: ElementRef;
 
   @Input() payRequest: PayRequest = new PayRequest();
-  @Input() publicId!: string; // not needed?
+  @Input() publicId!: string;
   @Input() secretKey!: string;
   @Input() publishableKey!: string;
   @Input() colorButton!: string;
