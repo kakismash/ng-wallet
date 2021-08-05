@@ -19,8 +19,6 @@ export class UiPaymentsComponent implements OnInit {
 
   //***********Ui-Payments Component Configuration*********//
 
-  attempt: number = 0;//this is to prevent to transactions being performed
-
   @Input() gateway!:                string;// either stripe or authorize.net
   @Input() gatewayMerchantId!:      string;
   @Input() credentials!:            string;
@@ -127,7 +125,6 @@ export class UiPaymentsComponent implements OnInit {
             }),
           error:(err=>{
             this.paymentFail.emit(err);
-            this.attempt = 0;
           })
         });
   }
