@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import {
   PaymentIntent,
   StripeCardElementOptions,
@@ -13,28 +13,28 @@ import { Order } from '../payment-request/order';
   templateUrl: './stripe-pay.component.html',
   styleUrls: ['./stripe-pay.component.scss']
 })
-export class StripePayComponent {
+export class StripePayComponent implements AfterViewInit {
   @ViewChild('walletDiv', {static: false}) walletDivRef?: ElementRef;
   @ViewChild('cardDiv', {static: false}) cardDivRef?: ElementRef;
 
-  @Input() payRequest: PayRequest = new PayRequest();
-  @Input() publicId!: string;
-  @Input() secretKey!: string;
-  @Input() publishableKey!: string;
-  @Input() colorButton!: string;
-  @Input() colorFont!: string;
-  @Input() order!: Order;
+  @Input() payRequest:        PayRequest = new PayRequest();
+  @Input() publicId!:         string;
+  @Input() secretKey!:        string;
+  @Input() publishableKey!:   string;
+  @Input() colorButton!:      string;
+  @Input() colorFont!:        string;
+  @Input() order!:            Order;
 
-  @Output() paymentSuccess: EventEmitter<any> = new EventEmitter();
-  @Output() paymentFailed: EventEmitter<any> = new EventEmitter();
+  @Output() paymentSuccess:   EventEmitter<any> = new EventEmitter();
+  @Output() paymentFailed:    EventEmitter<any> = new EventEmitter();
 
-  wallet?: boolean = false;
-  reference?: string;
-  paymentIntent!: PaymentIntent;
-  stripe!: stripe.Stripe;
-  stripeElements!: stripe.elements.Elements;
-  cardElement!: stripe.elements.Element;
-  elementsOptions: StripeElementsOptions = {locale: 'en'};
+  wallet?:                    boolean = false;
+  reference?:                 string;
+  paymentIntent!:             PaymentIntent;
+  stripe!:                    stripe.Stripe;
+  stripeElements!:            stripe.elements.Elements;
+  cardElement!:               stripe.elements.Element;
+  elementsOptions:            StripeElementsOptions = {locale: 'en'};
 
   cardOptions: StripeCardElementOptions = {
     style: {
@@ -50,15 +50,13 @@ export class StripePayComponent {
       },
     },
   };
-  readyToPay!: boolean; // make this into a boolean
-  disablePayButton!: boolean;
 
-  constructor(private stripePaymentService: StripePaymentService) {
-  }
+  readyToPay!:                boolean; // make this into a boolean
+  disablePayButton!:          boolean;
+
+  constructor(private stripePaymentService: StripePaymentService) {}
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
     this.getIntent();
     this.stripe = Stripe(this.publishableKey);
   }
@@ -80,7 +78,7 @@ export class StripePayComponent {
                                   source: this.payRequest.source
                                 };
 
-    // this.checkoutDestroy();
+    this.checkoutDestroy();
     this.stripePaymentService
         .payIntent(this.publicId,
                    request)
@@ -93,10 +91,8 @@ export class StripePayComponent {
           }),
           error: (error => {
             this.readyToPay = false;
-            // this.snackBar
-            //     .open(error.error,
-            //                     'Dismiss',
-            //                     {duration: 5000});
+            console.log(error);
+            this.paymentFailed.emit(error);
           })
     });
   }
@@ -108,7 +104,8 @@ export class StripePayComponent {
       country: 'US',
       currency: 'usd',
       total: {
-        label: this.payRequest.description,//this should be the stores name not a description -crsmejia
+        //The name of the store is being passed through the description (temporary) - crsmejia
+        label: this.payRequest.description,
         amount: parseInt(v, 10)
       },
       requestPayerName: true,
@@ -250,6 +247,14 @@ export class StripePayComponent {
       });
     }
   }
+
+  checkoutDestroy(){
+    if (this.cardElement !== undefined){
+      this.cardElement.unmount();
+      // this.cardElement = undefined;
+    }
+  }
+
 
 
 }

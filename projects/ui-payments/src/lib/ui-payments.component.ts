@@ -19,7 +19,7 @@ export class UiPaymentsComponent implements OnInit {
 
   //***********Ui-Payments Component Configuration*********//
 
-  @Input() gateway!:                string;// either stripe or authorize.net
+  @Input() gateway!:                string; // either stripe or authorize.net
   @Input() gatewayMerchantId!:      string;
   @Input() credentials!:            string;
   @Input() intentEndpoint?:         string;
@@ -40,8 +40,8 @@ export class UiPaymentsComponent implements OnInit {
 
   //***********Authorize.net Configuration*********//
 
-  @Input() apiLoginIdAuth!:             string;//"5dJ6eN8V"
-  @Input() clientKeyAuth!:              string;//"9Q25f799AVFeY4j2d2hJ29C253q2BJrLKet2uJPhaQVnL9KG7Jdcb8jrGhuGEvbR";
+  @Input() apiLoginIdAuth!:             string;
+  @Input() clientKeyAuth!:              string;
   @Input() timer!:                      number;
 
   //**********Button Google Configuration********//
@@ -74,19 +74,23 @@ export class UiPaymentsComponent implements OnInit {
   total!:                                     ApplePayJS.ApplePayLineItem;
   lineItems!:                                 Array<ApplePayJS.ApplePayLineItem>;
 
-  paymentRequest!:                   PaymentRequestUiPayments;//this is for GooglePay & ApplePay
+  paymentRequest!:                            PaymentRequestUiPayments;//this is for GooglePay & ApplePay
 
 
   constructor(private paymentService: AuthPaymentService) {}
 
   ngOnInit(): void {
     // console.log('Apple: ', this.paymentRequestApple);
-    if(this.gateway !== 'stripe'){
-      this.createPaymentRequest().then(()=>{
-        this.doPaymentRequestOnChange();
-        console.log('Google: ', this.paymentRequestGoogle);
-      });
+    if (this.gateway !== 'stripe') {
+
+      this.createPaymentRequest()
+          .then(()=>{
+            this.doPaymentRequestOnChange();
+            console.log('Google: ', this.paymentRequestGoogle);
+          });
+
     };
+
   }
 
   doPaymentRequestOnChange(): void {
@@ -107,7 +111,6 @@ export class UiPaymentsComponent implements OnInit {
 
   loadPaymentDataGooglePay(result: any): void {
     //this gets a json form google containing the card info and a processing token
-    console.log(result)
     this.payRequest.source = 'COMMON.GOOGLE.INAPP.PAYMENT'
     this.payRequest.token = Buffer.from(result.paymentMethodData.tokenizationData.token, 'utf-8').toString('base64');
 
@@ -129,7 +132,7 @@ export class UiPaymentsComponent implements OnInit {
         });
   }
 
-  getGateway(): string {
+  private getGateway(): string {
     let gateway: string = ''
 
     switch (this.gateway) {
@@ -148,7 +151,7 @@ export class UiPaymentsComponent implements OnInit {
     return gateway;
   }
 
-  async createPaymentRequest(): Promise<void> {
+  private async createPaymentRequest(): Promise<void> {
     /**
      * This is used to create the payment request that will be sent to google or apple
      * Google: https://developers.google.com/pay/api/web/reference/request-objects
@@ -165,8 +168,8 @@ export class UiPaymentsComponent implements OnInit {
       ],
       TokenizationSpecification: 'PAYMENT_GATEWAY',
       gateway: this.getGateway(),
-      gatewayMerchantId: this.gatewayMerchantId, // AUTHORIZE.NET payment gateway id 790103
-      merchantId: '790103',
+      gatewayMerchantId: this.gatewayMerchantId,
+      merchantId: '790103', // This is an id obtained from Google once this component is approved
       merchantName: 'TEST',
       appleMerchant: '/authorizeMerchant',
       merchantCapabilities: ['SUPPORTS_3DS'],
