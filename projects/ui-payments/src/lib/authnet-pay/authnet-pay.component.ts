@@ -58,10 +58,6 @@ export class AuthNetPayComponent {
 
             this.submitForm();
 
-          } else if (i === this.calls){
-            this.calls = 0;
-            console.log('LAST CALL REACHED, RESET AND ERROR');
-
           }
 
         }
@@ -72,7 +68,7 @@ export class AuthNetPayComponent {
   }
 
   submitForm(): void {
-    console.log('FIRST CALL REACHED');
+    console.log('CALL REACHED');
     this.callMade = true;
     this.paymentService
         .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payRequest)
