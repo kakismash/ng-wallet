@@ -46,6 +46,8 @@ For the HTML selector used is `<ui-payments></ui-payments>`
 
 **.ts File**
 
+**PayRequest**
+
 ```bash
   // Structure of object being passed to [payRequest]
   // property of Ui-Payments
@@ -53,17 +55,14 @@ For the HTML selector used is `<ui-payments></ui-payments>`
       description?: string;
       email?: string;
       currency?: string;
-
       amount?: number;
       tip?: number;
       tax?: number;
       paid?: number;
-
       orderId?: number;
       intentId?: string;
       notify?: boolean;
       publicId?: string;
-
       storeName?: string;
       countryCode?: string;
       subTotalPrice?: string;
@@ -89,6 +88,7 @@ For the HTML selector used is `<ui-payments></ui-payments>`
     return paymentRequest;
   }
 ```
+**UiPaymentsConfig**
 
 ```bash
   // Structure of object being passed to [uiPaymentsConfig]
@@ -131,32 +131,32 @@ For the HTML selector used is `<ui-payments></ui-payments>`
 
 **.html File**
 ```bash
-        // Authorize.net
-        <ui-payments
-          [publicKey]="publicId"
-          [apiLoginIdAuth]="apiLoginId"
-          [clientKeyAuth]="clientKey"
-          [uiPaymentsConfig]="getUiPaymentsConfiguration()"
-          [payRequest]="getPaymentRequest()"
-          [timer]="(counter*1000)"
-          [buttonColor]="colorButton"
-          (paymentSuccess)="paymentSucceeded($event)"
-          (paymentFail)="paymentFailed($event)"
-          >
-        </ui-payments>
+    // Authorize.net
+    <ui-payments
+      [publicKey]="publicId"
+      [apiLoginIdAuth]="apiLoginId"
+      [clientKeyAuth]="clientKey"
+      [uiPaymentsConfig]="getUiPaymentsConfiguration()"
+      [payRequest]="getPaymentRequest()"
+      [timer]="(counter*1000)"
+      [buttonColor]="colorButton"
+      (paymentSuccess)="paymentSucceeded($event)"
+      (paymentFail)="paymentFailed($event)"
+      >
+    </ui-payments>
 
-        // Stripe
-        <ui-payments
-          [publicKey]="publicId"
-          [payRequest]="getPaymentRequest()"
-          [uiPaymentsConfig]="getUiPaymentsConfiguration()"
-          [secretKeyStripe]="secretKey"
-          [publishableKeyStripe]="publishableKey"
-          [buttonColor]="colorButton"
-          [colorFont]="colorFont"
-          (paymentSuccess)="paymentSucceeded($event)"
-          (paymentFail)="paymentFailed($event)"
-          >
+    // Stripe
+    <ui-payments
+      [publicKey]="publicId"
+      [payRequest]="getPaymentRequest()"
+      [uiPaymentsConfig]="getUiPaymentsConfiguration()"
+      [secretKeyStripe]="secretKey"
+      [publishableKeyStripe]="publishableKey"
+      [buttonColor]="colorButton"
+      [colorFont]="colorFont"
+      (paymentSuccess)="paymentSucceeded($event)"
+      (paymentFail)="paymentFailed($event)"
+      >
 ```
 ## Component Properties
 
@@ -181,12 +181,14 @@ For the HTML selector used is `<ui-payments></ui-payments>`
 * **appleMerchant**: *Define your own server to request a new merchant session. For more information, see [validationURL](https://developer.apple.com/documentation/apple_pay_on_the_web/applepayvalidatemerchantevent/1778026-validationurl).*
 * **merchantCapabilities**: *The payment capabilities supported by the merchant on Apple Pay. The supported values for merchantCapabilities are: **SUPPORTS_3DS**, This value must be required, **SUPPORTS_CREDIT**, **SUPPORTS_DEBIT**, **SUPPORTS_EMV**. For more information, see [merchantCapabilities](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916123-merchantcapabilities).*
 
-* **totalPriceStatus**: *The status of the total price used. Only **NOT_CURRENTLY_KNOWN**, **ESTIMATED** and **FINAL** currently are supported entries.* 
-* **totalPriceLabel**: *Custom label for the total price within the display items.*
-* **totalPrice**: *Total monetary value of the transaction with an optional decimal precision of two decimal places. Use this field as a string value.*
-* **currencyCode**: *The ISO 4217 alphabetic currency code.*
+## PayRequest Properties
+
+* **amount**: *Total monetary value of the transaction with an optional decimal precision of two decimal places.*
+* **tax**: *Total tax monetary value of the transaction with an optional decimal precision of two decimal places.*
+* **tip**: *Total tip monetary value of the transaction with an optional decimal precision of two decimal places.*
+* **currency**: *The ISO 4217 alphabetic currency code.*
 * **countryCode**: *The ISO 3166-1 alpha-2 country code where the transaction is processed. This property is required for merchants who process transactions in European Economic Area (EEA) countries and any other countries that are subject to Strong Customer Authentication (SCA). Merchants must specify the acquirer bank country code.*
-* **subTotalPrice**: *Monetary value of the items with an optional decimal precision of two decimal places. Use this field as a string value. This object is optional.*
+* **subTotalPrice**: *Monetary value of the items with an optional decimal precision of two decimal places.*
 
 ## Google Pay Button Properties 
 
