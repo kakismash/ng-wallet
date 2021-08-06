@@ -83,8 +83,6 @@ export class UiPaymentsComponent implements OnInit {
     // console.log('Apple: ', this.paymentRequestApple);
     if (this.uiPaymentsConfig.gateway !== 'stripe') {
       this.loadAcceptScript();
-    }
-    if (this.uiPaymentsConfig.gateway !== 'stripe') {
 
       this.createPaymentRequest()
           .then(()=>{
