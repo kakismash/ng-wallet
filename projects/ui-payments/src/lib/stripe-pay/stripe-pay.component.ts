@@ -5,7 +5,6 @@ import {
   StripeElementsOptions } from '@stripe/stripe-js';
 import { PayRequest } from '../payment-request/payRequest';
 import { StripePaymentService } from '../service/stripe-payment.service';
-import { Order } from '../payment-request/order';
 
 
 @Component({
@@ -23,7 +22,6 @@ export class StripePayComponent implements AfterViewInit {
   @Input() publishableKey!:   string;
   @Input() colorButton!:      string;
   @Input() colorFont!:        string;
-  @Input() order!:            Order;
 
   @Output() paymentSuccess:   EventEmitter<any> = new EventEmitter();
   @Output() paymentFailed:    EventEmitter<any> = new EventEmitter();
@@ -67,15 +65,16 @@ export class StripePayComponent implements AfterViewInit {
 
     const request: PayRequest = {intentId: this.paymentIntent?.id,
                                   orderId: this.payRequest.orderId,
-                                  amount: Math.round(this.payRequest.amount),
-                                  tip: Math.round(this.payRequest.tip),
+                                  amount: Math.round(this.payRequest.amount*100),
+                                  tip: Math.round(this.payRequest.tip*100),
                                   currency: this.payRequest.currency,
                                   description: this.payRequest.description,
                                   email: this.payRequest.email,
                                   notify: this.payRequest.notify,
                                   offline: this.payRequest.offline,
                                   token: this.publicId,
-                                  source: this.payRequest.source
+                                  source: this.payRequest.source,
+                                  countryCode: this.payRequest.countryCode
                                 };
 
     this.checkoutDestroy();
@@ -94,7 +93,7 @@ export class StripePayComponent implements AfterViewInit {
             console.log(error);
             this.paymentFailed.emit(error);
           })
-    });
+        });
   }
 
 

@@ -39,79 +39,105 @@ imports: [
 ]
 ```
 
-If you're using Authorize.net also include the code below. 
-Make sure it's in the file were you're using this component and loaded before the component is rendered.
-```bash
-  loadAcceptScript(): void {
-    const node = document.createElement('script');
-    node.src = 'https://jstest.authorize.net/v3/AcceptUI.js';
-    node.defer = true;
-    document.getElementsByTagName('head')[0].appendChild(node);
-  }
-```
-
 Once it is included, you have to use it and configure it to your liking.
-For them in the HTML we use the selector `<ui-payments></ui-payments>`
+For the HTML selector used is `<ui-payments></ui-payments>`
 
 ## Example usage
 
 **.ts File**
 
 ```bash
-    // 
-    request: PayRequest = {
-      intentId: this.paymentIntent?.id, // this would be for stripe
-      orderId: this.payRequest.orderId,
-      amount: Math.round(this.payRequest.amount),
-      tip: Math.round(this.payRequest.tip),
-      currency: this.payRequest.currency,
-      description: this.payRequest.description,
-      email: this.payRequest.email,
-      notify: this.payRequest.notify,
-      offline: this.payRequest.offline,
-      token: this.publicId,
-      source: this.payRequest.source
+  // Structure of object being passed to [payRequest]
+  // property of Ui-Payments
+  PayRequest{
+      description?: string;
+      email?: string;
+      currency?: string;
+
+      amount?: number;
+      tip?: number;
+      tax?: number;
+      paid?: number;
+
+      orderId?: number;
+      intentId?: string;
+      notify?: boolean;
+      publicId?: string;
+
+      storeName?: string;
+      countryCode?: string;
+      subTotalPrice?: string;
+  }
+
+  // example
+  getPaymentRequest(): PayRequest {
+
+    let paymentRequest: PayRequest = {
+      amount: 123,
+      currency: 'USD',
+      description: '',
+      email: 'email@gmail.com',
+      tip: 0,
+      notify: true,
+      orderId: '12345',
+      countryCode: 'US',
+      storeName: 'Cafe Central',
+      tax: 115,
+      subTotalPrice: 112
     };
 
-    class Payment {
-    id: number;
-//    chargeId: string;
-    description?: string;
-    requested: number;
-    total: number;
-    tip: number = 0;
-    currency: string;
-    created: string;
+    return paymentRequest;
+  }
+```
 
-    order?: Order;
-    orderName?: string;
-    fromPos?: boolean;
-    posId?: string;
-    posNotified?: string;
+```bash
+  // Structure of object being passed to [uiPaymentsConfig]
+  // property of Ui-Payments
+  UiPaymentsConfig {
+    versionAPIApple: number;
+    typePaymentMethod: string;
+    allowedAuthMethods: string[];
+    allowedCardNetworks: string[];
+    tokenizationSpecification: string;
+    gateway: string;
+    gatewayMerchantId: string;
+    merchantId: string;
+    merchantName: string;
+    appleMerchant: string;
+    merchantCapabilities: string[];
+  }
 
-    voidBy?: string;
+  // example
+  getUiPaymentsConfiguration(): UiPaymentsConfig {
 
-    reference?: string;
+    let config: UiPaymentsConfig = {
+      versionAPIApple: 2,
+      typePaymentMethod: 'CARD',
+      allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+      allowedCardNetworks: ['VISA', 'MASTERCARD'],
+      tokenizationSpecification: 'PAYMENT_GATEWAY',
+      gateway: gateway, //  either stripe or authorize.net
+      gatewayMerchantId: '123456',
+      merchantName: 'TEST',
+      merchantId: '7896321',
+      appleMerchant: '/authorizeMerchant',
+      merchantCapabilities: ['SUPPORTS_3DS'],
 
-    refundId?: string;
-    status?: string;
-    storeId?: number;
-    accountId?: string;
-    submitted?: string;
-    token?: string;
-}
+    }
+
+    return config;
+  }
 ```
 
 **.html File**
 ```bash
         // Authorize.net
         <ui-payments
-          [payRequest]="payRequest"
-          [gateway]="gateway"
-          [gatewayMerchantId]="gatewayMerchantId"
-          [publicKey]="publicKey"
+          [publicKey]="publicId"
           [apiLoginIdAuth]="apiLoginId"
           [clientKeyAuth]="clientKey"
+          [uiPaymentsConfig]="getUiPaymentsConfiguration()"
+          [payRequest]="getPaymentRequest()"
           [timer]="(counter*1000)"
           [buttonColor]="colorButton"
           (paymentSuccess)="paymentSucceeded($event)"
@@ -121,48 +147,46 @@ For them in the HTML we use the selector `<ui-payments></ui-payments>`
 
         // Stripe
         <ui-payments
-          [gateway]="gateway"
-          [publicKey]="publicKey"
-          [payRequest]="payRequest"
+          [publicKey]="publicId"
+          [payRequest]="getPaymentRequest()"
+          [uiPaymentsConfig]="getUiPaymentsConfiguration()"
           [secretKeyStripe]="secretKey"
-          [publishableKeyStripe]="publishKey"
+          [publishableKeyStripe]="publishableKey"
           [buttonColor]="colorButton"
           [colorFont]="colorFont"
           (paymentSuccess)="paymentSucceeded($event)"
           (paymentFail)="paymentFailed($event)"
-        >
-        </ui-payments>
+          >
 ```
-## Properties
+## Component Properties
 
 * **payRequest**: *Includes information about the payment such as the payment amount, and tip. Look at the example above for the object structure.*
-* **gateway**: *The gateway being user, for example Stripe or Authorize.net.*
-* **gatewayMerchantId**: *The gateway merchant id provided by Authorize.net.*
 * **publicKey**: *Nosher's public key.*
 * **apiLoginIdAuth**: *This is provided by Authorize.net.*
 * **clientKeyAuth**: *This is provided by Authorize.net.*
-* **timer**: *Timer to close authorize.net hosted form.*
+* **timer**: *Timer, using milliseconds, to close authorize.net hosted form.*
 * **secretKeyStripe**: *The secret key provided by Stripe.*
 * **publishableKeyStripe**: *The publishable key provided by Stripe.*
+* **buttonColor**: *The color you would like the button to be. Both #colorcode & rgb(#,#,#) syntax work, but passed as a string*
+* **colorFont**: *The color you would like the button's font to be. Both #colorcode & rgb(#,#,#) syntax work, but passed as a string.*
+
+## UiPaymentsConfig Properties 
 
 * **versionAPIApple**: *An integer specifying the Apple Pay version number. For the best compatibility with operating systems and browsers, use the lowest possible version number that supports the features required. For more information, see [supportsVersion](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaysession/1778014-supportsversion).*
 * **typePaymentMethod**: *A short identifier for the supported payment method. Only **CARD** and **PAYPAL** currently are supported entries.*
 * **allowedAuthMethods**: *Fields supported to authenticate a card transaction. Only **PAN_ONLY** and **CRYPTOGRAM_3DS** currently are supported entries. For more information, see [Card Parameters](https://developers.google.com/pay/api/web/reference/request-objects?hl=ru#CardParameters).*
 * **allowedCardNetworks**: *The payment networks supported by the merchant. For more information, see [supportedNetworks](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916122-supportednetworks) and [Card Parameters](https://developers.google.com/pay/api/web/reference/request-objects?hl=ru#CardParameters).*
-* **typeTokenization**: *A payment method tokenization type is supported for the given PaymentMethod. For CARD payment method, use **PAYMENT_GATEWAY** or **DIRECT**. For PAYPAL PaymentMethod, use **DIRECT** with no parameter. For more information, see [TokenizationSpecification](https://developers.google.com/pay/api/web/reference/request-objects#PaymentMethodTokenizationSpecification).*
+* **tokenizationSpecification**: *A payment method tokenization type is supported for the given PaymentMethod. For CARD payment method, use **PAYMENT_GATEWAY** or **DIRECT**. For PAYPAL PaymentMethod, use **DIRECT** with no parameter. For more information, see [TokenizationSpecification](https://developers.google.com/pay/api/web/reference/request-objects#PaymentMethodTokenizationSpecification).*
 * **gateway and gatewayMerchantId**: *Define the parameters properties as described by your gateway. Typical properties include the gateway's identifier, which is issued by Google, and your gateway account ID, which is provided by the gateway.*
 * **appleMerchant**: *Define your own server to request a new merchant session. For more information, see [validationURL](https://developer.apple.com/documentation/apple_pay_on_the_web/applepayvalidatemerchantevent/1778026-validationurl).*
 * **merchantCapabilities**: *The payment capabilities supported by the merchant on Apple Pay. The supported values for merchantCapabilities are: **SUPPORTS_3DS**, This value must be required, **SUPPORTS_CREDIT**, **SUPPORTS_DEBIT**, **SUPPORTS_EMV**. For more information, see [merchantCapabilities](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentrequest/1916123-merchantcapabilities).*
-* **info**: *This object describes a transaction that determines a payer's ability to pay. It's used to present a payment authorization dialog. For more information, see [TransactionInfo](https://developers.google.com/pay/api/web/reference/request-objects#TransactionInfo).*
+
 * **totalPriceStatus**: *The status of the total price used. Only **NOT_CURRENTLY_KNOWN**, **ESTIMATED** and **FINAL** currently are supported entries.* 
 * **totalPriceLabel**: *Custom label for the total price within the display items.*
 * **totalPrice**: *Total monetary value of the transaction with an optional decimal precision of two decimal places. Use this field as a string value.*
 * **currencyCode**: *The ISO 4217 alphabetic currency code.*
 * **countryCode**: *The ISO 3166-1 alpha-2 country code where the transaction is processed. This property is required for merchants who process transactions in European Economic Area (EEA) countries and any other countries that are subject to Strong Customer Authentication (SCA). Merchants must specify the acquirer bank country code.*
 * **subTotalPrice**: *Monetary value of the items with an optional decimal precision of two decimal places. Use this field as a string value. This object is optional.*
-* **items**: *All of the available charges for the current payment request.*
-* **taxes**: *All applicable government-imposed taxes, including but not limited to indirect taxes such as goods and services tax (“GST”), fees, duties or such other similar taxes. This object is optional.*
-* **discount**: *Discount made in the consumption of the service. This object is optional.*
 
 ## Google Pay Button Properties 
 

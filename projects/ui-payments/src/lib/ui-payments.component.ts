@@ -6,8 +6,9 @@ import { PayRequest } from './payment-request/payRequest';
 import { AuthPaymentService } from './service/auth-payment.service';
 // import { Buffer } from 'node:buffer';
 import { Buffer } from 'buffer';
-import { Order } from './payment-request/order';
+import { Info } from './payment-request/info';
 import { Item } from './payment-request/item';
+import { uiPaymentsConfig } from './payment-request/uiPaymentsConfig';
 
 @Component({
   selector: 'ui-payments',
@@ -19,24 +20,22 @@ export class UiPaymentsComponent implements OnInit {
 
   //***********Ui-Payments Component Configuration*********//
 
-  @Input() gateway!:                string; // either stripe or authorize.net
-  @Input() gatewayMerchantId!:      string;
   @Input() credentials!:            string;
   @Input() intentEndpoint?:         string;
   @Input() completionEndpoint?:     string;
-  @Input() payRequest!:             PayRequest; //This is for authorize.net and stripe
+  @Input() payRequest:              PayRequest = new PayRequest(); //This is for authorize.net and stripe
   @Input() publicKey!:              string; // This is Nosher's public key/public id
   @Input() buttonColor!:            string;
   @Input() colorFont!:              string;
-  @Input() order!:                  Order;
+  @Input() uiPaymentsConfig!:       uiPaymentsConfig;
 
   @Output() paymentSuccess:         EventEmitter<any> = new EventEmitter();
   @Output() paymentFail:            EventEmitter<any> = new EventEmitter();
 
   //***********Stripe Configuration*********//
 
-  @Input() secretKeyStripe!: string;
-  @Input() publishableKeyStripe!: string;
+  @Input() secretKeyStripe!:            string;
+  @Input() publishableKeyStripe!:       string;
 
   //***********Authorize.net Configuration*********//
 
@@ -54,7 +53,7 @@ export class UiPaymentsComponent implements OnInit {
   @Input() existingPaymentMethodRequired:     boolean                                              = false;
   @Input() paymentDataChangedCallback?:       google.payments.api.PaymentDataChangedHandler;
   @Input() paymentAuthorizedCallback?:        google.payments.api.PaymentAuthorizedHandler;
-  @Input() readyToPayChangeCallback?:         (result: any) => void;
+  @Input() readyToPayChangeCallback?:         (result: any) => void = (result)=>{this.googleReadyToPay(result)};
   @Input() loadPaymentDataCallback?:          (paymentData: google.payments.api.PaymentData) => void = (result)=>{ this.loadPaymentDataGooglePay(result)};
   @Input() cancelCallback?:                   (reason: google.payments.api.PaymentsError) => void;
   @Input() errorCallback?:                    (error: Error) => void = (error)=>{this.googleButtonError(error)};
@@ -77,11 +76,15 @@ export class UiPaymentsComponent implements OnInit {
   paymentRequest!:                            PaymentRequestUiPayments;//this is for GooglePay & ApplePay
 
 
-  constructor(private paymentService: AuthPaymentService) {}
+  constructor(private paymentService: AuthPaymentService) {
+  }
 
   ngOnInit(): void {
     // console.log('Apple: ', this.paymentRequestApple);
-    if (this.gateway !== 'stripe') {
+    if (this.uiPaymentsConfig.gateway !== 'stripe') {
+      this.loadAcceptScript();
+    }
+    if (this.uiPaymentsConfig.gateway !== 'stripe') {
 
       this.createPaymentRequest()
           .then(()=>{
@@ -135,7 +138,7 @@ export class UiPaymentsComponent implements OnInit {
   private getGateway(): string {
     let gateway: string = ''
 
-    switch (this.gateway) {
+    switch (this.uiPaymentsConfig.gateway) {
       case 'stripe':
         gateway = 'stripe'
         break;
@@ -151,6 +154,66 @@ export class UiPaymentsComponent implements OnInit {
     return gateway;
   }
 
+  private getGatewayMerchantId(): string {
+    let id = ''
+
+    if(this.uiPaymentsConfig.gatewayMerchantId){
+      id = this.uiPaymentsConfig.gatewayMerchantId;
+    }else{
+      throw new Error("Please provide the gateway merchant id");
+    }
+
+    return id;
+  }
+
+  private getMerchantId(): string {
+    let id = ''
+
+    if(this.uiPaymentsConfig.merchantId){
+      id = this.uiPaymentsConfig.merchantId;
+    }else{
+      throw new Error("Please provide the merchant id");
+    }
+
+    return id;
+  }
+
+  private getMerchantName(): string {
+    let name = ''
+
+    if(this.uiPaymentsConfig.merchantName){
+      name = this.uiPaymentsConfig.merchantName;
+    }else{
+      throw new Error("Please provide the merchant name");
+    }
+
+    return name;
+  }
+
+  private getAppleMerchant(): string {
+    let merchant = '';
+
+    if (this.uiPaymentsConfig.appleMerchant) {
+      merchant = this.uiPaymentsConfig.appleMerchant;
+    } else {
+      throw new Error("Please provide an Apple Merchant");
+    }
+
+    return merchant;
+  }
+
+  private getMerchantCapa(): string[] {
+    let mercCapa: string[] = [];
+
+    if(this.uiPaymentsConfig.merchantCapabilities){
+      mercCapa = this.uiPaymentsConfig.merchantCapabilities;
+    } else {
+      throw new Error("Please provide Merchant Capabilities");
+    }
+
+    return mercCapa;
+  }
+
   private async createPaymentRequest(): Promise<void> {
     /**
      * This is used to create the payment request that will be sent to google or apple
@@ -158,35 +221,30 @@ export class UiPaymentsComponent implements OnInit {
      */
 
     this.paymentRequest = {
-      versionAPIApple: 2,
-      typePaymentMethod: 'CARD',
-      allowedAuthMethods: [
-        'PAN_ONLY', 'CRYPTOGRAM_3DS'
-      ],
-      allowedCardNetworks: [
-        'VISA', 'MASTERCARD'
-      ],
-      TokenizationSpecification: 'PAYMENT_GATEWAY',
+      versionAPIApple: this.uiPaymentsConfig.versionAPIApple,
+      typePaymentMethod: this.uiPaymentsConfig.typePaymentMethod,
+      allowedAuthMethods: this.uiPaymentsConfig.allowedAuthMethods,
+      allowedCardNetworks: this.uiPaymentsConfig.allowedCardNetworks,
+      TokenizationSpecification: this.uiPaymentsConfig.tokenizationSpecification,
       gateway: this.getGateway(),
-      gatewayMerchantId: this.gatewayMerchantId,
-      merchantId: '790103', // This is an id obtained from Google once this component is approved
-      merchantName: 'TEST',
-      appleMerchant: '/authorizeMerchant',
-      merchantCapabilities: ['SUPPORTS_3DS'],
+      gatewayMerchantId: this.getGatewayMerchantId(),
+      merchantId: this.getMerchantId(), // This is an id obtained from Google once this component is approved
+      merchantName: this.getMerchantName(),
+      appleMerchant: this.getAppleMerchant(),
+      merchantCapabilities: this.getMerchantCapa(),
       // billingAddressRequired: true,
       // billingFormat: 'FULL',
       info: {
-        id: this.order.id,
+        id: this.payRequest.orderId, // optional
         totalPriceStatus: 'FINAL',
-        totalPriceLabel: 'Total',
+        totalPriceLabel: 'Total', // optional
         totalPrice: String(this.payRequest.amount),
-        currencyCode: this.order.currencyCode,
-        countryCode: 'US',
-        subTotalPrice: this.order.subTotalPrice,
+        currencyCode: this.payRequest.currency,
+        countryCode: this.payRequest.countryCode,// optional
         taxes: [
           {
             label: 'Taxes',
-            amount: String(this.order.tax)
+            amount: String(this.payRequest.tax)
           }
         ]
       }
@@ -194,6 +252,70 @@ export class UiPaymentsComponent implements OnInit {
   }
 
   googleButtonError(error: any): void {
+    console.log('GOOGLE PAY ERROR');
     console.log(error);
   }
+
+  googleReadyToPay(ready: any): void {
+    console.log('READY TO PAY');
+    console.log(ready);
+  }
+
+  private loadAcceptScript(): void {
+    const node = document.createElement('script');
+    node.src = 'https://jstest.authorize.net/v3/AcceptUI.js';
+    node.defer = true;
+    document.getElementsByTagName('head')[0].appendChild(node);
+  }
 }
+
+
+/**
+ * paymentRequest: PaymentRequestNGWallet = {
+    versionAPIApple: 2,
+    typePaymentMethod: 'CARD',
+    allowedAuthMethods: [
+      'PAN_ONLY', 'CRYPTOGRAM_3DS'
+    ],
+    allowedCardNetworks: [
+      'VISA', 'MASTERCARD'
+    ],
+    typeTokenization: 'PAYMENT_GATEWAY',
+    gateway: 'example',
+    gatewayMerchantId: 'exampleGatewayMerchantId',
+    merchantId: '12345678901234567890',
+    merchantName: 'Demo Merchant',
+    appleMerchant: '/authorizeMerchant',
+    merchantCapabilities: ['SUPPORTS_3DS'],
+    info: {
+      totalPriceStatus: 'FINAL',
+      totalPriceLabel: 'Total',
+      totalPrice: '20.00',
+      currencyCode: 'USD',
+      countryCode: 'US',
+      subTotalPrice: '5.00',
+      items: [
+        {
+          label: 'Beer',
+          price: '1.99',
+          quantity: 1
+        },
+        {
+          label: 'Cheeseburger',
+          price: '3.99',
+          quantity: 1
+        }
+      ],
+      taxes: [
+        {
+          label: 'Taxes',
+          amount: '6.00'
+        }
+      ],
+      discount: {
+        label: 'Discount',
+        amount: '3.44'
+      }
+    }
+}
+ */

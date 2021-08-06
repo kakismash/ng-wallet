@@ -1,7 +1,7 @@
 <div id="ui-payments">
 
   <google-pay
-    *ngIf="gateway === 'auth.net'"
+    *ngIf="uiPaymentsConfig.gateway === 'auth.net'"
     [buttonColor]="buttonColorGoogle"
     [buttonType]="buttonTypeGoogle"
     [buttonSizeMode]="buttonSizeMode"
@@ -32,7 +32,8 @@
   </apple-pay> -->
 
   <!-- MANUAL ENTRY OF CARD-->
-  <authnet-pay *ngIf="gateway === 'auth.net'"
+  <authnet-pay
+    *ngIf="uiPaymentsConfig.gateway === 'auth.net'"
     [timer]="timer"
     [publicKey]="publicKey"
     [apiLoginId]="apiLoginIdAuth"
@@ -44,7 +45,7 @@
   </authnet-pay>
 
   <stripe-pay
-    *ngIf="gateway === 'stripe'"
+    *ngIf="uiPaymentsConfig.gateway === 'stripe'"
     [publicId]="publicKey"
     [secretKey]="secretKeyStripe"
     [payRequest]="payRequest"

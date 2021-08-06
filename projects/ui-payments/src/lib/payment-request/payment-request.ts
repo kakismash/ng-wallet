@@ -2,7 +2,7 @@ import { Discount } from './discount';
 import { Item } from './item';
 import { DisplayItem } from './display-item';
 import { ApplePayJS } from '../apple-pay/applePay';
-import { Order } from './order';
+import { Info } from './info';
 import { Tax } from './tax';
 
 export class PaymentRequestUiPayments {
@@ -16,7 +16,7 @@ export class PaymentRequestUiPayments {
   allowedCardNetworks!:                 string[];
 
   // Merchant and Gateway
-  TokenizationSpecification!:                    string;
+  TokenizationSpecification?:           string;
   gateway!:                             string
   gatewayMerchantId!:                   string;
   merchantId!:                          string;
@@ -28,7 +28,7 @@ export class PaymentRequestUiPayments {
   listItems?:                           DisplayItem[];
 
   // Final Price
-  info!:                                Order;
+  info!:                                Info;
   billingAddressRequired?:              boolean;
   billingFormat?:                       any;
 }
@@ -260,7 +260,7 @@ function doMerchantCapabilities(allowed: string[]): string[] {
   return toReturn;
 }
 
-function doDisplayItems(info: Order): google.payments.api.DisplayItem[] {
+function doDisplayItems(info: Info): google.payments.api.DisplayItem[] {
 
   const displayItems: google.payments.api.DisplayItem[] = [];
 
@@ -318,7 +318,7 @@ function doItem(item: Item): google.payments.api.DisplayItem[] {
   return items;
 }
 
-export function doLineItems(info: Order): ApplePayJS.ApplePayLineItem[] {
+export function doLineItems(info: Info): ApplePayJS.ApplePayLineItem[] {
 
   const lineItems: ApplePayJS.ApplePayLineItem[] = [];
 

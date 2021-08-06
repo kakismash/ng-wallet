@@ -10,4 +10,10 @@ export class PayRequest {
   email!: string;
   token!: string;
   source!: string; //google, apple, card
+  tax?: number;
+  paid?: number;
+  publicId?: string;
+  storeName?: string;
+  countryCode!: string;
+  subTotalPrice?: string;
 }

@@ -44,7 +44,7 @@ export class AuthNetPayComponent {
             .emit(JSON.stringify({message: 'failed',
                                   errorType: event.data.pktData.messages.message[0].text}))
 
-      }else if (event.data.pktData.messages.resultCode === "Ok"){
+      } else if (event.data.pktData.messages.resultCode === "Ok"){
 
         payment.token = event.data.pktData.opaqueData.dataValue;
         payment.source = event.data.pktData.opaqueData.dataDescriptor;
@@ -67,7 +67,6 @@ export class AuthNetPayComponent {
   submitForm(): void {
 
     this.callMade = true;
-
     this.paymentService
         .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payRequest)
         .subscribe({
@@ -78,7 +77,8 @@ export class AuthNetPayComponent {
             }),
           error:(err=>{
             this.paymentFail.emit(err);
-          })});
+          })
+        });
 
   }
 
