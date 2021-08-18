@@ -50,6 +50,8 @@ export class ApplePayComponent {
     const session = new ApplePaySession(this.version, this.paymentRequest);
 
     session.onvalidatemerchant = event => {
+      console.log(event);
+      this.appleMerchant = event.validationURL;
         // Call your own server to request a new merchant session.
         fetch(this.appleMerchant)
           .then(res => res.json()) // Parse response as JSON.

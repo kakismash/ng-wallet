@@ -21,7 +21,7 @@ export class PaymentRequestUiPayments {
   gatewayMerchantId!:                   string;
   merchantId!:                          string;
   merchantName!:                        string;
-  appleMerchant!:                       string;
+  appleMerchant!:                       string; // Declared but not used anywhere
   merchantCapabilities!:                string[];
 
   // List Itmes (label, type and price)

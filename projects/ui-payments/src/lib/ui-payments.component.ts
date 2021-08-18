@@ -80,7 +80,6 @@ export class UiPaymentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log('Apple: ', this.paymentRequestApple);
     if (this.uiPaymentsConfig.gateway !== 'stripe') {
       this.loadAcceptScript();
 
@@ -88,6 +87,7 @@ export class UiPaymentsComponent implements OnInit {
           .then(()=>{
             this.doPaymentRequestOnChange();
             console.log('Google: ', this.paymentRequestGoogle);
+            console.log('Apple: ', this.paymentRequestApple);
           });
 
     };
@@ -96,9 +96,9 @@ export class UiPaymentsComponent implements OnInit {
 
   doPaymentRequestOnChange(): void {
     this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
-    // this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest);
-    // this.total                = doTotalApple(this.paymentRequest);
-    this.lineItems            = doLineItems(this.paymentRequest.info);
+    this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest);
+    this.total                = doTotalApple(this.paymentRequest); // ApplePay
+    this.lineItems            = doLineItems(this.paymentRequest.info); // ApplePay
 
   }
 
