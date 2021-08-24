@@ -1,33 +1,51 @@
+<div class="grid" [class.wallet-pay-button]="wallet" [class.cc-pay-button]="!wallet">
 
-<!-- Manual credit card -->
-<div #manualPayment
-  class="manual-container">
-
-  <div #cardDiv
-    id="cardDiv">
-    <!-- Stripe card elements will be inserted here -->
+  <!-- Wallet payment (Apple Pay, Google Wallet, Microsoft Pay-->
+  <div *ngIf="wallet" id="walletDiv" class="wallet-button-width" #walletDiv>
+    <!-- A Stripe Element will be inserted here. -->
   </div>
 
-  <div>
-    <button mat-raised-button
-      color="primary"
-      [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }"
-      class="button-pay"
-      type="submit"
-      [disabled]="disablePayButton || payRequest.amount <= 0"
-      *ngIf="!wallet"
-      (click)="pay()">
-      <mat-icon>credit_card</mat-icon>&nbsp;PAY
+  <!-- Manual credit card -->
+  <div *ngIf="wallet">
+    <button class="cc-button" (click)="showCC()" [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }">
+      <mat-icon>credit_card</mat-icon>CC
     </button>
   </div>
 
-</div>
+  <div *ngIf="!wallet">
+    <button (click)="showWallet()">
+      <img src="./../assets/google-pay-mark_800.svg">
+    </button>
+  </div>
 
-<div #cardErrors
-  class="card-error">
-</div>
+  <div
+    [hidden]="wallet"
+    #manualPayment
+    class="manual-container">
 
-<!-- Wallet payment (Apple Pay, Google Wallet, Microsoft Pay-->
-<div id="walletDiv" #walletDiv>
-  <!-- A Stripe Element will be inserted here. -->
+    <div #cardDiv
+    [hidden]="wallet"
+      id="cardDiv">
+      <!-- Stripe card elements will be inserted here -->
+    </div>
+
+    <div [hidden]="wallet">
+      <button mat-raised-button
+        color="primary"
+        [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }"
+        class="button-pay"
+        type="submit"
+        [disabled]="disablePayButton || payRequest.amount <= 0"
+        (click)="pay()">
+        <mat-icon>credit_card</mat-icon>&nbsp;PAY
+      </button>
+    </div>
+
+
+    <div #cardErrors
+    [hidden]="wallet"
+      class="card-error">
+    </div>
+  </div>
+
 </div>

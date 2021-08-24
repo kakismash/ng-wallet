@@ -21,7 +21,8 @@ export class PaymentRequestUiPayments {
   gatewayMerchantId!:                   string;
   merchantId!:                          string;
   merchantName!:                        string;
-  appleMerchant!:                       string; // Declared but not used anywhere
+  appleMerchant!:                       string;
+  storeName!:                           string;
   merchantCapabilities!:                string[];
 
   // List Itmes (label, type and price)
@@ -326,11 +327,11 @@ export function doLineItems(info: Info): ApplePayJS.ApplePayLineItem[] {
     lineItems.push(doSubTotalApple(info.subTotalPrice));
   }
 
-  if (info.taxes !== undefined) {
-    info.taxes.forEach(t => {
-      lineItems.push(doTaxApple(t))
-    })
-  }
+  // if (info.taxes !== undefined) {
+  //   info.taxes.forEach(t => {
+  //     lineItems.push(doTaxApple(t))
+  //   })
+  // }
 
   if (info.items !== undefined) {
     info.items.forEach(i => {

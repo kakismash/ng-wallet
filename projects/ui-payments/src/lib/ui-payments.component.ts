@@ -6,9 +6,8 @@ import { PayRequest } from './payment-request/payRequest';
 import { AuthPaymentService } from './service/auth-payment.service';
 // import { Buffer } from 'node:buffer';
 import { Buffer } from 'buffer';
-import { Info } from './payment-request/info';
-import { Item } from './payment-request/item';
 import { uiPaymentsConfig } from './payment-request/uiPaymentsConfig';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'ui-payments',
@@ -17,6 +16,7 @@ import { uiPaymentsConfig } from './payment-request/uiPaymentsConfig';
 export class UiPaymentsComponent implements OnInit {
 
   title = 'ui-payments';
+  browser!: string;
 
   //***********Ui-Payments Component Configuration*********//
 
@@ -62,12 +62,11 @@ export class UiPaymentsComponent implements OnInit {
 
   //**********Button Apple Configuration********//
   @Input() buttonColorApple:                  string                                               = 'black';
-  @Input() buttonTypeApple:                   string                                               = 'buy';
+  @Input() buttonTypeApple:                   string                                               = 'pay';
   @Input() buttonLocaleApple:                 string                                               = 'en';
-  @Input() width:                             string                                               = '100px';
+  @Input() width:                             string                                               = '100%';
   @Input() height:                            string                                               = '30px';
   @Input() borderRadius:                      string                                               = '0pt';
-  @Input() appleMerchant!:                    string;
 
   paymentRequestApple!:                       ApplePayJS.ApplePayPaymentRequest;
   total!:                                     ApplePayJS.ApplePayLineItem;
@@ -76,7 +75,8 @@ export class UiPaymentsComponent implements OnInit {
   paymentRequest!:                            PaymentRequestUiPayments;//this is for GooglePay & ApplePay
 
 
-  constructor(private paymentService: AuthPaymentService) {
+  constructor(private paymentService: AuthPaymentService, private platform: Platform) {
+    this.checkBrowser();
   }
 
   ngOnInit(): void {
@@ -95,10 +95,13 @@ export class UiPaymentsComponent implements OnInit {
   }
 
   doPaymentRequestOnChange(): void {
-    this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
-    this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest);
-    this.total                = doTotalApple(this.paymentRequest); // ApplePay
-    this.lineItems            = doLineItems(this.paymentRequest.info); // ApplePay
+    if (this.browser === 'chrome') {
+      this.paymentRequestGoogle = doPaymentRequestGoogle(this.paymentRequest);
+    }else if( this.browser === 'safari') {
+      this.paymentRequestApple  = doPaymentRequestApple(this.paymentRequest);
+      this.total                = doTotalApple(this.paymentRequest); // ApplePay
+      this.lineItems            = doLineItems(this.paymentRequest.info); // ApplePay
+    }
 
   }
 
@@ -133,6 +136,17 @@ export class UiPaymentsComponent implements OnInit {
         });
   }
 
+  private getStoreName(): string {
+    let name ='';
+
+    if(this.payRequest.storeName){
+      name = this.payRequest.storeName;
+    } else {
+      name = 'No Store Name';
+    }
+
+    return name;
+  }
   private getGateway(): string {
     let gateway: string = ''
 
@@ -193,6 +207,7 @@ export class UiPaymentsComponent implements OnInit {
 
     if (this.uiPaymentsConfig.appleMerchant) {
       merchant = this.uiPaymentsConfig.appleMerchant;
+
     } else {
       throw new Error("Please provide an Apple Merchant");
     }
@@ -224,6 +239,7 @@ export class UiPaymentsComponent implements OnInit {
       allowedAuthMethods: this.uiPaymentsConfig.allowedAuthMethods,
       allowedCardNetworks: this.uiPaymentsConfig.allowedCardNetworks,
       TokenizationSpecification: this.uiPaymentsConfig.tokenizationSpecification,
+      storeName: this.getStoreName(),
       gateway: this.getGateway(),
       gatewayMerchantId: this.getGatewayMerchantId(),
       merchantId: this.getMerchantId(), // This is an id obtained from Google once this component is approved
@@ -236,15 +252,9 @@ export class UiPaymentsComponent implements OnInit {
         id: this.payRequest.orderId, // optional
         totalPriceStatus: 'FINAL',
         totalPriceLabel: 'Total', // optional
-        totalPrice: String(this.payRequest.amount),
+        totalPrice: String(this.payRequest.amount/100),
         currencyCode: this.payRequest.currency,
         countryCode: this.payRequest.countryCode,// optional
-        taxes: [
-          {
-            label: 'Taxes',
-            amount: String(this.payRequest.tax)
-          }
-        ]
       }
     };
   }
@@ -264,6 +274,14 @@ export class UiPaymentsComponent implements OnInit {
     node.src = 'https://jstest.authorize.net/v3/AcceptUI.js';
     node.defer = true;
     document.getElementsByTagName('head')[0].appendChild(node);
+  }
+
+  private checkBrowser(): void {
+    if(this.platform.SAFARI){
+      this.browser = 'safari'
+    } else if(this.platform.BLINK){
+     this.browser = 'chrome';
+    }
   }
 }
 

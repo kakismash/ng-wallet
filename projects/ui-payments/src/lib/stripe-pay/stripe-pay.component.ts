@@ -26,7 +26,7 @@ export class StripePayComponent implements AfterViewInit {
   @Output() paymentSuccess:   EventEmitter<any> = new EventEmitter();
   @Output() paymentFailed:    EventEmitter<any> = new EventEmitter();
 
-  wallet?:                    boolean = false;
+  wallet?:                    boolean = true;
   reference?:                 string;
   paymentIntent!:             PaymentIntent;
   stripe!:                    stripe.Stripe;
@@ -118,19 +118,17 @@ export class StripePayComponent implements AfterViewInit {
     // Check the availability of the Payment Request API first.
     paymentRequest.canMakePayment()
                   .then((result: any) => {
-
       if (result) {
-        this.wallet = true;
+        // this.wallet = true;
         walletButton.mount('#walletDiv');
         this.walletListener(intent,
                             paymentRequest);
-      } else {
-        this.wallet = false;
-        // document.getElementById('walletDiv')
-        //         .style
-        //         .display = 'none';
-        walletButton.unmount();
-        this.cardCheckout();
+      // } else {
+      //   // this.wallet = false;
+      //   // document.getElementById('walletDiv')
+      //   //         .style
+      //   //         .display = 'none';
+      //   walletButton.unmount();
       }
     });
   }
@@ -209,8 +207,11 @@ export class StripePayComponent implements AfterViewInit {
     }
 
     if(this.cardDivRef){
+      console.log('rendered')
       this.cardElement
           .mount(this.cardDivRef.nativeElement);
+    }else{
+      console.log('NOT rendered')
     }
 
     this.disablePayButton = false;
@@ -254,6 +255,19 @@ export class StripePayComponent implements AfterViewInit {
     }
   }
 
+  showWallet(): void {
+    console.log(this.wallet);
+    this.wallet = true;
+    this.walletCheckout(this.paymentIntent);
+    this.checkoutDestroy();
+  }
 
+  showCC(): void {
+    console.log(this.wallet);
+    this.wallet = false;
+    if(this.cardDivRef){
+      this.cardCheckout();
+    }
+  }
 
 }

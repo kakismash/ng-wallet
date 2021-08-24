@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { environment } from '../environments/environment.prod';
 
 @Component({
   selector: 'apple-pay',
@@ -28,6 +29,7 @@ export class ApplePayComponent {
   @Input() total!:                    ApplePayJS.ApplePayLineItem;
 
   @Input() lineItems!:                Array<ApplePayJS.ApplePayLineItem>;
+  @Input() storeName!:                string;
 
   constructor() { }
 
@@ -50,12 +52,28 @@ export class ApplePayComponent {
     const session = new ApplePaySession(this.version, this.paymentRequest);
 
     session.onvalidatemerchant = event => {
+      const options= {
+        url: event.validationURL,
+        cert: 'merchant.com.example.uipayments',
+        key: 'merchant.com.example.uipayments',
+        method: 'post',
+        body:{
+                merchantIdentifier: 'merchant.com.example.uipayments',
+                displayName: this.storeName,
+                initiative: 'web',
+                initiativeContext: environment.apiURL
+              },
+         json: true,
+      }
+
+      console.log('CLICKED APPLEPAY BUTTON');
       console.log(event);
-      this.appleMerchant = event.validationURL;
+      console.log(`Apple verification URL: ${this.appleMerchant}`);
         // Call your own server to request a new merchant session.
-        fetch(this.appleMerchant)
-          .then(res => res.json()) // Parse response as JSON.
+        fetch(event.validationURL, {})
+          .then((res) => {res.json(); console.log(res.json())}) // Parse response as JSON.
           .then(merchantSession => {
+            console.log(merchantSession);
             session.completeMerchantValidation(merchantSession);
           })
           .catch(err => {
@@ -71,7 +89,7 @@ export class ApplePayComponent {
     session.completeShippingMethodSelection(ApplePaySession.STATUS_SUCCESS,
                                             this.total,
                                             this.lineItems);
-};
+  };
 
     session.onpaymentauthorized = event => {
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
