@@ -7,14 +7,14 @@
 
   <!-- Manual credit card -->
   <div *ngIf="wallet">
-    <button class="cc-button" (click)="showCC()" [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }">
+    <button mat-raised-button class="cc-button" (click)="showCC()" [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }">
       <mat-icon>credit_card</mat-icon>CC
     </button>
   </div>
 
   <div *ngIf="!wallet">
     <button (click)="showWallet()">
-      <img src="./../assets/google-pay-mark_800.svg">
+      <img src="./../imgs/google-pay-mark_800.svg">
     </button>
   </div>
 
