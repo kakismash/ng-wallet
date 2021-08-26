@@ -170,7 +170,11 @@ mat-card{
 
   .manual-container{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+
+    input {
+      height: 30px;
+    }
   }
 
   .button-ready {
@@ -179,7 +183,7 @@ mat-card{
   }
 
   .button-pay {
-    width: 25%;
+    width: 100%;
     font-size: 1.5vh;
   //  display: inline-block;
   //  text-align: left;
@@ -233,12 +237,12 @@ mat-card{
     width: 100%;
   }
 
-  .wallet-pay-button {
-    grid-template-columns: 78% 20%;
+  .payment-buttons {
+    grid-template-columns: 80% 20%;
   }
 
   .wallet-button-width {
-    width: 100%;
+    width: 95%;
   }
 
   .cc-pay-button {
@@ -247,4 +251,5 @@ mat-card{
 
   .cc-button {
     width: 100%;
+    height: 97%;
   }

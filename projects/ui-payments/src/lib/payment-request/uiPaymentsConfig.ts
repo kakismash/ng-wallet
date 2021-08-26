@@ -1,5 +1,5 @@
 export class uiPaymentsConfig {
-  versionAPIApple!: number;
+  versionAPI!: number;
   typePaymentMethod!: string;
   allowedAuthMethods!: string[];
   allowedCardNetworks!: string[];

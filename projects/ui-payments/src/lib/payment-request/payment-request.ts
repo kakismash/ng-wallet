@@ -8,7 +8,7 @@ import { Tax } from './tax';
 export class PaymentRequestUiPayments {
 
   // Version API
-  versionAPIApple!:                     number;
+  versionAPI!:                     number;
 
   // Payment Method
   typePaymentMethod!:                   string;
@@ -92,7 +92,7 @@ export function doPaymentRequestApple(paymentRequest: PaymentRequestUiPayments):
   return {
     countryCode: paymentRequest.info.countryCode.toUpperCase(),
     currencyCode: paymentRequest.info.currencyCode.toUpperCase(),
-    supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks, paymentRequest.versionAPIApple),
+    supportedNetworks: doAllowedCardNetworksApple(paymentRequest.allowedCardNetworks, paymentRequest.versionAPI),
     merchantCapabilities: doMerchantCapabilities(paymentRequest.merchantCapabilities),
     lineItems: doLineItems(paymentRequest.info),
     total: {

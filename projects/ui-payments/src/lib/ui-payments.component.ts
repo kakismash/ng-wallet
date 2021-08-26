@@ -64,7 +64,7 @@ export class UiPaymentsComponent implements OnInit {
   @Input() buttonColorApple:                  string                                               = 'black';
   @Input() buttonTypeApple:                   string                                               = 'pay';
   @Input() buttonLocaleApple:                 string                                               = 'en';
-  @Input() width:                             string                                               = '100%';
+  @Input() width:                             string                                               = '95%';
   @Input() height:                            string                                               = '30px';
   @Input() borderRadius:                      string                                               = '0pt';
 
@@ -234,7 +234,7 @@ export class UiPaymentsComponent implements OnInit {
      */
 
     this.paymentRequest = {
-      versionAPIApple: this.uiPaymentsConfig.versionAPIApple,
+      versionAPI: this.uiPaymentsConfig.versionAPI,
       typePaymentMethod: this.uiPaymentsConfig.typePaymentMethod,
       allowedAuthMethods: this.uiPaymentsConfig.allowedAuthMethods,
       allowedCardNetworks: this.uiPaymentsConfig.allowedCardNetworks,
@@ -255,6 +255,8 @@ export class UiPaymentsComponent implements OnInit {
         totalPrice: String(this.payRequest.amount/100),
         currencyCode: this.payRequest.currency,
         countryCode: this.payRequest.countryCode,// optional
+        subTotalPrice: this.payRequest.subTotalPrice,
+        tax: this.payRequest.tax
       }
     };
   }
@@ -279,7 +281,7 @@ export class UiPaymentsComponent implements OnInit {
   private checkBrowser(): void {
     if(this.platform.SAFARI){
       this.browser = 'safari'
-    } else if(this.platform.BLINK){
+    } else if(this.platform.BLINK){//BLINK is for Chrome
      this.browser = 'chrome';
     }
   }

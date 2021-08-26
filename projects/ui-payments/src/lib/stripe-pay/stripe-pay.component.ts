@@ -5,6 +5,7 @@ import {
   StripeElementsOptions } from '@stripe/stripe-js';
 import { PayRequest } from '../payment-request/payRequest';
 import { StripePaymentService } from '../service/stripe-payment.service';
+import { Platform } from '@angular/cdk/platform';
 
 
 @Component({
@@ -26,7 +27,9 @@ export class StripePayComponent implements AfterViewInit {
   @Output() paymentSuccess:   EventEmitter<any> = new EventEmitter();
   @Output() paymentFailed:    EventEmitter<any> = new EventEmitter();
 
-  wallet?:                    boolean = true;
+  wallet?:                    boolean = false;
+  // walletButtonType?:          string;
+  paymentType?:               string = undefined;
   reference?:                 string;
   paymentIntent!:             PaymentIntent;
   stripe!:                    stripe.Stripe;
@@ -52,11 +55,18 @@ export class StripePayComponent implements AfterViewInit {
   readyToPay!:                boolean; // make this into a boolean
   disablePayButton!:          boolean;
 
-  constructor(private stripePaymentService: StripePaymentService) {}
+  constructor(private stripePaymentService: StripePaymentService, private platform: Platform) {}
 
   ngAfterViewInit(): void {
-    this.getIntent();
+    // if (this.platform.SAFARI) {
+    //   console.log('Browser SAFARI');
+    //   this.walletButtonType = 'applepay';
+    // } else if(this.platform.BLINK) {
+    //   console.log('Browser CHROME');
+    //   this.walletButtonType = 'googlepay';
+    // }
     this.stripe = Stripe(this.publishableKey);
+    this.getIntent();
   }
 
   getIntent(){
@@ -121,10 +131,13 @@ export class StripePayComponent implements AfterViewInit {
       if (result) {
         // this.wallet = true;
         walletButton.mount('#walletDiv');
+        this.wallet = true;
+        console.log('FOUND WALLET');
         this.walletListener(intent,
                             paymentRequest);
-      // } else {
-      //   // this.wallet = false;
+      } else {
+        this.wallet = false;
+        this.showCC();
       //   // document.getElementById('walletDiv')
       //   //         .style
       //   //         .display = 'none';
@@ -256,15 +269,17 @@ export class StripePayComponent implements AfterViewInit {
   }
 
   showWallet(): void {
-    console.log(this.wallet);
-    this.wallet = true;
+    this.paymentType = 'wallet';
     this.walletCheckout(this.paymentIntent);
     this.checkoutDestroy();
   }
 
+  hideWallet() {
+    this.paymentType = undefined;
+  }
+
   showCC(): void {
-    console.log(this.wallet);
-    this.wallet = false;
+    this.paymentType = 'cc';
     if(this.cardDivRef){
       this.cardCheckout();
     }
