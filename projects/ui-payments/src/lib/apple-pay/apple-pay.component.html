@@ -1,0 +1,14 @@
+<button *ngIf="isApplePaySession()" style="display: inline-block;
+              border-radius: {{borderRadius}};
+              -webkit-appearance: -apple-pay-button;
+              -apple-pay-button-type: {{buttonType}};
+              -apple-pay-button-style: {{buttonStyle}};
+              width: {{width}};
+              height: {{height}}"
+              (click)="onApplePayButtonClicked()"
+              [lang]="lang"
+              >
+</button>
+
+
+

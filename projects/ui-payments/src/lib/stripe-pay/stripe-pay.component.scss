@@ -1,0 +1,255 @@
+mat-card{
+  //  height: 90vh;
+    margin: 0 0 0 0;
+
+    display: flex;
+    flex-direction: column;
+
+  //  flex-shrink: 0;
+  }
+
+  .title{
+  //  display: flex;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    //  flex: 1;
+
+    .name {
+      justify-self: center;
+    }
+
+    .label {
+      font-size: 1.5vh;
+      color: lightgray;
+      justify-self: end;
+    }
+
+  }
+
+  mat-card-content{
+    display: flex;
+    margin-top: 0px !important;
+  //  flex: 1;
+  }
+
+  .items {
+    height: 13%;
+    margin: 0;
+    overflow: scroll;
+  }
+
+  .totals {
+    height: 17%;
+    margin: 0;
+  }
+
+  .end {
+    height: 50%;
+    margin: 0;
+    border-top: lightgray dotted .5vh;
+  }
+
+  .items-container {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    flex-grow: 2;
+
+    // SubTotal, Paid
+    .detail {
+
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      .item {
+        font-size: 2vh;
+        font-weight: default;
+        margin:  1.2vh 0 0 0;
+        color: lightgray;
+      //  white-space: nowrap;
+      }
+
+      .item-price {
+        color: lightgray;
+      //  white-space: nowrap;
+        font-size: 2vh;
+        font-weight: normal;
+        margin:  1.2vh 0 0 0;
+        justify-self: end;
+      }
+    }
+  }
+
+  .totals-container {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    flex-grow: 2;
+  }
+
+  .tip-container{
+    display: flex;
+    justify-content: flex-end;
+
+    .button-square{
+      width: 8vh;
+      height: 8vh;
+      min-width: 10vw;
+      font-size: 2vh;
+      margin-right:5px;
+    }
+
+    mat-form-field{
+      width: 30vh;
+      height: 10vh;
+      font-size: 2vh;
+      max-width: 25vw;
+    }
+  }
+
+  // Payment elements (subTotal, tip, total)
+  .payment-container {
+    width: 100%;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    .total-container {
+      display: flex;
+      justify-content: space-between;
+
+      label{
+        width:45%;
+        font-size: 4vh;
+        font-weight: bold;
+
+        display: inline-block;
+        text-align: right;
+        vertical-align: bottom;
+        white-space: nowrap;
+      }
+
+      input {
+        width:40%;
+        //max-width: 50%;
+        font-size: 4vh;
+        font-weight: bold;
+
+        display: inline-block;
+        text-align: left;
+        align-content: left;
+        place-content: left;
+        justify-content: left;
+        align-items: left;
+
+        outline: none;
+        //box-sizing: content-box ;
+        border-top-style: hidden;
+        border-right-style: hidden;
+        border-left-style: hidden;
+        border-bottom-style: hidden;
+      }
+    }
+
+    // Action elements (Pay, Cancel)
+    .action-container {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      width: 100%;
+
+      .button-back {
+        width: 25vw;
+        height: 40px;
+        font-size: 1.5vh;
+      }
+
+      .email-input{
+        width: 60vw;
+      }
+    }
+  }
+
+  .manual-container{
+    display: flex;
+    justify-content: space-evenly;
+
+    input {
+      height: 30px;
+    }
+  }
+
+  .button-ready {
+    width: 100%;
+    font-size: 1.5vh;
+  }
+
+  .button-pay {
+    width: 100%;
+    font-size: 1.5vh;
+  //  display: inline-block;
+  //  text-align: left;
+  //  align-content: left;
+  //  height: 40px;
+  //  flex-grow: 1;
+  }
+
+  // Stripe elements
+  .StripeElement {
+    box-sizing: border-box;
+    width: 75%;
+  //  height: 40px;
+    font-size: 2vh;
+
+    border-radius: 4px;
+
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+  }
+
+  .StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+  }
+
+  .StripeElement--invalid {
+    border-color: #fa755a;
+  }
+
+  .StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+
+  .checkout-content {
+    height: 95% !important;
+  }
+
+  .toolbar-info {
+    height: 3% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .footer-text {
+    font-size: 1.2vh;
+  }
+
+  .grid {
+    display: grid;
+    width: 100%;
+  }
+
+  .payment-buttons {
+    grid-template-columns: 80% 20%;
+  }
+
+  .wallet-button-width {
+    width: 95%;
+  }
+
+  .cc-pay-button {
+    grid-template-columns: 20% 80%;
+  }
+
+  .cc-button {
+    width: 100%;
+    height: 97%;
+  }

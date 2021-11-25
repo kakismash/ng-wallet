@@ -1,0 +1,21 @@
+<form
+  id="paymentForm">
+
+  <button
+    #authnetbtn
+    mat-raised-button
+    [ngStyle]="{'background-color':buttonColor ? buttonColor : 'primary'}"
+    id="authnet-btn"
+    type="button"
+    class="AcceptUI pointer button-style"
+    data-billingAddressOptions='{"show":true, "required":false}'
+    data-acceptUIFormBtnTxt="Submit"
+    data-acceptUIFormHeaderTxt="Card Information"
+    [attr.data-apiLoginId]="apiLoginId"
+    [attr.data-clientKey]="clientKey"
+    data-responseHandler="responseHandler"
+    (click)="dismissFormTimer(); resetCallMade()">
+    <mat-icon>credit_card</mat-icon>
+  </button>
+
+</form>

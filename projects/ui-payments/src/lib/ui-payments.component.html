@@ -1,0 +1,62 @@
+<div id="ui-payments" style="display: grid; grid-template-columns: 80% 20%;">
+
+  <google-pay
+    *ngIf="uiPaymentsConfig.gateway === 'auth.net' && browser === 'chrome'"
+    [buttonColor]="buttonColorGoogle"
+    [buttonType]="buttonTypeGoogle"
+    [buttonSizeMode]="buttonSizeMode"
+    [buttonLocale]="buttonLocaleGoogle"
+    [environment]="environment"
+    [existingPaymentMethodRequired]="existingPaymentMethodRequired"
+    [paymentRequest]="paymentRequestGoogle"
+    [paymentDataChangedCallback]="paymentDataChangedCallback"
+    [paymentAuthorizedCallback]="paymentAuthorizedCallback"
+    [readyToPayChangeCallback]="readyToPayChangeCallback"
+    [loadPaymentDataCallback]="loadPaymentDataCallback"
+    [cancelCallback]="cancelCallback"
+    [errorCallback]="errorCallback">
+  </google-pay>
+
+  <apple-pay
+  *ngIf="uiPaymentsConfig.gateway === 'auth.net' && browser === 'safari'"
+  [buttonType]="buttonTypeApple"
+  [buttonStyle]="buttonColorApple"
+  [borderRadius]="borderRadius"
+  [width]="width"
+  [height]="height"
+  [lang]="buttonLocaleApple"
+  [paymentRequest]="paymentRequestApple"
+  [version]="paymentRequest.versionAPI"
+  [appleMerchant]="paymentRequest.appleMerchant ? paymentRequest.appleMerchant : ''"
+  [total]="total"
+  [lineItems]="lineItems"
+  [storeName]="paymentRequest.storeName">
+  </apple-pay>
+
+  <!-- MANUAL ENTRY OF CARD-->
+  <authnet-pay
+    *ngIf="uiPaymentsConfig.gateway === 'auth.net'"
+    [timer]="timer"
+    [publicKey]="publicKey"
+    [apiLoginId]="apiLoginIdAuth"
+    [clientKey]="clientKeyAuth"
+    [buttonColor]="buttonColor"
+    [payRequest]="payRequest"
+    (paymentSuccess)="emitSuccessPayment($event)"
+    (paymentFail)="emitFailedPayment($event)">
+  </authnet-pay>
+
+</div>
+
+  <stripe-pay
+    *ngIf="uiPaymentsConfig.gateway === 'stripe'"
+    [publicId]="publicKey"
+    [secretKey]="secretKeyStripe"
+    [payRequest]="payRequest"
+    [publishableKey]="publishableKeyStripe"
+    [colorButton]="buttonColor"
+    [colorFont]="colorFont"
+    (paymentSuccess)="emitSuccessPayment($event)"
+    (paymentFail)="emitFailedPayment($event)">
+  </stripe-pay>
+

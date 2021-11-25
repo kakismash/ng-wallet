@@ -1,0 +1,38 @@
+{
+    "name": "ui-payments",
+    "version": "0.0.16",
+    "keywords": [
+        "ui-payments",
+        "angular-wallet",
+        "google-pay",
+        "apple-pay"
+    ],
+    "author": "Joaquin Navarro",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Ordyx/UI-Payments.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Ordyx/UI-Payments/issues"
+    },
+    "homepage": "https://github.com/Ordyx/UI-Payments#readme",
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve",
+        "build": "ng build",
+        "watch": "ng build --watch --configuration development",
+        "test": "ng test"
+    },
+    "peerDependencies": {
+        "@angular/common": "^12.0.1",
+        "@angular/core": "^12.0.1"
+    },
+    "bundledDependencies": [
+        "@google-pay/button-element"
+    ],
+    "dependencies": {
+        "tslib": "^2.1.0"
+    }
+
+}
