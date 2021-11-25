@@ -1,0 +1,46 @@
+<div class="grid" [class.payment-buttons]="paymentType === undefined && wallet">
+
+  <!-- Wallet payment (Apple Pay, Google Wallet, Microsoft Pay-->
+  <div [hidden]="paymentType === 'cc'" id="walletDiv" class="wallet-button-width" #walletDiv>
+    <!-- A Stripe Element will be inserted here. -->
+  </div>
+
+  <!-- Manual credit card -->
+  <div [hidden]="paymentType === 'cc'">
+    <button mat-raised-button class="cc-button" (click)="showCC()" [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }">
+      <mat-icon>credit_card</mat-icon>
+    </button>
+  </div>
+
+  <div
+    [hidden]="paymentType === 'wallet' || paymentType === undefined "
+    #manualPayment
+    class="manual-container">
+
+    <div #cardDiv
+    [hidden]="paymentType === 'wallet' || paymentType === undefined"
+      id="cardDiv">
+      <!-- Stripe card elements will be inserted here -->
+    </div>
+
+    <div [hidden]="paymentType === 'wallet' || paymentType === undefined">
+      <button mat-raised-button
+        color="primary"
+        [ngStyle]="{'background-color':colorButton ? colorButton : 'primary', 'color':colorFont ? colorFont : 'white' }"
+        class="button-pay"
+        type="submit"
+        [hidden]="paymentType === 'wallet' || paymentType === undefined"
+        [disabled]="disablePayButton || payRequest.amount <= 0"
+        (click)="pay()">
+        <mat-icon>credit_card</mat-icon>&nbsp;PAY
+      </button>
+    </div>
+
+
+    <div #cardErrors
+    [hidden]="paymentType === 'wallet' || paymentType === undefined"
+      class="card-error">
+    </div>
+  </div>
+
+</div>
