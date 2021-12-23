@@ -94,7 +94,7 @@ For the HTML selector used is `<ui-payments></ui-payments>`
   // Structure of object being passed to [uiPaymentsConfig]
   // property of Ui-Payments
   UiPaymentsConfig {
-    versionAPIApple: number;
+    versionAPI: number;
     typePaymentMethod: string;
     allowedAuthMethods: string[];
     allowedCardNetworks: string[];
@@ -120,9 +120,8 @@ For the HTML selector used is `<ui-payments></ui-payments>`
       gatewayMerchantId: '123456',
       merchantName: 'TEST',
       merchantId: '7896321',
-      appleMerchant: '/authorizeMerchant',
-      merchantCapabilities: ['SUPPORTS_3DS'],
-
+      appleMerchant: '/authorizeMerchant', // this would be a url to call to your server
+      merchantCapabilities: ['SUPPORTS_3DS']
     }
 
     return config;
@@ -135,6 +134,7 @@ For the HTML selector used is `<ui-payments></ui-payments>`
     <ui-payments
       [publicKey]="publicId"
       [apiLoginIdAuth]="apiLoginId"
+      [transactionId]="transactionId"
       [clientKeyAuth]="clientKey"
       [uiPaymentsConfig]="getUiPaymentsConfiguration()"
       [payRequest]="getPaymentRequest()"
@@ -164,9 +164,10 @@ For the HTML selector used is `<ui-payments></ui-payments>`
 * **publicKey**: *Nosher's public key.*
 * **apiLoginIdAuth**: *This is provided by Authorize.net.*
 * **clientKeyAuth**: *This is provided by Authorize.net.*
-* **timer**: *Timer, using milliseconds, to close authorize.net hosted form.*
-* **secretKeyStripe**: *The secret key provided by Stripe.*
-* **publishableKeyStripe**: *The publishable key provided by Stripe.*
+* **transactionId**: *This is provided by Authorize.net.*
+* **timer**: *Timer, using milliseconds, to close authorize.net hosted form. Otherwise, it'll remain open if you have a time on the checkout form*
+* **secretKeyStripe**: *The secret key is provided by Stripe.*
+* **publishableKeyStripe**: *The publishable key is provided by Stripe.*
 * **buttonColor**: *The color you would like the button to be. Both #colorcode & rgb(#,#,#) syntax work, but passed as a string*
 * **colorFont**: *The color you would like the button's font to be. Both #colorcode & rgb(#,#,#) syntax work, but passed as a string.*
 

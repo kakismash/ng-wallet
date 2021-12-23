@@ -41,6 +41,7 @@ export class UiPaymentsComponent implements OnInit {
 
   @Input() apiLoginIdAuth!:             string;
   @Input() clientKeyAuth!:              string;
+  @Input() transactionId!:              string;
   @Input() timer!:                      number;
 
   //**********Button Google Configuration********//
@@ -117,22 +118,26 @@ export class UiPaymentsComponent implements OnInit {
     //this gets a json form google containing the card info and a processing token
     this.payRequest.source = 'COMMON.GOOGLE.INAPP.PAYMENT'
     this.payRequest.token = Buffer.from(result.paymentMethodData.tokenizationData.token, 'utf-8').toString('base64');
+    this.payRequest.transactionId = this.transactionId;
 
     this.sendGooglePayment();
   }
 
   sendGooglePayment(): void {
     this.paymentService
-        .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payRequest)
+        .send('public/'+this.publicKey+'/payment', this.payRequest)
         .subscribe({
-          next: (resp=>
+          next: (resp)=>
             {
               console.log('AUTH.NET PAYMENT SUCCESS: '+resp);
               this.paymentSuccess.emit(resp);
-            }),
-          error:(err=>{
+            },
+          error:(err)=>{
+            console.log(err)
             this.paymentFail.emit(err);
-          })
+          }, complete: ()=>{
+            console.log('PAYMENT COMPLETED');
+          }
         });
   }
 

@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   title: 'Local Environment',
-  apiURL: 'http://localhost:8081/',
-//  apiURL: 'http://949c7bfa72c1.ngrok.io/',
+  // apiURL: 'http://localhost:8081/',
+  apiURL: 'https://6d302edfa720.ngrok.io/',
 //  apiURL: 'http://MACBOOK-PRO.localhost:8080/',
   maxFileSize: 30
 };

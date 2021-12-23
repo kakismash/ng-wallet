@@ -11,7 +11,11 @@ export class AuthPaymentService {
 
   constructor(private http: HttpClient) { }
 
-  sendPaymentAuthNet(endpoint: string, payRequest: PayRequest): Observable<PayRequest> {
-    return this.http.post<PayRequest>(environment.apiURL + endpoint, payRequest);
+  send(endpoint: string, payRequest: PayRequest): Observable<any> {
+    return this.http.post<any>(environment.apiURL + endpoint, payRequest);
+  }
+
+  requestMerchantSession(publicId: string): Observable<any>{
+    return this.http.post<any>(environment.apiURL+'public/'+publicId+'/payment/applePay', {});
   }
 }

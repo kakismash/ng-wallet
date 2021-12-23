@@ -18,6 +18,7 @@ export class AuthNetPayComponent {
   @Input() payRequest:              PayRequest = new PayRequest();
   @Input() buttonColor!:            string;
   @Input() timer!:                  number;
+  @Input() transactionId!:           string;
 
   @Output() paymentSuccess:         EventEmitter<any> = new EventEmitter();
   @Output() paymentFail:            EventEmitter<any> = new EventEmitter();
@@ -36,7 +37,7 @@ export class AuthNetPayComponent {
   paymentHandler(event: any, payment: PayRequest): void {
     if (event.data.type === 'RESPONSE') {
       this.calls+=1;
-      console.log(event.data);
+      console.log(event);
 
       if (event.data.pktData.messages.resultCode === "Error") {
 
@@ -48,6 +49,8 @@ export class AuthNetPayComponent {
 
         payment.token = event.data.pktData.opaqueData.dataValue;
         payment.source = event.data.pktData.opaqueData.dataDescriptor;
+        payment.transactionId = this.transactionId;
+        console.log(this.payRequest);
 
         for (var i=0; i<this.calls; i++) {
 
@@ -68,16 +71,20 @@ export class AuthNetPayComponent {
 
     this.callMade = true;
     this.paymentService
-        .sendPaymentAuthNet('public/'+this.publicKey+'/payment', this.payRequest)
+        .send('public/'+this.publicKey+'/payment', this.payRequest)
         .subscribe({
-          next: (resp=>
+          next: (resp)=>
             {
               console.log('AUTH.NET PAYMENT SUCCESS: '+resp);
               this.paymentSuccess.emit(resp);
-            }),
-          error:(err=>{
+            },
+          error:(err)=>{
+            console.log(err);
             this.paymentFail.emit(err);
-          })
+          },
+          complete:()=>{
+            console.log('PAYMENT COMPLETED');
+          }
         });
 
   }
