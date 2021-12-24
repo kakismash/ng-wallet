@@ -14,23 +14,27 @@
     [readyToPayChangeCallback]="readyToPayChangeCallback"
     [loadPaymentDataCallback]="loadPaymentDataCallback"
     [cancelCallback]="cancelCallback"
-    [errorCallback]="errorCallback">
+    [errorCallback]="errorCallback"
+    (paymentSuccess)="emitSuccessPayment($event)"
+    (paymentFail)="emitFailedPayment($event)">
   </google-pay>
 
   <apple-pay
-  *ngIf="uiPaymentsConfig.gateway === 'auth.net' && browser === 'safari'"
-  [buttonType]="buttonTypeApple"
-  [buttonStyle]="buttonColorApple"
-  [borderRadius]="borderRadius"
-  [width]="width"
-  [height]="height"
-  [lang]="buttonLocaleApple"
-  [paymentRequest]="paymentRequestApple"
-  [version]="paymentRequest.versionAPI"
-  [appleMerchant]="paymentRequest.appleMerchant ? paymentRequest.appleMerchant : ''"
-  [total]="total"
-  [lineItems]="lineItems"
-  [storeName]="paymentRequest.storeName">
+    *ngIf="uiPaymentsConfig.gateway === 'auth.net' && browser === 'safari'"
+    [buttonType]="buttonTypeApple"
+    [buttonStyle]="buttonColorApple"
+    [borderRadius]="borderRadius"
+    [width]="width"
+    [height]="height"
+    [lang]="buttonLocaleApple"
+    [paymentRequest]="paymentRequestApple"
+    [transactionId]="transactionId"
+    [publicKey]="publicKey"
+    [version]="paymentRequest.versionAPI"
+    [appleMerchant]="paymentRequest.appleMerchant ? paymentRequest.appleMerchant : ''"
+    [total]="total"
+    [lineItems]="lineItems"
+    [storeName]="paymentRequest.storeName">
   </apple-pay>
 
   <!-- MANUAL ENTRY OF CARD-->
@@ -42,21 +46,22 @@
     [clientKey]="clientKeyAuth"
     [buttonColor]="buttonColor"
     [payRequest]="payRequest"
+    [transactionId]="transactionId"
     (paymentSuccess)="emitSuccessPayment($event)"
     (paymentFail)="emitFailedPayment($event)">
   </authnet-pay>
 
 </div>
 
-  <stripe-pay
-    *ngIf="uiPaymentsConfig.gateway === 'stripe'"
-    [publicId]="publicKey"
-    [secretKey]="secretKeyStripe"
-    [payRequest]="payRequest"
-    [publishableKey]="publishableKeyStripe"
-    [colorButton]="buttonColor"
-    [colorFont]="colorFont"
-    (paymentSuccess)="emitSuccessPayment($event)"
-    (paymentFail)="emitFailedPayment($event)">
-  </stripe-pay>
+<stripe-pay
+  *ngIf="uiPaymentsConfig.gateway === 'stripe'"
+  [publicId]="publicKey"
+  [secretKey]="secretKeyStripe"
+  [payRequest]="payRequest"
+  [publishableKey]="publishableKeyStripe"
+  [colorButton]="buttonColor"
+  [colorFont]="colorFont"
+  (paymentSuccess)="emitSuccessPayment($event)"
+  (paymentFail)="emitFailedPayment($event)">
+</stripe-pay>
 

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environments';
+import { AuthPaymentService } from '../service/auth-payment.service';
 
 @Component({
   selector: 'apple-pay',
@@ -18,12 +19,13 @@ export class ApplePayComponent {
 
   // Define Apple Pay Version
   @Input() version!:                  number;
-
+  @Input() publicKey!:                 string;
   // Define ApplePayPaymentRequest
   @Input() paymentRequest!:           ApplePayJS.ApplePayPaymentRequest;
 
   // Define Apple Merchant
   @Input() appleMerchant!:            string;
+  @Input() transactionId!:             string;
 
   // Define payment method.
   @Input() total!:                    ApplePayJS.ApplePayLineItem;
@@ -31,7 +33,7 @@ export class ApplePayComponent {
   @Input() lineItems!:                Array<ApplePayJS.ApplePayLineItem>;
   @Input() storeName!:                string;
 
-  constructor() { }
+  constructor(private authPaymentService : AuthPaymentService) { }
 
   isApplePaySession(): boolean {
     let toReturn:   boolean = true;
@@ -70,18 +72,27 @@ export class ApplePayComponent {
       console.log(event);
       console.log(`Apple verification URL: ${this.appleMerchant}`);
         // Call your own server to request a new merchant session.
-        fetch(event.validationURL, {})
-          .then((res) => {res.json(); console.log(res.json())}) // Parse response as JSON.
-          .then(merchantSession => {
-            console.log(merchantSession);
-            session.completeMerchantValidation(merchantSession);
-          })
-          .catch(err => {
-            console.error('Error fetching merchant session', err);
-          });
+        console.log('REQUESTING MERCHANT SESSION');
+        this.authPaymentService.requestMerchantSession(this.publicKey).subscribe(resp =>{
+          console.log('MERCHANT SESSION REQUESTED SUCCESFULLY');
+          console.log(resp.json());
+          session.completeMerchantValidation(resp.json());
+        });
+
+        // fetch(environment.apiURL+'public/'+this.publicId+'payment/applePay')
+        //   .then((res) => {res.json(); console.log(res.json())}) // Parse response as JSON.
+        //   .then(merchantSession => {
+        //     console.log(merchantSession);
+        //     session.completeMerchantValidation(merchantSession);
+        //   })
+        //   .catch(err => {
+        //     console.error('Error fetching merchant session', err);
+        //   });
     };
 
     session.onpaymentmethodselected = event => {
+      console.log('PAYMENT METHOD SELECTED');
+      console.log(event);
       session.completePaymentMethodSelection(this.total, this.lineItems);
   };
 
@@ -92,6 +103,8 @@ export class ApplePayComponent {
   };
 
     session.onpaymentauthorized = event => {
+      console.log('PAYMENT AUTHORIZED');
+      console.log(event);
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
     };
 

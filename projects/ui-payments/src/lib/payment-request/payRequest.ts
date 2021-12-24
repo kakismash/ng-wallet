@@ -16,4 +16,5 @@ export class PayRequest {
   storeName?: string;
   countryCode!: string;
   subTotalPrice?: string;
+  transactionId?: string;
 }
