@@ -205,4 +205,4 @@ For the HTML selector used is `<ui-payments></ui-payments>`
 * Visit [Apple Pay on the Web](https://developer.apple.com/documentation/apple_pay_on_the_web) for support Apple Pay on your website with JavaScript-based APIs.
 
 ## Button Preview
-![Button Preview](https://github.com/kakismash/ui-payments/blob/main/ui-payments-preview.jpg)
+![Button Preview](https://github.com/jantvb/json/blob/main/ui-payments/ui-payments-preview.jpg)
