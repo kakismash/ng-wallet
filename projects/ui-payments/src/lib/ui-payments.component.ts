@@ -157,11 +157,12 @@ export class UiPaymentsComponent implements OnInit {
 
     switch (this.uiPaymentsConfig.gateway) {
       case 'stripe':
-        gateway = 'stripe'
+        gateway = 'stripe';
         break;
 
-      case 'auth.net' || 'authorize.net':
-        gateway = 'authorizenet'
+      case 'auth.net': 
+      case 'authorize.net':
+        gateway = 'authorizenet';
         break;
 
       default:

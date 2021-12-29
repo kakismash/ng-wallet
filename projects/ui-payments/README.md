@@ -199,6 +199,56 @@ For the HTML selector used is `<ui-payments></ui-payments>`
 * **buttonColor**: The color you would like the button to be. Both #colorcode & rgb(#,#,#) syntax work, but passed as a string.
 * **colorFont**: The color you would like the button's font to be. Both #colorcode & rgb(#,#,#) syntax work, but passed as a string.
 
+## Google Pay Button Properties
+
+* **buttonColorGoogle**: Specifies the color of the button. It is optional and the values can be "default" | "black" | "white".
+* **buttonTypeGoogle**: Button type to use. It is optional and the values can be "buy" | "plain" | "donate" | "long" | "short".
+* **buttonLocaleGoogle**: This ISO 639-1 code represents the desired button language. It is optional and the value is a string.
+* **buttonSizeMode**: Buttons will be sized according to the translated buttonType. It is optional and the values can be "static" | "fill".
+* **environment**: The Google Pay environment to target. It is required and the values can be "TEST" | "PRODUCTION".
+* **existingPaymentMethodRequired**: When set to true (and environment is Production), the Google Pay button will only be displayed if the user already has an existing payment that they can use to make a purchase. It is optional and the type is boolean.
+
+## Google Pay Button Callbacks/events
+
+* **cancelCallback**: Invoked when a user cancels or closes the Google Pay payment sheet. Also raised as event "cancel". Invoked an error is encountered in the process of presenting and collecting payment options from the Google Pay payment sheet. errorCallback: Also raised as event "error".
+* **paymentAuthorizedCallback**: Invoked when a user chooses a payment method. This callback should be used to validate whether or not the payment method can be used to complete a payment. This would be typically used to perform pre-authorization to ensure that the card is valid and has sufficient funds. Note that in order to use this callback paymentRequest.callbackIntents must include PAYMENT_AUTHORIZATION.
+* **paymentDataChangedCallback**: Invoked when payment the user changes payment data options including payment method, shipping details, and contact details. This callback can be used to dynamically update transactionInfo when payment details, shipping address, or shipping options change. Note that in order to use this callback paymentRequest.callbackIntents must include either SHIPPING_ADDRESS or SHIPPING_OPTION.
+* **readyToPayChangeCallback**: Invoked when the user's isReadyToPay state changes. This callback can be used to change the application's behaviour based on whether or not the user is ready to pay. Also raised as event "readytopaychange".
+* **loadPaymentDataCallback**: Invoked when a user has successfully nominated payment details. This callback receives the PaymentData response which includes the PaymentMethodData that can be sent to supported payment processors. Also raised as event "loadpaymentdata".
+
+## Apple Pay Button Properties
+
+* **buttonColorApple**: A type that indicates the available appearances for an Apple Pay Button. For more information, see ApplePayButtonStyle.
+* **buttonTypeApple**: A type that indicates the button types that you can display to initiate Apple Pay transactions. For more information, see ApplePayButton Type.
+* **buttonLocaleApple**: A type that indicates the languages and regions that you can specify for the Apple Pay button. For more information, see ApplePayButtonLocale.
+* **width and height**: The size of the buttons will be adjusted to the dimensions defined in the width and height.
+* **borderRadius**: A type to apply rounded corners to the buttons.
+
+## Global Configuration (Default Values)
+
+Initially the buttons will have an initial value in their configuration.
+
+### Google Pay Button:
+```bash
+buttonColorGoogle="black"
+buttonTypeGoogle="buy"
+buttonSizeMode="static"
+buttonLocaleGoogle="en"
+environment="TEST"
+existingPaymentMethodRequired=true
+```
+
+#### Apple Pay Button:
+```bash
+buttonColorApple="black"
+buttonTypeApple="buy"
+width="100px"
+height="30px"
+borderRadius="0pt"
+buttonLocaleApple="en"
+```
+These initial values save time configuring the buttons, so there would be fewer lines in the code.
+
 ## Documentation
 
 * Visit the [Google Pay developer site](https://developers.google.com/pay/api/web/overview) for more information about integrating Google Pay into your website.
